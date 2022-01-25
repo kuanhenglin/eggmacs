@@ -1,3 +1,0 @@
-Back end files are in this directory.
-
-I created this file because I have no idea how to force git to add & push an empty directory :P
