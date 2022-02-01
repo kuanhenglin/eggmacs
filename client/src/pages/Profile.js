@@ -2,7 +2,7 @@ function Profile() {
   return (
     <div>
       <h1>Profile</h1>
-      <p>View your profile and stored maps.</p>
+      <p>View your profile and map catalog.</p>
     </div>
   )
 }
