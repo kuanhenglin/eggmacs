@@ -5,7 +5,6 @@ import FormText from "../components/FormText"
 
 
 function SignIn() {
-
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -39,7 +38,6 @@ function SignIn() {
     }
 
     window.alert("The username or password is incorrect.")
-
   }
 
   return (

@@ -16,7 +16,6 @@ function isUsernameLegal(username) {
 
 
 function SignUp() {
-
   const [displayName, setDisplayName] = useState(null);
   const [description, setDescription] = useState(null);
   const [username, setUsername] = useState(null);

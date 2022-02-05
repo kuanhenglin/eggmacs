@@ -14,7 +14,6 @@ function formRow(label, placeholder, onChange) {
 
 
 function FormText(props) {
-
   return (
     <div>
       <table className="form-table"><tbody>
@@ -34,7 +33,6 @@ function FormText(props) {
           {props.buttonText}
         </button>
       </div>
-
     </div>
   )
 }
