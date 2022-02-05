@@ -61,6 +61,32 @@ input:focus {
   outline: none;
 }
 
+.form-table {
+  border: none;
+  border-collapse: collapse;
+  margin: calc(1 * var(--scale))
+          0
+          calc(2 * var(--scale))
+          0;
+}
+
+.form-label {
+  align-items: left;
+  margin: calc(0.5 * var(--scale))
+          calc(1.5 * var(--scale))
+          calc(0.5 * var(--scale))
+          0;
+}
+
+.form-input {
+  align-items: right;
+  margin: calc(0.5 * var(--scale)) 0 calc(0.5 * var(--scale)) 0;
+}
+
+.form-button {
+  text-align: right;
+}
+
 button {
   background: var(--background-color);
   color: var(--foreground-color);

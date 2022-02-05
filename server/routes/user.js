@@ -3,7 +3,7 @@ const express = require("express");
 // recordRoutes is an instance of the express router used to define routes
 // the router will be added as a middleware and will take control of requests
 // starting with path /record
-const recordRoutes = express.Router();
+const userRoutes = express.Router();
 
 // connect to the database
 const dbo = require("../db/conn");
@@ -13,8 +13,8 @@ const ObjectId = require("mongodb").ObjectId;
 
 
 // get a list of all users
-recordRoutes.route("/users").get(function (request, response) {
-  let db_connect = dbo.getDb("users");
+userRoutes.route("/users").get(function (request, response) {
+  let db_connect = dbo.getDb("cluster");
   db_connect
     .collection("users")
     .find({})
@@ -24,30 +24,35 @@ recordRoutes.route("/users").get(function (request, response) {
     });
 });
 
+
 // create a new user
-recordRoutes.route("/users/create").post(function (request, response) {
+userRoutes.route("/users/create").post(function (request, response) {
   let dbConnect = dbo.getDb();
   let newUser = request.body;
-  dbConnect.collection("users").insertOne(newUser, function (error, result) {
-    if (error) throw error;
-    response.json(result);
+  dbConnect
+    .collection("users")
+    .insertOne(newUser, function (error, result) {
+      if (error) throw error;
+      response.json(result);
   });
 });
 
-// get a single record by id
-recordRoutes.route("/users/get/:id").get(function (request, response) {
+
+// get a single user by id
+userRoutes.route("/users/get/:id").get(function (request, response) {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( request.params.id )};
+  let query = {_id: request.params.id};
   db_connect
-      .collection("users")
-      .findOne(myquery, function (error, result) {
-        if (error) throw error;
-        response.json(result);
-      });
+    .collection("users")
+    .findOne(query, function (error, result) {
+      if (error) throw error;
+      response.json(result);
+    });
 });
 
-// update a record by id
-recordRoutes.route("/users/update/:id").post(function (request, response) {
+
+// update a user by id
+userRoutes.route("/users/update/:id").post(function (request, response) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
   let newvalues = {
@@ -62,8 +67,9 @@ recordRoutes.route("/users/update/:id").post(function (request, response) {
     });
 });
 
-// delete a record
-recordRoutes.route("/users/get/:id").delete((request, response) => {
+
+// delete a user
+userRoutes.route("/users/get/:id").delete((request, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( request.params.id )};
   db_connect.collection("users").deleteOne(myquery, function (error, object) {
@@ -73,4 +79,5 @@ recordRoutes.route("/users/get/:id").delete((request, response) => {
   });
 });
 
-module.exports = recordRoutes;
+
+module.exports = userRoutes;
