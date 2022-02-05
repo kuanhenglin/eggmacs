@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import FormText from "../components/FormText"
 
@@ -21,23 +21,28 @@ function SignIn() {
     }
   ]
 
+  const navigate = useNavigate();
+  const routeChange = (path) => {  // redirects to input path
+    navigate(path);
+  }
+
   async function handleSignIn() {
     const response = await fetch(`http://localhost:5000/users/get/${username}`)
 
-    if (!response.ok) {
+    if (!response.ok) {  // server connection error
       const message = `An error has occurred: ${response.statusText}`;
       window.alert(message);
       return;
     }
-    const user = await response.json();
+    const user = await response.json();  // get user information (if exists)
 
-    if (user && user.password == password) {
-      window.alert("The username or password is incorrect. " +
-                   "Did you mean to sign up instead?");
+    if (user && user.password == password) {  // check that password matches
+      routeChange("/profile");
       return;
     }
-
-    window.alert("The username or password is incorrect.")
+    // username does not exist OR password does not match
+    window.alert("The username or password is incorrect. " +
+                 "Did you mean to sign up instead?");
   }
 
   return (
@@ -52,5 +57,6 @@ function SignIn() {
     </div>
   )
 }
+
 
 export default SignIn;

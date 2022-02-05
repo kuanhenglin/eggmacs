@@ -1,3 +1,5 @@
+// outputs a table row (label + input) for a form-like component
+// forms are structured as tables for alignment
 function formRow(label, placeholder, onChange) {
   return (
     <tr className="form-row" key={label}>
@@ -17,6 +19,9 @@ function FormText(props) {
   return (
     <div>
       <table className="form-table"><tbody>
+        {/* for input formEntries, each item/entry contains the label text,
+            placeholder text, and onChange function: map each entry to a row
+            in the form table */}
         {props.formEntries.map(entry => {
           return (
               formRow(

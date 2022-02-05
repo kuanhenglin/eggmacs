@@ -1,13 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import FormText from "../components/FormText"
 
 
 function isUsernameLegal(username) {
   if (
-    username.length < 4 ||
-    username.length > 32 ||
-    !/^[a-zA-Z0-9]+$/i.test(username)
+    username.length < 4 ||             // the username must be
+    username.length > 32 ||            // between 4 and 32 characters AND
+    !/^[a-zA-Z0-9]+$/i.test(username)  // alphanumetric characters only
   ) {
     return false;
   }
@@ -44,11 +45,33 @@ function SignUp() {
     }
   ]
 
+  const navigate = useNavigate();
+  const routeChange = (path) => {  // redirects to input path
+    navigate(path);
+  }
+
   async function handleSignUp() {
 
     if (!isUsernameLegal(username)) {
       window.alert("The username must be between 4 and 32 characters long " +
                    "and only contain alphanumeric characters.");
+      return;
+    }
+
+    const response = await fetch(  // (try to) get user information by username
+      `http://localhost:5000/users/get/${username}`
+    )
+
+    if (!response.ok) {  // server connection error
+      const message = `An error has occurred: ${response.statusText}`;
+      window.alert(message);
+      return;
+    }
+    const user = await response.json();  // get user information (if exists)
+
+    if (user) {  // to sign up, username must have not been taken
+      window.alert("The username has already been taken. " +
+                   "Did you mean to sign in instead?");
       return;
     }
 
@@ -59,22 +82,7 @@ function SignUp() {
       description: description
     };
 
-    const response = await fetch(`http://localhost:5000/users/get/${newUser._id}`)
-
-    if (!response.ok) {
-      const message = `An error has occurred: ${response.statusText}`;
-      window.alert(message);
-      return;
-    }
-    const user = await response.json();
-
-    if (user) {
-      window.alert("The username has already been taken. " +
-                   "Did you mean to sign in instead?");
-      return;
-    }
-
-    await fetch("http://localhost:5000/users/create", {
+    await fetch("http://localhost:5000/users/create", {  // create new user
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -86,7 +94,7 @@ function SignUp() {
       return;
     });
 
-    window.alert("Your account has successfully been created!")
+    routeChange("/profile");
 
   }
 
@@ -102,5 +110,6 @@ function SignUp() {
     </div>
   )
 }
+
 
 export default SignUp;

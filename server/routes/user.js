@@ -54,7 +54,7 @@ userRoutes.route("/users/get/:id").get(function (request, response) {
 // update a user by id
 userRoutes.route("/users/update/:id").post(function (request, response) {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( req.params.id )};
+  let myquery = {_id: request.params.id};
   let newvalues = {
     $set: request.body,
   };
@@ -71,7 +71,7 @@ userRoutes.route("/users/update/:id").post(function (request, response) {
 // delete a user
 userRoutes.route("/users/get/:id").delete((request, response) => {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( request.params.id )};
+  let myquery = {_id: request.params.id};
   db_connect.collection("users").deleteOne(myquery, function (error, object) {
     if (error) throw error;
     console.log("1 user deleted");
