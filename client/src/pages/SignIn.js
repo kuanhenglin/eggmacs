@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FormText from "../components/FormText"
 
+import getUser from "../methods/user";
 
-function SignIn() {
+
+function SignIn(props) {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -20,23 +22,17 @@ function SignIn() {
       onChange: setPassword
     }
   ]
-
+  
   const navigate = useNavigate();
-  const routeChange = (path) => {  // redirects to input path
+  const routeChange = (path) => {  // redirect to input path
     navigate(path);
   }
 
   async function handleSignIn() {
-    const response = await fetch(`http://localhost:5000/users/get/${username}`)
-
-    if (!response.ok) {  // server connection error
-      const message = `An error has occurred: ${response.statusText}`;
-      window.alert(message);
-      return;
-    }
-    const user = await response.json();  // get user information (if exists)
+    const user = await getUser(username);
 
     if (user && user.password == password) {  // check that password matches
+      props.setCookie("username", username, { path: "/" });
       routeChange("/profile");
       return;
     }

@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FormText from "../components/FormText"
+
+import getUser from "../methods/user";
 
 
 function isUsernameLegal(username) {
@@ -16,11 +18,12 @@ function isUsernameLegal(username) {
 }
 
 
-function SignUp() {
+function SignUp(props) {
   const [displayName, setDisplayName] = useState(null);
   const [description, setDescription] = useState(null);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState(null);
 
   const formEntries = [
     {
@@ -42,11 +45,16 @@ function SignUp() {
       label: "Password",
       placeholder: "Your un-simple password for signing in.",
       onChange: setPassword
+    },
+    {
+      label: "Confirm password",
+      placeholder: "Should match with the password you entered above.",
+      onChange: setConfirmPassword
     }
   ]
 
   const navigate = useNavigate();
-  const routeChange = (path) => {  // redirects to input path
+  const routeChange = (path) => {  // redirect to input path
     navigate(path);
   }
 
@@ -58,16 +66,12 @@ function SignUp() {
       return;
     }
 
-    const response = await fetch(  // (try to) get user information by username
-      `http://localhost:5000/users/get/${username}`
-    )
-
-    if (!response.ok) {  // server connection error
-      const message = `An error has occurred: ${response.statusText}`;
-      window.alert(message);
+    if (password != confirmPassword) {
+      window.alert("The password and password confirmation do not match.")
       return;
     }
-    const user = await response.json();  // get user information (if exists)
+
+    const user = await getUser(username);
 
     if (user) {  // to sign up, username must have not been taken
       window.alert("The username has already been taken. " +
@@ -93,6 +97,8 @@ function SignUp() {
       window.alert(error);
       return;
     });
+
+    props.setCookie("username", username, { path: "/" });
 
     routeChange("/profile");
 

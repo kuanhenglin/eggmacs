@@ -80,7 +80,10 @@ input:focus {
 
 .form-input {
   align-items: right;
-  margin: calc(0.5 * var(--scale)) 0 calc(0.5 * var(--scale)) 0;
+  margin: calc(0.5 * var(--scale))
+          0
+          calc(0.5 * var(--scale))
+          0;
 }
 
 .form-button {
@@ -109,5 +112,10 @@ button:hover {
 }
 
 .eggmacs {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+}
+
+.username {
   font-family: "JetBrains Mono", monospace;
 }
