@@ -3,17 +3,23 @@
 
 :root {
   /* sizes */
-  --scale: min(1vw, 1vh);
+  --scale: max(min(1vw, 1vh), 7.2px);
   /* colors */
   --background-color: #222;
   --foreground-color: #eee;
+  --highlight-color: #555;
+  /* font */
+  --font-family: "Inter", "Arial", sans-serif;
 }
 
 
 body {
   background: var(--background-color);
   color: var(--foreground-color);
-  font-family: "Inter", "Arial", sans-serif;
+  display: flex;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-size: calc(2 * var(--scale));
   font-weight: 400;
 }
 
@@ -30,6 +36,86 @@ b {
   font-weight: 700;
 }
 
+label {
+  font-weight: 700;
+  margin: 0 calc(1.5 * var(--scale)) 0 0;
+}
+
+input {
+  background: var(--background-color);
+  color: var(--foreground-color);
+  width: calc(50 * var(--scale));
+  font-size: calc(2 * var(--scale));
+  font-family: var(--font-family);
+  border-style: solid;
+  border-color: var(--foreground-color);
+  border-width: calc(0.25 * var(--scale));
+  border-radius: calc(1.0 * var(--scale));
+  padding: calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale));
+}
+
+input:focus {
+  outline: none;
+}
+
+.form-table {
+  border: none;
+  border-collapse: collapse;
+  margin: calc(1 * var(--scale))
+          0
+          calc(2 * var(--scale))
+          0;
+}
+
+.form-label {
+  align-items: left;
+  margin: calc(0.5 * var(--scale))
+          calc(1.5 * var(--scale))
+          calc(0.5 * var(--scale))
+          0;
+}
+
+.form-input {
+  align-items: right;
+  margin: calc(0.5 * var(--scale))
+          0
+          calc(0.5 * var(--scale))
+          0;
+}
+
+.form-button {
+  text-align: right;
+}
+
+button {
+  background: var(--background-color);
+  color: var(--foreground-color);
+  width: calc(15 * var(--scale));
+  font-size: calc(2 * var(--scale));
+  font-family: var(--font-family);
+  border-style: solid;
+  border-color: var(--foreground-color);
+  border-width: calc(0.25 * var(--scale));;
+  border-radius: calc(1.0 * var(--scale));
+  margin: calc(0.5 * var(--scale)) 0 0 0;
+  padding: calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale));
+}
+
+button:hover {
+  background: var(--highlight-color);
+}
+
 .eggmacs {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+}
+
+.username {
   font-family: "JetBrains Mono", monospace;
 }
