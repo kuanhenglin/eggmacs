@@ -6,21 +6,26 @@
   --scale: max(min(1vw, 1vh), 7.2px);
   /* colors */
   --background-color: #222;
+  --background-color-dark: #111;
   --foreground-color: #eee;
-  --highlight-color: #555;
+  --highlight-background-color: #555;
+  --highlight-foreground-color: #bbb;
   /* font */
   --font-family: "Inter", "Arial", sans-serif;
 }
 
-
 body {
   background: var(--background-color);
   color: var(--foreground-color);
-  display: flex;
-  justify-content: center;
   font-family: var(--font-family);
   font-size: calc(2 * var(--scale));
   font-weight: 400;
+  margin: 0;
+}
+
+.body {
+  display: flex;
+  justify-content: center;
 }
 
 h1 {
@@ -108,7 +113,7 @@ button {
 }
 
 button:hover {
-  background: var(--highlight-color);
+  background: var(--highlight-background-color);
 }
 
 .eggmacs {
@@ -118,4 +123,31 @@ button:hover {
 
 .username {
   font-family: "JetBrains Mono", monospace;
+}
+
+#navigation-bar {
+  height: calc(7.5 * var(--scale));
+  background-color: var(--background-color-dark);
+  display: flex;
+  justify-content: center;
+}
+
+#navigation-bar ul {
+  list-style: none;
+  padding: calc(0.5 * var(--scale)) 0 0 0;
+}
+
+#navigation-bar li {
+  float: left;
+}
+
+#navigation-bar li a {
+  color: var(--foreground-color);
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0 calc(2.5 * var(--scale)) 0 calc(2.5 * var(--scale));
+}
+
+#navigation-bar li a:hover {
+  color: var(--highlight-foreground-color);
 }
