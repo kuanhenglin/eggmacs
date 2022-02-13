@@ -8,10 +8,10 @@ import getUser from "../methods/user";
 
 function isUsernameLegal(username) {
   if (
-    username.length < 4 ||             // the username must be
-    username.length > 32 ||            // between 4 and 32 characters AND
-    !/^[a-zA-Z0-9]+$/i.test(username)  // alphanumetric characters only
-  ) {
+    username.length < 4 ||                // the username must be
+    username.length > 32 ||               // between 4 and 32 characters AND
+    !/^[a-zA-Z0-9_\-]+$/i.test(username)  // alphanumetric characters, dashes,
+  ) {                                     // and underscores only
     return false;
   }
   return true;
@@ -62,7 +62,8 @@ function SignUp(props) {
 
     if (!isUsernameLegal(username)) {
       window.alert("The username must be between 4 and 32 characters long " +
-                   "and only contain alphanumeric characters.");
+                   "and only contain alphanumeric characters, dashes, and " +
+                   "underscores.");
       return;
     }
 
