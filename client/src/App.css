@@ -1,40 +1,69 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"); 
 
 :root {
   /* sizes */
   --scale: max(min(1vw, 1vh), 7.2px);
+
   /* colors */
-  --background-color: #222;
-  --background-color-dark: #111;
-  --foreground-color: #eee;
-  --highlight-background-color: #555;
-  --highlight-foreground-color: #bbb;
+  --background-color: rgb(36, 71, 78);
+  --background-color-dark: rgb(238, 155, 0);
+  --foreground-color: rgb(238, 220, 168);
+  --highlight-background-color: #BB3E03;
+  --highlight-foreground-color: #fae6da;
+  --nav-color: #001219;
+
   /* font */
   --font-family: "Inter", "Arial", sans-serif;
+  --font-family-title: "Merriweather"
 }
 
 body {
   background: var(--background-color);
   color: var(--foreground-color);
+  width: 100vw;
   font-family: var(--font-family);
   font-size: calc(2 * var(--scale));
   font-weight: 400;
+  line-height: 1.5;
   margin: 0;
+  justify-content: center;
 }
 
 .body {
   display: flex;
-  justify-content: center;
+  align-self: center;
+  max-width: 80vw;
+  margin: auto;
 }
 
 h1 {
   font-size: calc(4 * var(--scale));
-  font-weight: 1000;
+  font-family: var(--font-family-title);
+  font-weight: 1500;
+  padding: 20px 0px 0px 0px;
+}
+
+h2{
+  font-size: calc(3 * var(--scale));
+  font-family: var(--font-family-title);
 }
 
 p {
   font-size: calc(2 * var(--scale));
+  color:rgb(129, 152, 156);
+  padding: 10px 10px 10px 10px;
+}
+
+p2 {
+  font-size: calc(2 * var(--scale));
+  color:rgb(129, 152, 156);
+  font-family: var(--font-family);
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+  padding: 10px 10px 10px 10px;
 }
 
 b {
@@ -142,7 +171,7 @@ button:hover {
 }
 
 #navigation-bar li a {
-  color: var(--foreground-color);
+  color: var(--nav-color);
   font-weight: 700;
   text-decoration: none;
   padding: 0 calc(2.5 * var(--scale)) 0 calc(2.5 * var(--scale));
@@ -150,4 +179,44 @@ button:hover {
 
 #navigation-bar li a:hover {
   color: var(--highlight-foreground-color);
+}
+
+.shapes{
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px 20px 20px;
+}
+
+#sqr {
+  width: 10px;
+  height: 10px;
+  background-color: #e07000;
+  margin-left: 50px;
+}
+
+#dia {
+  width: 10px;
+  height: 10px;
+  background-color: #04a2a5;
+  transform: rotate(45deg);
+  margin-left: 50px;
+}
+
+#tri {
+  width: 0;
+  height: 0;
+  border-bottom: 15px solid #ce4303;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  margin-left: 45px;
+}
+
+#cir {
+  width: 12px;
+  height: 12px;
+  background-color: #b2c032;
+  border-radius: 75px;
+  margin-left: 45px;
 }
