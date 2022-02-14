@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import FormText from "../components/FormText"
 
-import getUser from "../methods/user";
+import {getUser} from "../methods/user";
 
 
 function SignIn(props) {
