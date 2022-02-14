@@ -22,11 +22,8 @@ function SignIn(props) {
       placeholder: "Your un-simple password for signing in.",
       onChange: setPassword,
       onKeyPress: ((e) => {
-        if(e==="Enter"){
-          handleSignIn();
-        }else{
-          return}
-        })
+        if (e === "Enter") handleSignIn();
+      })
     }
   ]
   
