@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import FormText from "../components/FormText";
 
-import getUser from "../methods/user";
+import {getUser, updateUser} from '../methods/user';
 
 function Profile(props) {
   const [user, setUser] = useState(null);
@@ -25,6 +26,31 @@ function Profile(props) {
     routeChange("/");  // redirect to home page
   }
 
+  
+  // The Description Update Form: For now, profile changes act like
+  // the drop down menu done for signUp!
+  const [newDescription, setDescription] = useState(null);
+  const formEntries = [
+    {
+      label: "Change Description",
+      placeholder: user?.description,
+      onChange: setDescription
+    }
+  ]
+
+  // HandleUpdate Description takes in username (from form)
+  // and calls updateUser
+  async function handleDiscChange() {
+    const oldInfo = await getUser(username);
+    const newUser = {
+      _id: username,
+      password: oldInfo.password,
+      displayName: oldInfo.displayName,
+      description: newDescription
+    }
+    updateUser(newUser);
+  }
+
   return (
     <div>
       <h1>Profile</h1>
@@ -40,6 +66,11 @@ function Profile(props) {
           Sign Out
         </button>
       </div>
+      <FormText
+        formEntries={formEntries}
+        buttonText="Change Info"
+        onClick={handleDiscChange}
+      />
     </div>
   )
 }
