@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FormText from "../components/FormText"
 
-import getUser from "../methods/user";
+import {getUser} from "../methods/user";
 
 
 function SignIn(props) {
@@ -14,12 +14,16 @@ function SignIn(props) {
     {
       label: "Username",
       placeholder: "Your unique username for signing in.",
-      onChange: setUsername
+      onChange: setUsername,
+      onKeyPress: (() => {})  // empty function (do nothing)
     },
     {
       label: "Password",
       placeholder: "Your un-simple password for signing in.",
-      onChange: setPassword
+      onChange: setPassword,
+      onKeyPress: ((e) => {
+        if (e === "Enter") handleSignIn();
+      })
     }
   ]
   
@@ -30,7 +34,7 @@ function SignIn(props) {
 
   async function handleSignIn() {
     const user = await getUser(username);
-
+ 
     if (user && user.password == password) {  // check that password matches
       props.setCookie("username", username, { path: "/" });
       routeChange("/profile");
@@ -44,7 +48,7 @@ function SignIn(props) {
   return (
     <div>
       <h1>Sign In</h1>
-      <p>Sign up to an existing account.</p>
+      <p>Sign in to an existing account.</p>
       <FormText
         formEntries={formEntries}
         buttonText="Sign In"
