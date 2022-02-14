@@ -34,7 +34,7 @@ function SignIn(props) {
 
   async function handleSignIn() {
     const user = await getUser(username);
-    
+ 
     if (user && user.password == password) {  // check that password matches
       props.setCookie("username", username, { path: "/" });
       routeChange("/profile");
