@@ -14,12 +14,19 @@ function SignIn(props) {
     {
       label: "Username",
       placeholder: "Your unique username for signing in.",
-      onChange: setUsername
+      onChange: setUsername,
+      onKeyPress: ((e) => {console.log(e); return;})
     },
     {
       label: "Password",
       placeholder: "Your un-simple password for signing in.",
-      onChange: setPassword
+      onChange: setPassword,
+      onKeyPress: ((e) => {
+        if(e==="Enter"){
+          handleSignIn();
+        }else{
+          return}
+        })
     }
   ]
   
