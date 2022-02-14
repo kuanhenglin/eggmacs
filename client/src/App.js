@@ -22,7 +22,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <NavigationBar />
+        <NavigationBar getCookie={getCookie}/>
         <div className="body">
           <Routes>
             <Route path="/" element={ <Home /> }/>

@@ -37,7 +37,7 @@ function SignIn(props) {
 
   async function handleSignIn() {
     const user = await getUser(username);
-
+    
     if (user && user.password == password) {  // check that password matches
       props.setCookie("username", username, { path: "/" });
       routeChange("/profile");
@@ -51,7 +51,7 @@ function SignIn(props) {
   return (
     <div>
       <h1>Sign In</h1>
-      <p>Sign up to an existing account.</p>
+      <p>Sign in to an existing account.</p>
       <FormText
         formEntries={formEntries}
         buttonText="Sign In"
