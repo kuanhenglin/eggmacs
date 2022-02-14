@@ -204,3 +204,13 @@ option:hover {
 #navigation-bar li a:hover {
   color: var(--highlight-foreground-color);
 }
+
+.map {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  margin: calc(10 * var(--scale));
+  width: calc(50 * var(--scale));
+  height: calc(50 * var(--scale));
+  border: 1px solid white;
+}
