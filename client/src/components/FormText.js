@@ -24,11 +24,11 @@ function FormText(props) {
             in the form table */}
         {props.formEntries.map(entry => {
           return (
-              formRow(
-                entry.label,
-                entry.placeholder,
-                (e) => entry.onChange(e.target.value)
-              )
+            formRow(
+              entry.label,
+              entry.placeholder,
+              (e) => entry.onChange(e.target.value)
+            )
           )
         })}
       </tbody></table>
