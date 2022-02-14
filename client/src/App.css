@@ -12,6 +12,7 @@
   --highlight-foreground-color: #bbb;
   /* font */
   --font-family: "Inter", "Arial", sans-serif;
+  --font-family-mono: "JetBrains Mono", monospace;
 }
 
 body {
@@ -49,7 +50,6 @@ label {
 input {
   background: var(--background-color);
   color: var(--foreground-color);
-  width: calc(50 * var(--scale));
   font-size: calc(2 * var(--scale));
   font-family: var(--font-family);
   border-style: solid;
@@ -64,6 +64,57 @@ input {
 
 input:focus {
   outline: none;
+}
+
+button {
+  background: var(--background-color);
+  color: var(--foreground-color);
+  font-size: calc(2 * var(--scale));
+  font-family: var(--font-family);
+  border-style: solid;
+  border-color: var(--foreground-color);
+  border-width: calc(0.25 * var(--scale));;
+  border-radius: calc(1.0 * var(--scale));
+  margin: calc(0.5 * var(--scale)) 0 0 0;
+  padding: calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale));
+}
+
+button:hover {
+  background: var(--highlight-background-color);
+}
+
+select {
+  background: var(--background-color);
+  color: var(--foreground-color);
+  font-size: calc(2 * var(--scale));
+  font-family: var(--font-family);
+  border-style: solid;
+  border-color: var(--foreground-color);
+  border-width: calc(0.25 * var(--scale));
+  border-radius: calc(1.0 * var(--scale));
+  padding: calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale))
+           calc(0.75 * var(--scale));
+}
+
+select:hover {
+  background: var(--highlight-background-color);
+}
+
+select:focus {
+  outline: none;
+}
+
+option {
+  background: var(--background-color);
+}
+
+option:hover {
+  background: var(--highlight-background-color);
 }
 
 .form-table {
@@ -85,6 +136,7 @@ input:focus {
 
 .form-input {
   align-items: right;
+  width: calc(50 * var(--scale));
   margin: calc(0.5 * var(--scale))
           0
           calc(0.5 * var(--scale))
@@ -95,34 +147,35 @@ input:focus {
   text-align: right;
 }
 
-button {
-  background: var(--background-color);
-  color: var(--foreground-color);
+.form-button button {
   width: calc(15 * var(--scale));
-  font-size: calc(2 * var(--scale));
-  font-family: var(--font-family);
-  border-style: solid;
-  border-color: var(--foreground-color);
-  border-width: calc(0.25 * var(--scale));;
-  border-radius: calc(1.0 * var(--scale));
-  margin: calc(0.5 * var(--scale)) 0 0 0;
-  padding: calc(0.75 * var(--scale))
-           calc(0.75 * var(--scale))
-           calc(0.75 * var(--scale))
-           calc(0.75 * var(--scale));
 }
 
-button:hover {
-  background: var(--highlight-background-color);
+.search-input {
+  width: calc(40 * var(--scale));
+  margin: 0 calc(2 * var(--scale)) 0 0;
+}
+
+.search-button {
+  width: calc(12.5 * var(--scale));
+}
+
+.search-select {
+  width: calc(12.5 * var(--scale));
+  margin: 0 calc(2 * var(--scale)) 0 0;
+}
+
+.search-result {
+  margin: calc(2.5 * var(--scale)) 0 0 0;
 }
 
 .eggmacs {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-family-mono);
   font-weight: 700;
 }
 
 .username {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-family-mono);
 }
 
 #navigation-bar {

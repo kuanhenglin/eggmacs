@@ -25,6 +25,7 @@ function FormText(props) {
             in the form table */}
         {props.formEntries.map(entry => {
           return (
+
               formRow(
                 entry.label,
                 entry.placeholder,
