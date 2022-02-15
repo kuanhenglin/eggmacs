@@ -15,9 +15,7 @@ import Search from "./pages/Search"
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(["username"]);
 
-  function getCookie() {
-    return cookies;
-  }
+  const getCookie = () => {return cookies};
 
   return (
     <div>
