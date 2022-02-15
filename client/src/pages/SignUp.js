@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import FormText from "../components/FormText"
 
-import {getUser} from "../methods/user";
+import {getUser, createUser} from "../methods/user";
 
 
 function isUsernameLegal(username) {
@@ -17,8 +17,9 @@ function isUsernameLegal(username) {
   return true;
 }
 
-
 function SignUp(props) {
+  document.title = "Sign Up | T-Eggletop";
+
   const [displayName, setDisplayName] = useState(null);
   const [description, setDescription] = useState(null);
   const [username, setUsername] = useState(null);
@@ -29,29 +30,38 @@ function SignUp(props) {
     {
       label: "Display name",
       placeholder: "The name displayed on your profile to others.",
-      onChange: setDisplayName
+      onChange: setDisplayName,
+      onKeyPress: handleEnter
     },
     {
       label: "Description",
       placeholder: "A short blurb/biography about yourself.",
-      onChange: setDescription
+      onChange: setDescription,
+      onKeyPress: handleEnter
     },
     {
       label: "Username",
       placeholder: "Your unique username for signing in.",
-      onChange: setUsername
+      onChange: setUsername,
+      onKeyPress: handleEnter
     },
     {
       label: "Password",
       placeholder: "Your un-simple password for signing in.",
-      onChange: setPassword
+      onChange: setPassword,
+      onKeyPress: handleEnter
     },
     {
       label: "Confirm password",
       placeholder: "Should match with the password you entered above.",
-      onChange: setConfirmPassword
+      onChange: setConfirmPassword,
+      onKeyPress: handleEnter
     }
   ]
+
+  function handleEnter(key) {
+    if (key === "Enter") handleSignUp()
+  }
 
   const navigate = useNavigate();
   const routeChange = (path) => {  // redirect to input path
@@ -59,21 +69,18 @@ function SignUp(props) {
   }
 
   async function handleSignUp() {
-
     if (!isUsernameLegal(username)) {
       window.alert("The username must be between 4 and 32 characters long " +
                    "and only contain alphanumeric characters, dashes, and " +
                    "underscores.");
       return;
     }
-
     if (password != confirmPassword) {
       window.alert("The password and password confirmation do not match.")
       return;
     }
 
     const user = await getUser(username);
-
     if (user) {  // to sign up, username must have not been taken
       window.alert("The username has already been taken. " +
                    "Did you mean to sign in instead?");
@@ -86,23 +93,10 @@ function SignUp(props) {
       displayName: displayName,
       description: description
     };
-
-    await fetch("http://localhost:5000/users/create", {  // create new user
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(newUser)
-    })
-    .catch(error => {
-      window.alert(error);
-      return;
-    });
+    createUser(newUser);
 
     props.setCookie("username", username, { path: "/" });
-
     routeChange("/profile");
-
   }
 
   return (
