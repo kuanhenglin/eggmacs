@@ -6,6 +6,8 @@ import { SearchResultUser } from "../components/SearchResult";
 import searchUsers from "../methods/search";
 
 function Search() {
+  document.title = "Search | T-Eggletop";
+
   const searchOptions = [
     { label: "Maps", value: "map" },
     { label: "Assets", value: "asset" },
@@ -18,7 +20,8 @@ function Search() {
 
   const searchText = {
     placeholder: "Your search term(s) and phrase(s).",
-    onChange: setSearch
+    onChange: setSearch,
+    onKeyPress: handleEnter
   }
   const searchSelect = {
     onChange: setSearchOption,
@@ -29,12 +32,16 @@ function Search() {
     onClick: handleSearch
   }
 
+  function handleEnter(key) {
+    if (key === "Enter") handleSearch()
+  }
+
   async function handleSearch() {
     if (searchOption === "user") {
       const result = await searchUsers(search);
       setSearchResult(result);
     } else {
-      window.alert("Other search options are coming soon.");
+      return;
     }
   }
 
@@ -42,6 +49,10 @@ function Search() {
     if (searchOption === "user") {
       return (
         <SearchResultUser users={searchResult}/>
+      );
+    } else {
+      return (
+        <p><i>Other search options are coming soon.</i></p>
       );
     }
   }
@@ -55,7 +66,7 @@ function Search() {
         select={searchSelect}
         button={searchButton}
       />
-      {displayResult()}
+      {displayResult()} <br />
     </div>
   )
 }

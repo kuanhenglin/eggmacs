@@ -7,6 +7,8 @@ import {getUser} from "../methods/user";
 
 
 function SignIn(props) {
+  document.title = "Sign In | T-Eggletop";
+
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -15,17 +17,19 @@ function SignIn(props) {
       label: "Username",
       placeholder: "Your unique username for signing in.",
       onChange: setUsername,
-      onKeyPress: (() => {})  // empty function (do nothing)
+      onKeyPress: handleEnter
     },
     {
       label: "Password",
       placeholder: "Your un-simple password for signing in.",
       onChange: setPassword,
-      onKeyPress: ((e) => {
-        if (e === "Enter") handleSignIn();
-      })
+      onKeyPress: handleEnter
     }
   ]
+
+  function handleEnter(key) {
+    if (key === "Enter") handleSignIn()
+  }
   
   const navigate = useNavigate();
   const routeChange = (path) => {  // redirect to input path
