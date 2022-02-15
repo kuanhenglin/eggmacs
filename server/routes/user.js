@@ -8,9 +8,6 @@ const userRoutes = express.Router();
 // connect to the database
 const dbo = require("../db/conn");
 
-// convert the id from string to ObjectId for the _id
-const ObjectId = require("mongodb").ObjectId;
-
 
 // get a list of all users
 userRoutes.route("/users").get(function (request, response) {
@@ -54,27 +51,25 @@ userRoutes.route("/users/get/:id").get(function (request, response) {
 // update a user by id
 userRoutes.route("/users/update/:id").post(function (request, response) {
   let db_connect = dbo.getDb();
-  let myquery = {_id: request.params.id};
-  let newvalues = {
+  let query = {_id: request.params.id};
+  let newUser = {
     $set: request.body,
   };
   db_connect
     .collection("users")
-    .updateOne(myquery, newvalues, function (error, result) {
+    .updateOne(query, newUser, function (error, result) {
       if (error) throw error;
-      console.log("1 user updated");
       response.json(result);
     });
 });
 
 
 // delete a user
-userRoutes.route("/users/get/:id").delete((request, response) => {
+userRoutes.route("/users/delete/:id").delete((request, response) => {
   let db_connect = dbo.getDb();
-  let myquery = {_id: request.params.id};
-  db_connect.collection("users").deleteOne(myquery, function (error, object) {
+  let query = {_id: request.params.id};
+  db_connect.collection("users").deleteOne(query, function (error, object) {
     if (error) throw error;
-    console.log("1 user deleted");
     response.status(object);
   });
 });

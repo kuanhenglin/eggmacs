@@ -23,7 +23,9 @@ searchRoutes.route("/search/users/:search").get(function (request, response) {
     .find({})
     .toArray(function (error, result) {
       if (error) throw error;
-      response.json(filterUser(request.params.search, result));
+      response.json(
+        filterUser(request.params.search, result)
+      );
     });
 });
 
