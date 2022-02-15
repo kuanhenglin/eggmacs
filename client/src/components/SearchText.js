@@ -5,6 +5,7 @@ function SearchText(props) {
         className="search-input"
         type="text"
         onChange={(e) => props.text.onChange(e.target.value)}
+        onKeyPress={(e) => props.text.onKeyPress(e.key)}
         placeholder={props.text.placeholder}
       />
 

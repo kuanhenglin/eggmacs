@@ -22,7 +22,7 @@ function SearchResultUser(props) {
       {props.users.map(user => {
         return(
           <p className="search-result" key={user._id}>
-            <b>{user.displayName}</b>
+            <b>{user.displayName}</b> <span> </span>
             (<span className="username">{user._id}</span>)<br />
             <i>{user.description}</i> <br />
           </p>
