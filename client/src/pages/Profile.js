@@ -90,7 +90,8 @@ function Profile(props) {
   async function handleUpdate() {
     const newUser = {
       _id: username,
-      password: (password == null)? user.password : password,  // if unchanged (null), use original value
+      // if unchanged (null), use original value
+      password: (password === null)? user.password : password,
       displayName: (displayName === null)? user.displayName: displayName,
       description: (description === null)? user.description: description
     }
