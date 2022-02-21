@@ -24,6 +24,8 @@ function Profile(props) {
   const [description, setDescription] = useState(null);
   const [password, setPassword] = useState(null);
   
+
+
   // (thing === null)? user?.thing? user?.thing : "" : thing
   // represents the following logic (necessary to keep <input> controlled)
   // 1) if thing === null (i.e., unchanged), go to 2), otherwise use thing
@@ -97,6 +99,40 @@ function Profile(props) {
     updateUser(newUser);
   }
 
+  const setFile = (file) => {console.log("FUCK");}
+
+  //temporary and BROKEN
+  /* 
+  const ImageInput = ({file, setFile}) => {
+    const onChange = async (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        setFile(e.target.files[0]);
+      }
+    }
+    return <input type='file' name='image' onChange={onChange} />
+  }
+
+  */
+
+  const [image, setImage] = useState(null);
+  
+  const uploadImage = async e => {
+    const files = e.target.files[0];
+    
+    console.log(files);
+  }
+
+  async function handlePicUpload(infile) {
+    const reader = new FileReader(); // HTML5 feature, analyzes file input
+    if(infile.type && infile.type.indexOf('image') === -1) {  // if not an image...
+      window.confirm("File must be an image!"); // is the ok for error popup?
+      return;
+    }
+    console.log("binted");
+  }
+
+  // note: for <span> in update profile, help me change it
+  // to be pretty css later plz c: - Kay
   return (
     <div>
       <h1>Profile</h1>
@@ -115,6 +151,16 @@ function Profile(props) {
           Sign Out
         </button>
       </div>
+
+      <h2>Update Profile Pic</h2>
+        <input type="file"
+          name="File"
+          placeholder="Upload"
+          onChange={uploadImage}/>
+          <span>{'   '}</span>
+            <button onClick={() => handlePicUpload}>
+              Upload Photo
+            </button>
 
       <h2>Update Profile</h2>
       <FormText

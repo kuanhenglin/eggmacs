@@ -55,7 +55,6 @@ async function deleteUser(username) {
   const response = await fetch(`http://localhost:5000/users/delete/${username}`,
   { method: "DELETE" })
   .catch(error => {
-    console.log(response);  // fix TypeError even when fetch is successful
     window.alert(error);    // I think it works by forcing await to work, maybe
     return;
   });
