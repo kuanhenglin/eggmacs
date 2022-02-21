@@ -15,7 +15,7 @@ async function getUser(username) {
 
 // create new user with new user object
 async function createUser(user) {
-  const response = await fetch("http://localhost:5000/users/create",
+  await fetch("http://localhost:5000/users/create",
   {
     method: "POST",
     headers: {
@@ -24,8 +24,7 @@ async function createUser(user) {
     body: JSON.stringify(user)
   })
   .catch(error => {
-    console.log(response);  // fix TypeError even when fetch is successful
-    window.alert(error);    // I think it works by forcing await to work, maybe
+    window.alert(error);
     return;
   });
 }
@@ -43,8 +42,7 @@ async function updateUser(user) {
   })
   .then(response => window.location.reload())
   .catch(error => {
-    console.log(response);  // fix TypeError even when fetch is successful
-    window.alert(error);    // I think it works by forcing await to work, maybe
+    window.alert(error);
     return;
   });
 }
@@ -52,10 +50,10 @@ async function updateUser(user) {
 
 // update user with new user object (user._id must match)
 async function deleteUser(username) {
-  const response = await fetch(`http://localhost:5000/users/delete/${username}`,
+  await fetch(`http://localhost:5000/users/delete/${username}`,
   { method: "DELETE" })
   .catch(error => {
-    window.alert(error);    // I think it works by forcing await to work, maybe
+    window.alert(error);
     return;
   });
 }

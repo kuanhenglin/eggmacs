@@ -10,7 +10,7 @@ function isUsernameLegal(username) {
   if (
     username.length < 4 ||                // the username must be
     username.length > 32 ||               // between 4 and 32 characters AND
-    !/^[a-zA-Z0-9_\-]+$/i.test(username)  // alphanumetric characters, dashes,
+    !/^[a-zA-Z0-9_-]+$/i.test(username)  // alphanumetric characters, dashes,
   ) {                                     // and underscores only
     return false;
   }
@@ -75,7 +75,7 @@ function SignUp(props) {
                    "underscores.");
       return;
     }
-    if (password != confirmPassword) {
+    if (password !== confirmPassword) {
       window.alert("The password and password confirmation do not match.")
       return;
     }
