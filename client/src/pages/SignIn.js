@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from 'react-router-dom';
 import FormText from "../components/FormText"
 
 import {getUser} from "../methods/user";
@@ -52,7 +52,7 @@ function SignIn(props) {
   return (
     <div>
       <h1>Sign In</h1>
-      <p>Sign in to an existing account.</p>
+      <p>Sign in to an existing account. Don't have an account? <Link to="/signup" className="hypertext">Sign up here!</Link></p>
       <FormText
         formEntries={formEntries}
         buttonText="Sign In"
