@@ -95,7 +95,6 @@ function Profile(props) {
       description: (description === null)? user.description: description
     }
     updateUser(newUser);
-    navigate(0);  // reload page (to display update)
   }
 
   return (

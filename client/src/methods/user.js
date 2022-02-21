@@ -41,6 +41,7 @@ async function updateUser(user) {
     },
     body: JSON.stringify(user)
   })
+  .then(response => window.location.reload())
   .catch(error => {
     console.log(response);  // fix TypeError even when fetch is successful
     window.alert(error);    // I think it works by forcing await to work, maybe
