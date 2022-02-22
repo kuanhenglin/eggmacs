@@ -335,3 +335,13 @@ option:hover {
   height: calc(50 * var(--scale));
   border: calc(0.25 * var(--scale)) solid var(--foreground-color);
 }
+
+.hypertext{
+
+  color: var(--foreground-color-text-link);
+}
+
+.hypertext:hover{
+  color: #bdbbb5;
+}
+
