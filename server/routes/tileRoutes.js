@@ -9,7 +9,7 @@ const tileRoutes = express.Router();
 const dbo = require("../db/conn");
 
 // create a new tile
-userRoutes.route("/tile/create").post(function (request, response) {
+tileRoutes.route("/tile/create").post(function (request, response) {
   let dbConnect = dbo.getDb();
   let newTile = request.body;
   dbConnect
