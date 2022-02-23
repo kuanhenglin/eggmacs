@@ -15,6 +15,8 @@
   --highlight-background-color: #c04008;
   --highlight-foreground-color: #f8e8d8;
   --highlight-foreground-color-text: #607080;
+  --foreground-color-text-link:  #a6b090;
+
 
   /* font */
   --font-family: "Inter", "Arial", sans-serif;
@@ -337,11 +339,9 @@ option:hover {
 }
 
 .hypertext{
-
   color: var(--foreground-color-text-link);
 }
 
 .hypertext:hover{
   color: #bdbbb5;
 }
-
