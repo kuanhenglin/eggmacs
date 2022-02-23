@@ -1,9 +1,11 @@
 import { useState } from "react";
-
+import { Link } from 'react-router-dom';
 import SearchText from "../components/SearchText";
 import { SearchResultUser } from "../components/SearchResult";
 
 import searchObjects from "../methods/search";
+
+import { useCookies } from 'react-cookie';
 
 function Search() {
   document.title = "Search | T-Eggletop";
@@ -17,6 +19,9 @@ function Search() {
   const [search, setSearch] = useState(null);
   const [searchOption, setSearchOption] = useState(searchOptions[0].value);
   const [searchResult, setSearchResult] = useState([]);
+  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
+    
+  const getCookie = () => {return cookies};
 
   const searchText = {
     placeholder: "Your search term(s) and phrase(s).",
@@ -46,6 +51,9 @@ function Search() {
   }
 
   function displayResult() {
+    if (!getCookie().username){
+      return (<p><i>You must be signed in to search. <Link to="/signin" className="hypertext">Sign in here!</Link></i></p>)
+    }
     if (searchOption === "user") {
       return (
         <SearchResultUser users={searchResult}/>
