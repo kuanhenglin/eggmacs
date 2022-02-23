@@ -10,6 +10,7 @@ import SignIn from "./pages/SignIn"
 import Profile from "./pages/Profile"
 import Creator from "./pages/Creator"
 import Search from "./pages/Search"
+import Admin from "./pages/Admin";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             } />
             <Route path="/creator" element={ <Creator /> } />
             <Route path="/search" element={ <Search /> } />
+            <Route path="/admin" element={ <Admin /> } />
           </Routes>
         </div>
       </BrowserRouter>
