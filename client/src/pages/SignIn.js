@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import FormText from "../components/FormText"
 
-import {getUser} from "../methods/user";
+import {getObject} from "../methods/db";
 
 
 function SignIn(props) {
@@ -37,7 +37,7 @@ function SignIn(props) {
   }
 
   async function handleSignIn() {
-    const user = await getUser(username);
+    const user = await getObject(username, "users");
  
     if (user && user.password === password) {  // check that password matches
       props.setCookie("username", username, { path: "/" });

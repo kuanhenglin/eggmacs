@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import FormText from "../components/FormText"
 
-import {getUser, createUser} from "../methods/user";
+import {getObject, createObject} from "../methods/db";
 
 
 function isUsernameLegal(username) {
@@ -80,7 +80,7 @@ function SignUp(props) {
       return;
     }
 
-    const user = await getUser(username);
+    const user = await getObject(username, "users");
     if (user) {  // to sign up, username must have not been taken
       window.alert("The username has already been taken. " +
                    "Did you mean to sign in instead?");
@@ -93,7 +93,7 @@ function SignUp(props) {
       displayName: displayName,
       description: description
     };
-    createUser(newUser);
+    createObject(newUser, "users");
 
     props.setCookie("username", username, { path: "/" });
     routeChange("/profile");

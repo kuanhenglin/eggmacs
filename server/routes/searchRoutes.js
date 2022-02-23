@@ -15,18 +15,32 @@ function filterUser(search, users) {
   return users;  // filtering system yet to be implemented
 }
 
-// search user
-searchRoutes.route("/search/users/:search").get(function (request, response) {
+function filterTile(search, tiles) {
+  if (search == "::all::") {
+    return tiles;
+  }
+  return tiles;  // filtering system yet to be implemented
+}
+
+function filter(search, objects, collection) {
+  if (collection === "users") return filterUser(search, objects);
+  else if (collection === "tiles") return filterTile(search, objects);
+  return objects;  // need to handle default case better
+}
+
+// search object in collection
+searchRoutes.route("/search/db/:collection/:search")
+.get(function (request, response) {
   let db_connect = dbo.getDb("cluster");
   db_connect
-    .collection("users")
-    .find({})
-    .toArray(function (error, result) {
-      if (error) throw error;
-      response.json(
-        filterUser(request.params.search, result)
-      );
-    });
+  .collection(request.params.collection)
+  .find({})
+  .toArray(function (error, result) {
+    if (error) throw error;
+    response.json(
+      filter(request.params.search, result, request.params.collection)
+    );
+  });
 });
 
 
