@@ -329,13 +329,24 @@ option:hover {
 }
 
 .map {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  background-color:#ffffff;
   margin: calc(5 * var(--scale)) 0 0 0;
   width: calc(75 * var(--scale));
   height: calc(50 * var(--scale));
-  border: calc(0.25 * var(--scale)) solid var(--foreground-color);
+  border: calc(0.25 * var(--scale)) solid #001820;
+}
+.mapRows {
+  height: calc((calc(50 * var(--scale))) / 6);
+}
+
+.mapCells {
+  border: calc(0.25 * var(--scale)) solid #001820;
+  width: calc((calc(75 * var(--scale))) / 6);
+}
+
+#testAsset {
+  width: 10%;
+  height: 10%;
 }
 
 .hypertext{
