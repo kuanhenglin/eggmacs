@@ -377,8 +377,9 @@ option:hover {
 
 .hypertext{
   color: var(--foreground-color-text-link);
+  text-decoration: none;
 }
 
 .hypertext:hover{
-  color: #bdbbb5;
+  color: var(--foreground-color);
 }

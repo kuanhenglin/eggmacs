@@ -27,9 +27,11 @@ function SearchResultUser(props) {
       {props.users.map(user => {
         return(
           <p className="search-result" key={user._id}>
-            <b><Link to={"/profile/"+(getCookie().username == user._id ? "" : (user._id))} className="hypertext">{user.displayName}</Link></b> <span> </span>
-            (<span className="username">{user._id}</span>)<br />
-            <i>{user.description}</i> <br />
+            <b><Link to={`/user/${user._id}`} className="hypertext">
+              {user.displayName}
+            </Link></b>
+            &nbsp;(<span className="username">{user._id}</span>)<br />
+            <i>{user.description}</i><br />
           </p>
         )
       })}

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 import FormText from "../components/FormText"
 
@@ -19,6 +20,8 @@ function isUsernameLegal(username) {
 
 function SignUp(props) {
   document.title = "Sign Up | T-Eggletop";
+
+  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
 
   const [displayName, setDisplayName] = useState(null);
   const [description, setDescription] = useState(null);
@@ -95,14 +98,17 @@ function SignUp(props) {
     };
     createObject(newUser, "users");
 
-    props.setCookie("username", username, { path: "/" });
-    routeChange("/profile");
+    setCookie("username", username, { path: "/" });
+    routeChange("/user");
   }
 
   return (
     <div>
       <h1>Sign Up</h1>
-      <p>Sign up to create an account.</p>
+      <p>
+        Sign up to create an account. Already have an account?&nbsp;
+        <Link to="/signin" className="hypertext"><i>Sign in here!</i></Link>
+      </p>
       <FormText
         formEntries={formEntries}
         buttonText="Sign Up"

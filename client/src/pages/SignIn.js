@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from "react-router-dom";
+import { useCookies } from 'react-cookie';
+
 import FormText from "../components/FormText"
 
 import {getObject} from "../methods/db";
@@ -8,6 +9,8 @@ import {getObject} from "../methods/db";
 
 function SignIn(props) {
   document.title = "Sign In | T-Eggletop";
+
+  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
 
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
@@ -40,8 +43,8 @@ function SignIn(props) {
     const user = await getObject(username, "users");
  
     if (user && user.password === password) {  // check that password matches
-      props.setCookie("username", username, { path: "/" });
-      routeChange("/profile");
+      setCookie("username", username, { path: "/" });
+      routeChange("/user");
       return;
     }
     // username does not exist OR password does not match
@@ -52,7 +55,10 @@ function SignIn(props) {
   return (
     <div>
       <h1>Sign In</h1>
-      <p>Sign in to an existing account. Don't have an account? <Link to="/signup" className="hypertext">Sign up here!</Link></p>
+      <p>
+        Sign in to an existing account. Don't have an account?&nbsp;
+        <Link to="/signup" className="hypertext"><i>Sign up here!</i></Link>
+      </p>
       <FormText
         formEntries={formEntries}
         buttonText="Sign In"

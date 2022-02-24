@@ -10,41 +10,41 @@ import SignIn from "./pages/SignIn"
 import Profile from "./pages/Profile"
 import Creator from "./pages/Creator"
 import Search from "./pages/Search"
-
 import Admin from "./pages/Admin";
-
-import UserPage from "./pages/Profiles/UserPage"
 
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(["username"]);
-  const getCookie = () => {return cookies};
+  const userURL = `/user/${cookies.username}`;
+
   return (
     <div>
       <BrowserRouter>
-        <NavigationBar getCookie={getCookie}/>
+        <NavigationBar />
         <div className="body">
           <Routes>
             <Route path="/" element={ <Home /> }/>
             <Route path="/signup" element={
               cookies.username ?
-              <Navigate to="/profile" /> :
-              <SignUp getCookie={getCookie} setCookie={setCookie} />
+              <Navigate to={userURL} /> :
+              <SignUp />
             } />
             <Route path="/signin" element={
               cookies.username ?
-              <Navigate to="/profile" /> :
-              <SignIn getCookie={getCookie} setCookie={setCookie} />
+              <Navigate to={userURL} /> :
+              <SignIn />
             } />
-            <Route path="/profile" element={
+            <Route path="/user" element={
               cookies.username ?
-              <Profile getCookie={getCookie} removeCookie={removeCookie} /> :
+              <Navigate to={userURL} /> :
               <Navigate to="/signin" />
+            } />
+            <Route path="/user/:username" element={
+              <Profile />
             } />
             <Route path="/creator" element={ <Creator /> } />
             <Route path="/search" element={ <Search /> } />
             <Route path="/admin" element={ <Admin /> } />
-            <Route path="/profile/:userId" element={ <UserPage getCookie={getCookie} removeCookie={removeCookie}/> } />
           </Routes>
         </div>
       </BrowserRouter>
