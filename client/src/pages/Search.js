@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SearchText from "../components/SearchText";
 import { SearchResultUser } from "../components/SearchResult";
 
-import searchUsers from "../methods/search";
+import searchObjects from "../methods/search";
 
 import { useCookies } from 'react-cookie';
 
@@ -43,7 +43,7 @@ function Search() {
 
   async function handleSearch() {
     if (searchOption === "user") {
-      const result = await searchUsers(search);
+      const result = await searchObjects(search, "users");
       setSearchResult(result);
     } else {
       return;

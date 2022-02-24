@@ -10,6 +10,9 @@ import SignIn from "./pages/SignIn"
 import Profile from "./pages/Profile"
 import Creator from "./pages/Creator"
 import Search from "./pages/Search"
+
+import Admin from "./pages/Admin";
+
 import UserPage from "./pages/Profiles/UserPage"
 
 
@@ -40,6 +43,7 @@ function App() {
             } />
             <Route path="/creator" element={ <Creator /> } />
             <Route path="/search" element={ <Search /> } />
+            <Route path="/admin" element={ <Admin /> } />
             <Route path="/profile/:userId" element={ <UserPage getCookie={getCookie} removeCookie={removeCookie}/> } />
           </Routes>
         </div>

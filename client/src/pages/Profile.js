@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import FormText from "../components/FormText";
 
-import {getUser, updateUser, deleteUser} from '../methods/user';
+import {getObject, updateObject, deleteObject, createObject} from '../methods/db';
 
 function Profile(props) {
   document.title = "Profile | T-Eggletop";
 
   const [user, setUser] = useState(null);
+  const [avatar, setAvatar] = useState(null);
 
   // fetch user information from username cookie
   const username = props.getCookie()?.username;
   useEffect(() => {
     async function getUserInformation() {  // weird workaround to use async
-      setUser(await getUser(username));    // function in useEffect
+      setUser(await getObject(username, "users"));    // function in useEffect
+      setAvatar(await getObject(username, "avatars"));
     }
     getUserInformation()
   }, []);
@@ -23,8 +26,8 @@ function Profile(props) {
   const [displayName, setDisplayName] = useState(null);
   const [description, setDescription] = useState(null);
   const [password, setPassword] = useState(null);
-  
 
+  const [avatarFile, setAvatarFile] = useState(null);
 
   // (thing === null)? user?.thing? user?.thing : "" : thing
   // represents the following logic (necessary to keep <input> controlled)
@@ -56,6 +59,12 @@ function Profile(props) {
       onKeyPress: handleEnter
     },
     {
+      type: "file",
+      label: "Avatar",
+      onChange: setAvatarFile,
+      onKeyPress: handleEnter
+    },
+    {
       label: "Password",
       placeholder: "Leave blank if you do not want to change your password.",
       onChange: setPassword,
@@ -77,13 +86,17 @@ function Profile(props) {
     routeChange("/");  // redirect to home page
   }
 
+  function refreshPage() {
+    window.location.reload();
+  }
+
   function deleteAccount() {
     if (window.confirm("Do you want to proceed with account deletion?")) {
       if (window.confirm(
         "Are you sure? This action is irreversible and EVERYTHING will be " +
         "deleted, including your maps, characters, and assets!"
       )) {
-        deleteUser(user._id);
+        deleteObject(user._id, "users");
         signOut();
       }
     }
@@ -97,52 +110,47 @@ function Profile(props) {
       displayName: (displayName === null)? user.displayName: displayName,
       description: (description === null)? user.description: description
     }
-    updateUser(newUser);
+    if (! await handleAvatar()) return;
+    updateObject(newUser, "users", refreshPage);
   }
 
-  const setFile = (file) => {console.log("FUCK");}
-
-  //temporary and BROKEN
-  /* 
-  const ImageInput = ({file, setFile}) => {
-    const onChange = async (e) => {
-      if (e.target.files && e.target.files.length > 0) {
-        setFile(e.target.files[0]);
-      }
+  // this function is only called when the user has selected a new avatar
+  // return false if avatar update failes, true otherwise
+  async function handleAvatar() {
+    if (avatarFile.type !== "image/png") {  // check that file is png
+      window.alert("The avatar must be a PNG.");
+      return false;
     }
-    return <input type='file' name='image' onChange={onChange} />
-  }
 
-  */
-
-  const [image, setImage] = useState(null);
-  
-  const uploadImage = async e => {
-    const files = e.target.files[0];
-    
-    console.log(files);
-  }
-
-  async function handlePicUpload(infile) {
-    const reader = new FileReader(); // HTML5 feature, analyzes file input
-    if(infile.type && infile.type.indexOf('image') === -1) {  // if not an image...
-      window.confirm("File must be an image!"); // is the ok for error popup?
-      return;
-    }
-    console.log("binted");
+    const reader = new FileReader(); // HTML5 feature, reads file input
+    reader.onload = (e) => {  // define reader behavior when read as text
+      const newAvatar = {
+        _id: username,
+        body: e.target.result
+      };
+      if (avatar) updateObject(newAvatar, "avatars");
+      else createObject(newAvatar, "avatars");
+    };
+    reader.readAsDataURL(avatarFile);
+    return true;
   }
 
   // note: for <span> in update profile, help me change it
-  // to be pretty css later plz c: - Kay
+  // to be pretty css later plz c: - Kay (sure)
   return (
     <div>
       <h1>Profile</h1>
       <p>View your profile and map catalog.</p>
-      <p>
-        <b>Display name:</b> {user?.displayName} <br />
-        <b>Description:</b> {user?.description} <br />
-        <b>Username:</b> <span className="username">{user?._id}</span> <br />
-      </p>
+      <table className="profile-table"><tbody><tr>
+        <td>
+          <img className="profile-avatar" src={avatar?.body} />
+        </td>
+        <td>
+          <b>Display name:</b> {user?.displayName} <br />
+          <b>Description:</b> {user?.description} <br />
+          <b>Username:</b> <span className="username">{user?._id}</span> <br />
+        </td>
+      </tr></tbody></table>
 
       <div className="form-button">
         <button id="delete-account" onClick={() => deleteAccount()}>
@@ -153,22 +161,20 @@ function Profile(props) {
         </button>
       </div>
 
-      <h2>Update Profile Pic</h2>
-        <input type="file"
-          name="File"
-          placeholder="Upload"
-          onChange={uploadImage}/>
-          <span>{'   '}</span>
-            <button onClick={() => handlePicUpload}>
-              Upload Photo
-            </button>
-
       <h2>Update Profile</h2>
       <FormText
         formEntries={formEntries}
         buttonText="Update"
         onClick={handleUpdate}
       />
+
+      {/* <h2>Update Avatar</h2>
+      <Upload
+        fileID={null}
+        file={avatarFileEntry}
+        buttonText="Update"
+        onClick={handleAvatar}
+      /> */}
     </div>
   )
 }
