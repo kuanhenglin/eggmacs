@@ -20,8 +20,6 @@ function Search() {
   const [searchOption, setSearchOption] = useState(searchOptions[0].value);
   const [searchResult, setSearchResult] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["username"]);
-    
-  const getCookie = () => {return cookies};
 
   const searchText = {
     placeholder: "Your search term(s) and phrase(s).",
@@ -51,9 +49,15 @@ function Search() {
   }
 
   function displayResult() {
-    if (!getCookie().username){
-      return (<p><i>You must be signed in to search. <Link to="/signin" className="hypertext">Sign in here!</Link></i></p>)
-    }
+    // if (!cookies.username){
+    //   return (
+    //     <p><i>
+    //       You must be
+    //       <Link to="/signin" className="hypertext"> signed in </Link>
+    //       to search.
+    //     </i></p>
+    //   )
+    // }
     if (searchOption === "user") {
       return (
         <SearchResultUser users={searchResult}/>

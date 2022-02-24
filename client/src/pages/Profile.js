@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 import FormText from "../components/FormText";
 
@@ -8,11 +9,13 @@ import {getObject, updateObject, deleteObject, createObject} from '../methods/db
 function Profile(props) {
   document.title = "Profile | T-Eggletop";
 
+  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
+
   const [user, setUser] = useState(null);
   const [avatar, setAvatar] = useState(null);
 
-  // fetch user information from username cookie
-  const username = props.getCookie()?.username;
+  // fetch user information from URl params (/user/:username)
+  const { username } = useParams();
   useEffect(() => {
     async function getUserInformation() {  // weird workaround to use async
       setUser(await getObject(username, "users"));    // function in useEffect
@@ -20,6 +23,8 @@ function Profile(props) {
     }
     getUserInformation()
   }, []);
+  // get username of user who is currently signed in
+  const usernameViewer = cookies.username;
 
   // The Description Update Form: For now, profile changes act like
   // the drop down menu done for signUp!
@@ -82,7 +87,7 @@ function Profile(props) {
   }
 
   function signOut() {
-    props.removeCookie("username");  // remove username cookie
+    removeCookie("username", { path: "/" });  // remove username cookie
     routeChange("/");  // redirect to home page
   }
 
@@ -110,7 +115,7 @@ function Profile(props) {
       displayName: (displayName === null)? user.displayName: displayName,
       description: (description === null)? user.description: description
     }
-    if (! await handleAvatar()) return;
+    if (avatarFile && ! await handleAvatar()) return;
     updateObject(newUser, "users", refreshPage);
   }
 
@@ -135,46 +140,48 @@ function Profile(props) {
     return true;
   }
 
-  // note: for <span> in update profile, help me change it
-  // to be pretty css later plz c: - Kay (sure)
   return (
     <div>
       <h1>Profile</h1>
-      <p>View your profile and map catalog.</p>
+      {
+        username === usernameViewer?
+        <p>View your profile and map catalog.</p>
+        :
+        <p>View {user?.displayName}'s profile and map catalog.</p>
+      }
       <table className="profile-table"><tbody><tr>
         <td>
           <img className="profile-avatar" src={avatar?.body} />
         </td>
         <td>
           <b>Display name:</b> {user?.displayName} <br />
-          <b>Description:</b> {user?.description} <br />
           <b>Username:</b> <span className="username">{user?._id}</span> <br />
+          <b>Description:</b> {user?.description} <br />
         </td>
       </tr></tbody></table>
 
-      <div className="form-button">
-        <button id="delete-account" onClick={() => deleteAccount()}>
-          Delete Account
-        </button>
-        <button onClick={() => signOut()}>
-          Sign Out
-        </button>
-      </div>
+      {  // display profile updates only if user is viewing their own profile
+        username === usernameViewer?
+        <div>
+          <div className="form-button">
+            <button id="delete-account" onClick={() => deleteAccount()}>
+              Delete Account
+            </button>
+            <button onClick={() => signOut()}>
+              Sign Out
+            </button>
+          </div>
 
-      <h2>Update Profile</h2>
-      <FormText
-        formEntries={formEntries}
-        buttonText="Update"
-        onClick={handleUpdate}
-      />
-
-      {/* <h2>Update Avatar</h2>
-      <Upload
-        fileID={null}
-        file={avatarFileEntry}
-        buttonText="Update"
-        onClick={handleAvatar}
-      /> */}
+          <h2>Update Profile</h2>
+          <FormText
+            formEntries={formEntries}
+            buttonText="Update"
+            onClick={handleUpdate}
+          />
+        </div>
+        :
+        <span />
+      }
     </div>
   )
 }
