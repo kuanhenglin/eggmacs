@@ -1,3 +1,5 @@
+const { calculateObjectSize } = require("bson");
+const { query } = require("express");
 const express = require("express");
 
 // recordRoutes is an instance of the express router used to define routes
@@ -12,7 +14,94 @@ function filterUser(search, users) {
   if (search == "::all::") {
     return users;
   }
-  return users;  // filtering system yet to be implemented
+
+  let query = search.toLowerCase();
+  console.log("Searching for... ", query);
+
+  let validMatches = [];
+  let numOfUsers = Object.keys(users).length;
+
+  for(let i = 0; i < numOfUsers; i++) { // For each user...
+    let dispName = users[i].displayName.toLowerCase();
+    let matchScore = 0;
+    let precedenceScore = 0;
+
+    for(let j = 0; j < query.length; j++ ) { // For each letter in query..
+      let chk = query[j];
+      let found = false;
+      for(let k = 0; k < dispName.length; k++) { // check each letter in usr..
+        if(!found && chk == dispName[k]) {
+          console.log("found ", chk, " in :", dispName);
+          matchScore++;
+          precedenceScore += k;
+          found = true;
+        }
+      } // endk
+    } // endj
+    const userScoreSheet = {
+      displayName: dispName, // don't forget it's sorting by dispName currently
+      _id: users[i]._id,
+      matchScore: matchScore,
+      precedenceScore: precedenceScore,
+    }
+    if(matchScore != 0) { // if it wasn
+      validMatches.push(userScoreSheet);
+    }
+  } // endi
+
+  // Now that candidates are selected and ranked, sort them by MS
+  let sortedByMS = [];
+  for(let i = 0; i < validMatches.length; i++) { // for each unsorted...
+    let toBeSorted = validMatches[i];
+    let hasBeenSorted = false;
+    for(let j = 0; j < sortedByMS.length; j++) { // check each already sorted...
+      if(toBeSorted.matchScore > sortedByMS[j].matchScore) { 
+        //    if TBS.MS > AlreadySorted.MS, insert above MS
+        hasBeenSorted = true;
+        sortedByMS.splice(j, 0, toBeSorted);
+        break;
+      }
+    } // endj
+    if (!hasBeenSorted) {
+      sortedByMS.push(toBeSorted);
+    }
+  } // endi
+  console.log(sortedByMS);
+
+  // Now that they're sorted by MS, sort within MS rank for PrecScore
+  let finalSort = [];
+  for(let i = 0; i < sortedByMS.length; i++) {
+    let toBeSorted = sortedByMS[i];
+    let hasBeenSorted = false;
+    for(let j = 0; j < finalSort.length; j++) {
+      if(toBeSorted.matchScore == finalSort[j].matchScore) {
+        if(toBeSorted.precedenceScore < finalSort[j].precedenceScore) {
+          hasBeenSorted = true;
+          finalSort.splice(j, 0, toBeSorted);
+          break;
+        }
+      }
+    } // endj
+    if(!hasBeenSorted) {
+      finalSort.push(toBeSorted);
+    }
+  } // endi
+
+
+  sortedUsers = [];
+  // now that the finalSort has occured, pair them back with 
+  for(let i = 0; i < finalSort.length; i++) { // for each sorted scoreCard...
+
+    for(let j = 0; j < numOfUsers; j++) { // go through the Users
+      selectedUser = users[j];
+      if(finalSort[i]._id == selectedUser._id) { // find the match
+        sortedUsers.push(selectedUser);
+      }
+    }
+  }
+
+  console.log(finalSort);
+  return sortedUsers;  // filtering system yet to be implemented
 }
 
 function filterTile(search, tiles) {

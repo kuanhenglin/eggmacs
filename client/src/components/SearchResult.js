@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { useCookies } from 'react-cookie';
+
 function SearchResultMap(props) {
   return (
     <div>
@@ -17,12 +20,14 @@ function SearchResultAsset(props) {
 
 
 function SearchResultUser(props) {
+  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
+  const getCookie = () => {return cookies};
   return (
     <div>
       {props.users.map(user => {
         return(
           <p className="search-result" key={user._id}>
-            <b>{user.displayName}</b> <span> </span>
+            <b><Link to={"/profile/"+(getCookie().username == user._id ? "" : (user._id))} className="hypertext">{user.displayName}</Link></b> <span> </span>
             (<span className="username">{user._id}</span>)<br />
             <i>{user.description}</i> <br />
           </p>

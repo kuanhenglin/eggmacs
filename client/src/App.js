@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams, useMatch} from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
 import "./App.css";
@@ -10,14 +10,15 @@ import SignIn from "./pages/SignIn"
 import Profile from "./pages/Profile"
 import Creator from "./pages/Creator"
 import Search from "./pages/Search"
+
 import Admin from "./pages/Admin";
+
+import UserPage from "./pages/Profiles/UserPage"
 
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(["username"]);
-
   const getCookie = () => {return cookies};
-
   return (
     <div>
       <BrowserRouter>
@@ -43,6 +44,7 @@ function App() {
             <Route path="/creator" element={ <Creator /> } />
             <Route path="/search" element={ <Search /> } />
             <Route path="/admin" element={ <Admin /> } />
+            <Route path="/profile/:userId" element={ <UserPage getCookie={getCookie} removeCookie={removeCookie}/> } />
           </Routes>
         </div>
       </BrowserRouter>
