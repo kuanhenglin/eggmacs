@@ -126,22 +126,22 @@ function Profile(props) {
       window.alert("The avatar must be a PNG.");
       return false;
     }
-    if(avatarFile.size > 75000) { // Not sure how we could increase/decrease this cap,
-      window.alert("Please choose an image under 75KB"); // but added the err flag anyway
+    if (avatarFile.size > 75000) {  // limit avatar sizes to 75KB (a weird cap)
+      window.alert("Please choose an image under 75KB");
       return false;
     }
-    const reader = new FileReader(); // HTML5 feature, reads file input
+    const reader = new FileReader();  // HTML5 feature, reads file input
     reader.onload = (e) => {  // define reader behavior when read as text
       const newAvatar = {
         _id: username,
         body: e.target.result
       };
       if (avatar) {
-        console.log("Updating Object...");
+        console.log("Updating avatar...");
         updateObject(newAvatar, "avatars");
       }
       else { 
-        console.log("Creating new Object...");
+        console.log("Creating new avatar...");
         createObject(newAvatar, "avatars");
       }
     };
