@@ -126,17 +126,27 @@ function Profile(props) {
       window.alert("The avatar must be a PNG.");
       return false;
     }
-
-    const reader = new FileReader(); // HTML5 feature, reads file input
+    if (avatarFile.size > 75000) {  // limit avatar sizes to 75KB (a weird cap)
+      window.alert("Please choose an image under 75KB");
+      return false;
+    }
+    const reader = new FileReader();  // HTML5 feature, reads file input
     reader.onload = (e) => {  // define reader behavior when read as text
       const newAvatar = {
         _id: username,
         body: e.target.result
       };
-      if (avatar) updateObject(newAvatar, "avatars");
-      else createObject(newAvatar, "avatars");
+      if (avatar) {
+        console.log("Updating avatar...");
+        updateObject(newAvatar, "avatars");
+      }
+      else { 
+        console.log("Creating new avatar...");
+        createObject(newAvatar, "avatars");
+      }
     };
-    reader.readAsDataURL(avatarFile);
+
+    reader.readAsDataURL(avatarFile)
     return true;
   }
 
