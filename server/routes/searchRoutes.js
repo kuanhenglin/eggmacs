@@ -87,9 +87,9 @@ function generalizedFilter(search, objects) {
   for(let i = 0; i < finalSort.length; i++) { // for each sorted scoreCard...
 
     for(let j = 0; j < numOfObjects; j++) { // go through the Users
-      selectedUser = users[j];
-      if(finalSort[i]._id == selectedUser._id) { // find the match
-        sortedObjects.push(selectedUser);
+      selectedObject = objects[j];
+      if(finalSort[i]._id == selectedObject._id) { // find the match
+        sortedObjects.push(selectedObject);
       }
     }
   }
