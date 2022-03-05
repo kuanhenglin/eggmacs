@@ -4,6 +4,7 @@
   "description": "UCLA 22W CS 35L project for team \"Eggmacs\" (Joice, Jordan, Kay, Meghana, Sean).",
   "main": "index.js",
   "scripts": {
+    "start": "npm run dev",
     "dev": "cd server && npm run dev"
   },
   "repository": {
