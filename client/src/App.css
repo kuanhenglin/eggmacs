@@ -82,7 +82,7 @@ h3 {
   font-size: calc(2.5 * var(--scale));
   font-family: var(--font-family-title);
   font-weight: 900;
-  margin: calc(2 * var(--scale)) 0 0 0;
+  margin: calc(3 * var(--scale)) 0 0 0;
 }
 
 .normal-margin {
