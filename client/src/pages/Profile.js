@@ -188,8 +188,7 @@ function Profile(props) {
       } else {
         return (
           <p><i>
-            <span className="username">{username}</span>'s
-            map catalog is currently empty.
+            {user.displayName}'s map catalog is currently empty.
           </i></p>
         );
       }

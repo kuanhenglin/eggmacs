@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
-import {getObject, updateObject, deleteObject, createObject} from '../methods/db';
+import { getObject, updateObject } from '../methods/db';
+import { queryObjects } from '../methods/search';
 
 // function allowDrop(ev){
 //   ev.preventDefault();
@@ -31,9 +32,13 @@ function Creator() {
   document.title = "Creator | T-Eggletop";
 
   const [cookies, setCookie, removeCookie] = useCookies(["username", "mapID"]);
-  const username = cookies.username;
-  let mapID = cookies.mapID;
+  const [mapID, setMapID] = useState(cookies.mapID);
   const { mapIDParam } = useParams();
+  const username = cookies.username;
+
+  const [tiles, setTiles] = useState([]);
+  const [assets, setAssets] = useState([]);
+  const [characters, setCharacters] = useState([]);
 
   const [mapName, setMapName] = useState(null);
   const [description, setDescription] = useState(null);
@@ -45,7 +50,7 @@ function Creator() {
     async function getMap() {
       if (username && mapIDParam) {
         setCookie("mapID", mapIDParam, { path: "/" });
-        mapID = mapIDParam;
+        setMapID(mapIDParam);
       }
       const currentMap = await getObject(mapID, "maps");
       if (currentMap) {
@@ -56,7 +61,13 @@ function Creator() {
         setAssetGrid(currentMap.assets);
       }
     }
-    getMap()
+    async function getItems() {
+      setTiles(await queryObjects({}, "tiles"));
+      setAssets(await queryObjects({}, "assets"));
+      setCharacters(await queryObjects({}, "characters"));
+    }
+    getMap();
+    getItems();
   }, []);
 
   function displayMapInformation() {
@@ -103,24 +114,7 @@ function Creator() {
       <h1>Map Creator</h1>
       <p>Create or modify your map with the tools below.</p>
       {displayMapInformation()}
-      {/* <div>
-        <table class="map" cellSpacing={0}>
-          <tr class="mapRows" id="row1">
-            <td class="mapCells"></td>
-            <td class="mapCells"></td>
-            <td class="mapCells"></td>
-            <td class="mapCells"></td>
-            <td class="mapCells"></td>
-            <td class="mapCells"></td>
-          </tr>
-        </table>
-      </div> */}
-      {/* <div>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/000080_Navy_Blue_Square.svg/1200px-000080_Navy_Blue_Square.svg.png?20110203204642" draggable="true" id="testAsset"></img>
-      </div> */}
-    </div>
-
-    
+    </div> 
   )
 }
 
