@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
-import {getObject, updateObject, deleteObject, createObject} from '../methods/db';
+import {getObject, updateObject } from '../methods/db';
+import { MapBoard } from "../components/MapCreator";
 
 // function allowDrop(ev){
 //   ev.preventDefault();
@@ -17,6 +18,7 @@ import {getObject, updateObject, deleteObject, createObject} from '../methods/db
 //   var data = ev.dataTransfer.getData("text");
 //   ev.target.appendChild(document.getElementById(data));
 // }
+
 
 function asset2TileNum(r, c) {
   let coordinate = new Array(2).fill(-1);
@@ -36,8 +38,8 @@ function Creator() {
   const [mapName, setMapName] = useState(null);
   const [description, setDescription] = useState(null);
   const [author, setAuthor] = useState(null);
-  const [tileGrid, setTileGrid] = useState(null);
-  const [assetGrid, setAssetGrid] = useState(null);
+  const [tileGrid, setTileGrid] = useState([[]]);
+  const [assetGrid, setAssetGrid] = useState([[]]);
 
   useEffect(() => {
     async function getMap() {
@@ -56,12 +58,14 @@ function Creator() {
   function displayMapInformation() {
     if (mapID) {
       return (
-        <p>
-          <b>Map name:</b> {mapName} <br />
-          <b>Map ID:</b> <span className="username">{mapID}</span> <br />
-          <b>Author:</b> <span className="username">{author}</span> <br />
-          <b>Description:</b> {description} <br />
-        </p>
+        <div>
+          <p>
+            <b>Map name:</b> {mapName} <br />
+            <b>Map ID:</b> <span className="username">{mapID}</span> <br />
+            <b>Author:</b> <span className="username">{author}</span> <br />
+            <b>Description:</b> {description} <br />
+          </p>
+        </div>
       );
     } else if (username) {
       return (
@@ -97,21 +101,9 @@ function Creator() {
       <h1>Map Creator</h1>
       <p>Create or modify your map with the tools below.</p>
       {displayMapInformation()}
-      {/* <div>
-        <table class="map" cellSpacing={0}>
-          <tr class="mapRows" id="row1">
-            <td class="mapCells"></td>
-            <td class="mapCells"></td>
-            <td class="mapCells"></td>
-            <td class="mapCells"></td>
-            <td class="mapCells"></td>
-            <td class="mapCells"></td>
-          </tr>
-        </table>
-      </div> */}
-      {/* <div>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/000080_Navy_Blue_Square.svg/1200px-000080_Navy_Blue_Square.svg.png?20110203204642" draggable="true" id="testAsset"></img>
-      </div> */}
+      <MapBoard
+        tileGrid={assetGrid}
+      />
     </div>
 
     

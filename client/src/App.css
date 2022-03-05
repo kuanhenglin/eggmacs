@@ -281,6 +281,28 @@ option:hover {
   font-family: var(--font-family-mono);
 }
 
+.map-board {
+  border: none;
+  border-collapse: collapse;
+}
+
+.map-cell {
+  border-style: solid;
+  border-color: var(--highlight-foreground-color-text);
+  border-width: calc(0.25 * var(--scale));
+}
+
+.block {
+  text-align: center;
+  height: calc(3 * var(--scale));
+  width: calc(3 * var(--scale));
+  border: none;
+  border-radius: 0;
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+
 #navigation-bar {
   height: calc(7.5 * var(--scale));
   background-color: var(--background-color-accent);
@@ -359,22 +381,6 @@ option:hover {
   background-color: #b0c030;
   border-radius: calc(1.75 * var(--scale));
   transform: translate(0, calc(-0.15 * var(--scale)))
-}
-
-.map {
-  background-color:#ffffff;
-  margin: calc(5 * var(--scale)) 0 0 0;
-  width: calc(75 * var(--scale));
-  height: calc(50 * var(--scale));
-  border: calc(0.25 * var(--scale)) solid #001820;
-}
-.mapRows {
-  height: calc((calc(50 * var(--scale))) / 6);
-}
-
-.mapCells {
-  border: calc(0.25 * var(--scale)) solid #001820;
-  width: calc((calc(75 * var(--scale))) / 6);
 }
 
 #testAsset {
