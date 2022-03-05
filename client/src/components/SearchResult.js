@@ -9,7 +9,6 @@ function SearchResultMap(props) {
   );
 }
 
-
 function SearchResultUser(props) {
   return (
     <div>
