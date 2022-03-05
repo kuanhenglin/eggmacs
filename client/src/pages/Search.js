@@ -12,7 +12,6 @@ function Search() {
 
   const searchOptions = [
     { label: "Maps", value: "map" },
-    { label: "Assets", value: "asset" },
     { label: "Users", value: "user" }
   ]
 
@@ -72,7 +71,7 @@ function Search() {
   return (
     <div>
       <h1>Search</h1>
-      <p>Search for homebrew maps, assets, and users.</p>
+      <p>Search for homebrew maps and users.</p>
       <SearchText
         text={searchText}
         select={searchSelect}
