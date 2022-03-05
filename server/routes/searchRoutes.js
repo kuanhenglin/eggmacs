@@ -118,7 +118,7 @@ function filter(search, objects, collection) {
 }
 
 // search object in collection
-searchRoutes.route("/search/db/:collection/:search")
+searchRoutes.route("/db/search/:collection/:search")
 .get(function (request, response) {
   let db_connect = dbo.getDb("cluster");
   db_connect
@@ -129,6 +129,20 @@ searchRoutes.route("/search/db/:collection/:search")
     response.json(
       filter(request.params.search, result, request.params.collection)
     );
+  });
+});
+
+// search object in collection with given query
+searchRoutes.route("/db/search/:collection")
+.post(function (request, response) {
+  let db_connect = dbo.getDb();
+  let query = request.body;
+  db_connect
+  .collection(request.params.collection)
+  .find(query)
+  .toArray(function (error, result) {
+    if (error) throw error;
+    response.json(result);
   });
 });
 

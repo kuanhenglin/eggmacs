@@ -1,15 +1,63 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
 import FormText from "../components/FormText";
 
-import {getObject, updateObject, deleteObject, createObject} from '../methods/db';
+import { getObject, updateObject, deleteObject, createObject } from '../methods/db';
+import { queryObjects } from '../methods/search';
+
+
+function array2D(ROW, COLUMN) {
+  let rows = new Array(ROW).fill(null);
+  for (let r = 0; r < ROW; r++) {
+    const row = new Array(COLUMN).fill(null);
+    rows[r] = row;
+  }
+  return rows;
+}
+
+function isMapIDLegal(mapID) {
+  if (
+    mapID.length < 4 ||               // the map ID must be
+    mapID.length > 32 ||              // between 4 and 32 characters AND
+    !/^[a-zA-Z0-9_-]+$/i.test(mapID)  // alphanumetric characters, dashes,
+  ) {                                 // and underscores only
+    return false;
+  }
+  return true;
+}
+
+
+function ProfileMaps(props) {
+  return (
+    <div>
+      {props.maps.map(map => {
+        return(
+          <p className="search-result" key={map._id}>
+            <b>
+              <Link
+                className="hypertext"
+                to={`/creator`}
+                onClick={() => props.onClick(map._id)}
+              >
+                {map.displayName}
+              </Link>
+            </b>
+            &nbsp;(<span className="username">{map._id}</span>)<br />
+            <i>{map.description}</i><br />
+          </p>
+        )
+      })}
+    </div>
+  );
+}
+
 
 function Profile(props) {
   document.title = "Profile | T-Eggletop";
 
-  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["username", "mapID"]);
 
   const [user, setUser] = useState(null);
   const [avatar, setAvatar] = useState(null);
@@ -17,11 +65,15 @@ function Profile(props) {
   // fetch user information from URl params (/user/:username)
   const { username } = useParams();
   useEffect(() => {
-    async function getUserInformation() {  // weird workaround to use async
+    async function getUser() {  // weird workaround to use async
       setUser(await getObject(username, "users"));    // function in useEffect
       setAvatar(await getObject(username, "avatars"));
     }
-    getUserInformation()
+    async function getMaps() {
+      setMaps(await queryObjects({ author: username }, "maps"));
+    }
+    getUser();
+    getMaps();
   }, []);
   // get username of user who is currently signed in
   const usernameViewer = cookies.username;
@@ -33,6 +85,12 @@ function Profile(props) {
   const [password, setPassword] = useState(null);
 
   const [avatarFile, setAvatarFile] = useState(null);
+
+  const [maps, setMaps] = useState([]);
+
+  const [mapName, setMapName] = useState(null);
+  const [mapDescription, setMapDescription] = useState(null);
+  const [mapID, setMapID] = useState(null);
 
   // (thing === null)? user?.thing? user?.thing : "" : thing
   // represents the following logic (necessary to keep <input> controlled)
@@ -52,7 +110,7 @@ function Profile(props) {
         user?.displayName : "" : displayName,
       placeholder: "The name displayed on your profile to others.",
       onChange: setDisplayName,
-      onKeyPress: handleEnter
+      onKeyPress: handleEnterProfile
     },
     {
       label: "Description",
@@ -61,24 +119,49 @@ function Profile(props) {
         user?.description : "" : description,
       placeholder: "A short blurb/biography about yourself.",
       onChange: setDescription,
-      onKeyPress: handleEnter
+      onKeyPress: handleEnterProfile
     },
     {
       type: "file",
       label: "Avatar",
       onChange: setAvatarFile,
-      onKeyPress: handleEnter
+      onKeyPress: handleEnterProfile
     },
     {
       label: "Password",
       placeholder: "Leave blank if you do not want to change your password.",
       onChange: setPassword,
-      onKeyPress: handleEnter
+      onKeyPress: handleEnterProfile
     }
   ]
 
-  function handleEnter(key) {
-    if (key === "Enter") handleUpdate()
+  const newMapEntries = [
+    {
+      label: "Map Name",
+      placeholder: "The display name for your new map.",
+      onChange: setMapName,
+      onKeyPress: handleEnterMap
+    },
+    {
+      label: "Description",
+      placeholder: "A short blurb/overview of your map.",
+      onChange: setMapDescription,
+      onKeyPress: handleEnterMap
+    },
+    {
+      label: "Map ID",
+      placeholder: "The unique identification string for your new map.",
+      onChange: setMapID,
+      onKeyPress: handleEnterMap
+    },
+  ]
+
+  function handleEnterProfile(key) {
+    if (key === "Enter") handleUpdate();
+  }
+
+  function handleEnterMap(key) {
+    if (key === "Enter") handleNewMap();
   }
 
   const navigate = useNavigate();
@@ -88,11 +171,31 @@ function Profile(props) {
 
   function signOut() {
     removeCookie("username", { path: "/" });  // remove username cookie
+    removeCookie("mapID", { path: "/" });  // remove mapID cookie
     routeChange("/");  // redirect to home page
   }
 
   function refreshPage() {
     window.location.reload();
+  }
+
+  function displayMaps() {
+    if (maps.length === 0) {
+      return (
+        <p><i>Your map catalog is currently empty.</i></p>
+      );
+    } else {
+      return (
+        <ProfileMaps
+          maps={maps}
+          onClick={handleMapClick}
+        />
+      );
+    }
+  }
+
+  function handleMapClick(mapIDClick) {
+    setCookie("mapID", mapIDClick, { path: "/" });
   }
 
   function deleteAccount() {
@@ -150,6 +253,37 @@ function Profile(props) {
     return true;
   }
 
+  async function handleNewMap() {
+    if (!mapName) {
+      window.alert("Your map name cannot be empty.");
+      return;
+    }
+    if (!isMapIDLegal(mapID)) {
+      window.alert("The map ID must be between 4 and 32 characters long " +
+                   "and only contain alphanumeric characters, dashes, and " +
+                   "underscores.");
+      return;
+    }
+
+    const map = await getObject(mapID, "maps");
+    if (map) {  // the mapID must have not been taken yet
+      window.alert("The map ID already exists.");
+      return;
+    }
+
+    const [ROW, COLUMN] = [8, 12];
+    const newMap = {
+      _id: mapID,
+      author: username,
+      displayName: mapName,
+      description: mapDescription,
+      tiles: array2D(ROW, COLUMN),
+      assets: array2D(ROW * 3, COLUMN * 3)
+    }
+    setCookie("mapID", mapID, { path: "/" });
+    createObject(newMap, "maps", routeChange("/creator"));
+  }
+
   return (
     <div>
       <h1>Profile</h1>
@@ -166,7 +300,7 @@ function Profile(props) {
         <td>
           <b>Display name:</b> {user?.displayName} <br />
           <b>Username:</b> <span className="username">{user?._id}</span> <br />
-          <b>Description:</b> {user?.description} <br />
+          <b>Description:</b> {user?.description}
         </td>
       </tr></tbody></table>
 
@@ -181,6 +315,15 @@ function Profile(props) {
               Sign Out
             </button>
           </div>
+
+          <h2>Map Catalog</h2>
+          {displayMaps()}
+          <h3>Create New Map</h3>
+          <FormText
+            formEntries={newMapEntries}
+            buttonText="Create"
+            onClick={handleNewMap}
+          />
 
           <h2>Update Profile</h2>
           <FormText

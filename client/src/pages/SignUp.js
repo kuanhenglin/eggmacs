@@ -9,10 +9,10 @@ import {getObject, createObject} from "../methods/db";
 
 function isUsernameLegal(username) {
   if (
-    username.length < 4 ||                // the username must be
-    username.length > 32 ||               // between 4 and 32 characters AND
+    username.length < 4 ||               // the username must be
+    username.length > 32 ||              // between 4 and 32 characters AND
     !/^[a-zA-Z0-9_-]+$/i.test(username)  // alphanumetric characters, dashes,
-  ) {                                     // and underscores only
+  ) {                                    // and underscores only
     return false;
   }
   return true;
@@ -72,6 +72,10 @@ function SignUp(props) {
   }
 
   async function handleSignUp() {
+    if (!displayName) {
+      window.alert("Your display name cannot be empty.");
+      return;
+    }
     if (!isUsernameLegal(username)) {
       window.alert("The username must be between 4 and 32 characters long " +
                    "and only contain alphanumeric characters, dashes, and " +

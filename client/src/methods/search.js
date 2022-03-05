@@ -3,7 +3,7 @@ async function searchObjects(search, collection, callback=() => {}) {
     search = "::all::";
   }
   const response = await fetch(
-    `http://localhost:5000/search/db/${collection}/${search}`
+    `http://localhost:5000/db/search/${collection}/${search}`
   )
 
   if (!response.ok) {  // server connection error
@@ -12,9 +12,35 @@ async function searchObjects(search, collection, callback=() => {}) {
     return;
   }
 
-  const objects = await response.json();  // get user information (if exists)
+  const objects = await response.json();  // get objects (if exists)
   return objects;
 }
 
 
-export default searchObjects;
+async function queryObjects(query, collection, callback=() => {}) {
+  const response = await fetch(
+    `http://localhost:5000/db/search/${collection}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(query)
+    }
+  )
+
+  if (!response.ok) {  // server connection error
+    const message = `An error has occurred: ${response.statusText}`;
+    window.alert(message);
+    return;
+  }
+
+  const objects = await response.json();  // get objects (if exists)
+  return objects
+}
+
+
+export {
+  searchObjects,
+  queryObjects
+};

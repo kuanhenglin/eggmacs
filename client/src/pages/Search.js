@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SearchText from "../components/SearchText";
 import { SearchResultUser } from "../components/SearchResult";
 
-import searchObjects from "../methods/search";
+import { searchObjects } from "../methods/search";
 
 import { useCookies } from 'react-cookie';
 
