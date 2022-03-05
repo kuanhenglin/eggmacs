@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
 import {getObject, updateObject, deleteObject, createObject} from '../methods/db';
@@ -31,7 +31,9 @@ function Creator() {
   document.title = "Creator | T-Eggletop";
 
   const [cookies, setCookie, removeCookie] = useCookies(["username", "mapID"]);
-  const [username, mapID] = [cookies.username, cookies.mapID];
+  const username = cookies.username;
+  let mapID = cookies.mapID;
+  const { mapIDParam } = useParams();
 
   const [mapName, setMapName] = useState(null);
   const [description, setDescription] = useState(null);
@@ -41,6 +43,10 @@ function Creator() {
 
   useEffect(() => {
     async function getMap() {
+      if (username && mapIDParam) {
+        setCookie("mapID", mapIDParam, { path: "/" });
+        mapID = mapIDParam;
+      }
       const currentMap = await getObject(mapID, "maps");
       if (currentMap) {
         setMapName(currentMap.displayName);
@@ -75,7 +81,7 @@ function Creator() {
     } else {
       return (
         <p><i>
-          You must be signed in to create/modify a map.&nbsp;
+          You must be signed in to view/create/modify a map.&nbsp;
           <Link to="/signin" className="hypertext"><i>Sign in here!</i></Link>
         </i></p>
       );

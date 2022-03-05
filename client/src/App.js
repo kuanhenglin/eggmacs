@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useParams, useMatch} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
 import "./App.css";
@@ -14,8 +14,9 @@ import Admin from "./pages/Admin";
 
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["username", "mapID"]);
   const userURL = `/user/${cookies.username}`;
+  const mapURL = `/map/${cookies.mapID}`;
 
   return (
     <div>
@@ -34,7 +35,7 @@ function App() {
               <Navigate to={userURL} /> :
               <SignIn />
             } />
-            <Route path="/user" element={
+            <Route exact path="/user" element={
               cookies.username ?
               <Navigate to={userURL} /> :
               <Navigate to="/signin" />
@@ -42,7 +43,14 @@ function App() {
             <Route path="/user/:username" element={
               <Profile />
             } />
-            <Route path="/creator" element={ <Creator /> } />
+            <Route exact path="/map" element={
+              cookies.mapID ?
+              <Navigate to={mapURL} /> :
+              <Creator />
+            } />
+            <Route path="/map/:mapIDParam" element={
+              <Creator />
+            } />
             <Route path="/search" element={ <Search /> } />
             <Route path="/admin" element={ <Admin /> } />
           </Routes>
