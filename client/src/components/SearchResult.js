@@ -10,15 +10,6 @@ function SearchResultMap(props) {
 }
 
 
-function SearchResultAsset(props) {
-  return (
-    <div>
-
-    </div>
-  );
-}
-
-
 function SearchResultUser(props) {
   return (
     <div>
@@ -45,6 +36,5 @@ function SearchResultUser(props) {
 
 export {
   SearchResultMap,
-  SearchResultAsset,
   SearchResultUser
 };
