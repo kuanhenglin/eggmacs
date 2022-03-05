@@ -18,7 +18,7 @@ function NavigationBar(props) {
           <nav>
             <ul>
               <li><Link to="/">Home</Link></li>
-              <li><Link to="/creator">Creator</Link></li>
+              <li><Link to="/map">Creator</Link></li>
               <li><Link to="/search">Search</Link></li>
               <li><Link to={`/user`}>Profile</Link></li>
               <li><Link to={`/admin`}><i>Admin</i></Link></li>
@@ -32,7 +32,7 @@ function NavigationBar(props) {
           <nav>
             <ul>
               <li><Link to="/">Home</Link></li>
-              <li><Link to="/creator">Creator</Link></li>
+              <li><Link to="/map">Creator</Link></li>
               <li><Link to="/search">Search</Link></li>
               <li><Link to={`/user`}>Profile</Link></li>
             </ul>
@@ -48,7 +48,7 @@ function NavigationBar(props) {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/signin">Sign In</Link></li>
             <li><Link to="/signup">Sign Up</Link></li>
-            <li><Link to="/creator">Creator</Link></li>
+            <li><Link to="/map">Creator</Link></li>
             <li><Link to="/search">Search</Link></li>
           </ul>
         </nav>

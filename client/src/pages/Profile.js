@@ -38,7 +38,7 @@ function ProfileMaps(props) {
             <b>
               <Link
                 className="hypertext"
-                to={`/creator`}
+                to={`/map`}
                 onClick={() => props.onClick(map._id)}
               >
                 {map.displayName}
@@ -281,7 +281,7 @@ function Profile(props) {
       assets: array2D(ROW * 3, COLUMN * 3)
     }
     setCookie("mapID", mapID, { path: "/" });
-    createObject(newMap, "maps", routeChange("/creator"));
+    createObject(newMap, "maps", routeChange("/map"));
   }
 
   return (
