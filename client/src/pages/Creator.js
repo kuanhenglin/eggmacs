@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
-
 import { MapBoard } from "../components/MapCreator";
-
 import { getObject, updateObject, deleteObject } from '../methods/db';
 import { queryObjects } from '../methods/search';
+import { saveAs } from 'file-saver'
+import { downloadMap } from '../methods/download'
 
 
 function asset2TileNum(r, c) {
@@ -32,8 +32,8 @@ function Creator() {
   const [mapName, setMapName] = useState(null);
   const [description, setDescription] = useState(null);
   const [author, setAuthor] = useState(null);
-  const [tileGrid, setTileGrid] = useState([[]]);
-  const [assetGrid, setAssetGrid] = useState([[]]);
+  const [tileGrid, setTileGrid] = useState([[]]); // str of ids
+  const [assetGrid, setAssetGrid] = useState([[]]); // str of ids
 
   const [inputMode, setInputMode] = useState("tile");
   const [selectItem, setSelectItem] = useState("tile_grass");
@@ -254,6 +254,13 @@ function Creator() {
     }
   }
 
+  async function handleMapDownload() {
+    let FileSaver = require('file-saver');
+    let file = await downloadMap(tileGrid, assetGrid, tiles);
+    FileSaver.saveAs(file);
+    return;
+  }
+
   return (
     <div>
       <h2>Map Creator</h2>
@@ -304,6 +311,7 @@ function Creator() {
       <div className="items-select">{displaySelect()}</div>
       
     </div>
+
   )
 }
 

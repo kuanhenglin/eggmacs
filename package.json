@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/kuanhenglin/eggmacs#readme",
   "dependencies": {
-    "concurrently": "^7.0.0"
+    "concurrently": "^7.0.0",
+    "file-saver": "^2.0.5"
   }
 }
