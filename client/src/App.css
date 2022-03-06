@@ -527,6 +527,59 @@ option:hover {
   margin: 0 calc(2 * var(--scale)) 0 0;
 }
 
+#toggle-grid-label {
+ color: var(--main-text);
+}
+
+.map-toggle {
+  position: relative;
+  float:left;
+  width: calc(7 * var(--scale));
+  height: calc(4 * var(--scale));
+}
+
+.map-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--main-text);
+  -webkit-transition: .2s;
+  transition: .2s;
+  border-radius: 10%;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: calc(3 * var(--scale));
+  width: calc(3 * var(--scale));
+  left: calc(0.5 * var(--scale));;
+  bottom: calc(0.5 * var(--scale));;
+  background-color: var(--background-color);
+  -webkit-transition: .2s;
+  transition: .2s;
+  border-radius: 10%;
+}
+
+.map-toggle-button:checked + .slider {
+    background-color: var(--highlight-background-color);
+}
+
+.map-toggle-button:checked + .slider:before {
+  -webkit-transform: translateX(calc(3 * var(--scale)));
+  -ms-transform: translateX(calc(3 * var(--scale)));
+  transform: translateX(calc(3 * var(--scale)));
+}
+
 #navigation-bar {
   height: calc(7.5 * var(--scale));
   background-color: var(--background-color-accent);

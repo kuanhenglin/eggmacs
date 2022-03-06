@@ -32,11 +32,13 @@ function Creator() {
   const [mapName, setMapName] = useState(null);
   const [description, setDescription] = useState(null);
   const [author, setAuthor] = useState(null);
-  const [tileGrid, setTileGrid] = useState([[]]); // str of ids
-  const [assetGrid, setAssetGrid] = useState([[]]); // str of ids
+  const [tileGrid, setTileGrid] = useState([[]]);  // str of ids
+  const [assetGrid, setAssetGrid] = useState([[]]);  // str of ids
 
-  const [inputMode, setInputMode] = useState("tile");
-  const [selectItem, setSelectItem] = useState("tile_grass");
+  const [inputMode, setInputMode] = useState("tile");  // default
+  const [selectItem, setSelectItem] = useState("tile_grass");  // default
+
+  const [toggleGrid, setToggleGrid] = useState(true);
 
   useEffect(() => {
     async function getMap() {
@@ -254,6 +256,11 @@ function Creator() {
     }
   }
 
+
+  function handleToggleGrid () {
+    setToggleGrid(!toggleGrid);
+  }
+
   async function handleMapDownload() {
     let FileSaver = require('file-saver');
     let file = await downloadMap(tileGrid, assetGrid, tiles);
@@ -269,6 +276,13 @@ function Creator() {
       <div className="hspacer"> space </div>
 
       {displayMapInformation()}
+      <div>
+        <p id="toggle-grid-label"><b>Toggle Grid</b></p>
+        <label className="map-toggle">
+          <input className="map-toggle-button" type="checkbox" onChange={(e) => handleToggleGrid()}/>
+          <span className="slider"></span>
+        </label>
+      </div>
 
       {  // display map updates only if user is viewing their own map
         author === username?
@@ -285,6 +299,7 @@ function Creator() {
       }
 
       <MapBoard
+        visibility={toggleGrid}
         inputMode={inputMode}
         selectItem={selectItem}
         tileGrid={tileGrid}
