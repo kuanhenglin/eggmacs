@@ -1,17 +1,18 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 import FormText from "../components/FormText"
 
-import {getUser, createUser} from "../methods/user";
+import {getObject, createObject} from "../methods/db";
 
 
 function isUsernameLegal(username) {
   if (
-    username.length < 4 ||                // the username must be
-    username.length > 32 ||               // between 4 and 32 characters AND
+    username.length < 4 ||               // the username must be
+    username.length > 32 ||              // between 4 and 32 characters AND
     !/^[a-zA-Z0-9_-]+$/i.test(username)  // alphanumetric characters, dashes,
-  ) {                                     // and underscores only
+  ) {                                    // and underscores only
     return false;
   }
   return true;
@@ -19,6 +20,8 @@ function isUsernameLegal(username) {
 
 function SignUp(props) {
   document.title = "Sign Up | T-Eggletop";
+
+  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
 
   const [displayName, setDisplayName] = useState(null);
   const [description, setDescription] = useState(null);
@@ -69,6 +72,10 @@ function SignUp(props) {
   }
 
   async function handleSignUp() {
+    if (!displayName) {
+      window.alert("Your display name cannot be empty.");
+      return;
+    }
     if (!isUsernameLegal(username)) {
       window.alert("The username must be between 4 and 32 characters long " +
                    "and only contain alphanumeric characters, dashes, and " +
@@ -80,7 +87,7 @@ function SignUp(props) {
       return;
     }
 
-    const user = await getUser(username);
+    const user = await getObject(username, "users");
     if (user) {  // to sign up, username must have not been taken
       window.alert("The username has already been taken. " +
                    "Did you mean to sign in instead?");
@@ -93,16 +100,19 @@ function SignUp(props) {
       displayName: displayName,
       description: description
     };
-    createUser(newUser);
+    createObject(newUser, "users");
 
-    props.setCookie("username", username, { path: "/" });
-    routeChange("/profile");
+    setCookie("username", username, { path: "/" });
+    routeChange("/user");
   }
 
   return (
     <div>
       <h1>Sign Up</h1>
-      <p>Sign up to create an account.</p>
+      <p>
+        Sign up to create an account. Already have an account?&nbsp;
+        <Link to="/signin" className="hypertext"><i>Sign in here!</i></Link>
+      </p>
       <FormText
         formEntries={formEntries}
         buttonText="Sign Up"

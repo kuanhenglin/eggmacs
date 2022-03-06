@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
 import "./App.css";
@@ -10,12 +10,13 @@ import SignIn from "./pages/SignIn"
 import Profile from "./pages/Profile"
 import Creator from "./pages/Creator"
 import Search from "./pages/Search"
+import Admin from "./pages/Admin";
 
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
-
-  const getCookie = () => {return cookies};
+  const [cookies, setCookie, removeCookie] = useCookies(["username", "mapID"]);
+  const userURL = `/user/${cookies.username}`;
+  const mapURL = `/map/${cookies.mapID}`;
 
   return (
     <div>
@@ -26,26 +27,38 @@ function App() {
           <bannertext><center> T-Eggletop Map Creator </center></bannertext>
         </div>
 
+        <NavigationBar />
         <div className="body">
           <Routes>
             <Route path="/" element={ <Home /> }/>
             <Route path="/signup" element={
               cookies.username ?
-              <Navigate to="/profile" /> :
-              <SignUp getCookie={getCookie} setCookie={setCookie} />
+              <Navigate to={userURL} /> :
+              <SignUp />
             } />
             <Route path="/signin" element={
               cookies.username ?
-              <Navigate to="/profile" /> :
-              <SignIn getCookie={getCookie} setCookie={setCookie} />
+              <Navigate to={userURL} /> :
+              <SignIn />
             } />
-            <Route path="/profile" element={
+            <Route exact path="/user" element={
               cookies.username ?
-              <Profile getCookie={getCookie} removeCookie={removeCookie} /> :
+              <Navigate to={userURL} /> :
               <Navigate to="/signin" />
             } />
-            <Route path="/creator" element={ <Creator /> } />
+            <Route path="/user/:username" element={
+              <Profile />
+            } />
+            <Route exact path="/map" element={
+              cookies.mapID ?
+              <Navigate to={mapURL} /> :
+              <Creator />
+            } />
+            <Route path="/map/:mapIDParam" element={
+              <Creator />
+            } />
             <Route path="/search" element={ <Search /> } />
+            <Route path="/admin" element={ <Admin /> } />
           </Routes>
         </div>
       </BrowserRouter>

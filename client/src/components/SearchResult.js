@@ -1,20 +1,28 @@
+import { Link } from "react-router-dom";
+import { useCookies } from 'react-cookie';
+
 function SearchResultMap(props) {
   return (
     <div>
-
+      {props.maps.map(map => {
+        return(
+          <p className="search-result" key={map._id}>
+            <b>
+              <Link
+                className="hypertext"
+                to={`/map/${map._id}`}
+              >
+                {map.displayName}  
+              </Link>
+            </b> 
+            &nbsp;(<span className="mapname">{map._id}</span>)<br />
+            <i>{map.description}</i><br />
+          </p>
+        )
+      })}
     </div>
   );
 }
-
-
-function SearchResultAsset(props) {
-  return (
-    <div>
-
-    </div>
-  );
-}
-
 
 function SearchResultUser(props) {
   return (
@@ -22,9 +30,16 @@ function SearchResultUser(props) {
       {props.users.map(user => {
         return(
           <p className="search-result" key={user._id}>
-            <b>{user.displayName}</b> <span> </span>
-            (<span className="username">{user._id}</span>)<br />
-            <i>{user.description}</i> <br />
+            <b>
+              <Link
+                className="hypertext"
+                to={`/user/${user._id}`}
+              >
+                {user.displayName}
+              </Link>
+            </b>
+            &nbsp;(<span className="username">{user._id}</span>)<br />
+            <i>{user.description}</i><br />
           </p>
         )
       })}
@@ -35,6 +50,5 @@ function SearchResultUser(props) {
 
 export {
   SearchResultMap,
-  SearchResultAsset,
   SearchResultUser
 };

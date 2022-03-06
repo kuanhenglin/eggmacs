@@ -1,30 +1,96 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { useCookies } from 'react-cookie';
+
 import FormText from "../components/FormText";
 
-import {getUser, updateUser, deleteUser} from '../methods/user';
+import { getObject, updateObject, deleteObject, createObject } from '../methods/db';
+import { queryObjects } from '../methods/search';
+
+
+function array2D(ROW, COLUMN) {
+  let rows = new Array(ROW).fill(null);
+  for (let r = 0; r < ROW; r++) {
+    const row = new Array(COLUMN).fill(null);
+    rows[r] = row;
+  }
+  return rows;
+}
+
+function isMapIDLegal(mapID) {
+  if (
+    mapID.length < 4 ||               // the map ID must be
+    mapID.length > 32 ||              // between 4 and 32 characters AND
+    !/^[a-zA-Z0-9_-]+$/i.test(mapID)  // alphanumetric characters, dashes,
+  ) {                                 // and underscores only
+    return false;
+  }
+  return true;
+}
+
+
+function ProfileMaps(props) {
+  return (
+    <div>
+      {props.maps.map(map => {
+        return(
+          <p className="search-result" key={map._id}>
+            <b>
+              <Link
+                className="hypertext"
+                to={`/map`}
+                onClick={() => props.onClick(map._id)}
+              >
+                {map.displayName}
+              </Link>
+            </b>
+            &nbsp;(<span className="username">{map._id}</span>)<br />
+            <i>{map.description}</i><br />
+          </p>
+        )
+      })}
+    </div>
+  );
+}
+
 
 function Profile(props) {
   document.title = "Profile | T-Eggletop";
 
-  const [user, setUser] = useState(null);
+  const [cookies, setCookie, removeCookie] = useCookies(["username", "mapID"]);
 
-  // fetch user information from username cookie
-  const username = props.getCookie()?.username;
+  const [user, setUser] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+
+  // fetch user information from URl params (/user/:username)
+  const { username } = useParams();
   useEffect(() => {
-    async function getUserInformation() {  // weird workaround to use async
-      setUser(await getUser(username));    // function in useEffect
+    async function getUser() {  // weird workaround to use async
+      setUser(await getObject(username, "users"));    // function in useEffect
+      setAvatar(await getObject(username, "avatars"));
     }
-    getUserInformation()
+    async function getMaps() {
+      setMaps(await queryObjects({ author: username }, "maps"));
+    }
+    getUser();
+    getMaps();
   }, []);
+  // get username of user who is currently signed in
+  const usernameViewer = cookies.username;
 
   // The Description Update Form: For now, profile changes act like
   // the drop down menu done for signUp!
   const [displayName, setDisplayName] = useState(null);
   const [description, setDescription] = useState(null);
   const [password, setPassword] = useState(null);
-  
 
+  const [avatarFile, setAvatarFile] = useState(null);
+
+  const [maps, setMaps] = useState([]);
+
+  const [mapName, setMapName] = useState(null);
+  const [mapDescription, setMapDescription] = useState(null);
+  const [mapID, setMapID] = useState(null);
 
   // (thing === null)? user?.thing? user?.thing : "" : thing
   // represents the following logic (necessary to keep <input> controlled)
@@ -44,7 +110,7 @@ function Profile(props) {
         user?.displayName : "" : displayName,
       placeholder: "The name displayed on your profile to others.",
       onChange: setDisplayName,
-      onKeyPress: handleEnter
+      onKeyPress: handleEnterProfile
     },
     {
       label: "Description",
@@ -53,18 +119,49 @@ function Profile(props) {
         user?.description : "" : description,
       placeholder: "A short blurb/biography about yourself.",
       onChange: setDescription,
-      onKeyPress: handleEnter
+      onKeyPress: handleEnterProfile
+    },
+    {
+      type: "file",
+      label: "Avatar",
+      onChange: setAvatarFile,
+      onKeyPress: handleEnterProfile
     },
     {
       label: "Password",
       placeholder: "Leave blank if you do not want to change your password.",
       onChange: setPassword,
-      onKeyPress: handleEnter
+      onKeyPress: handleEnterProfile
     }
   ]
 
-  function handleEnter(key) {
-    if (key === "Enter") handleUpdate()
+  const newMapEntries = [
+    {
+      label: "Map Name",
+      placeholder: "The display name for your new map.",
+      onChange: setMapName,
+      onKeyPress: handleEnterMap
+    },
+    {
+      label: "Description",
+      placeholder: "A short blurb/overview of your map.",
+      onChange: setMapDescription,
+      onKeyPress: handleEnterMap
+    },
+    {
+      label: "Map ID",
+      placeholder: "The unique identification string for your new map.",
+      onChange: setMapID,
+      onKeyPress: handleEnterMap
+    },
+  ]
+
+  function handleEnterProfile(key) {
+    if (key === "Enter") handleUpdate();
+  }
+
+  function handleEnterMap(key) {
+    if (key === "Enter") handleNewMap();
   }
 
   const navigate = useNavigate();
@@ -73,8 +170,40 @@ function Profile(props) {
   }
 
   function signOut() {
-    props.removeCookie("username");  // remove username cookie
+    removeCookie("username", { path: "/" });  // remove username cookie
+    removeCookie("mapID", { path: "/" });  // remove mapID cookie
     routeChange("/");  // redirect to home page
+  }
+
+  function refreshPage() {
+    window.location.reload();
+  }
+
+  function displayMaps() {
+    if (maps.length === 0) {
+      if (username === usernameViewer) {
+        return (
+          <p><i>Your map catalog is currently empty.</i></p>
+        );
+      } else {
+        return (
+          <p><i>
+            {user.displayName}'s map catalog is currently empty.
+          </i></p>
+        );
+      }
+    } else {
+      return (
+        <ProfileMaps
+          maps={maps}
+          onClick={handleMapClick}
+        />
+      );
+    }
+  }
+
+  function handleMapClick(mapIDClick) {
+    setCookie("mapID", mapIDClick, { path: "/" });
   }
 
   function deleteAccount() {
@@ -83,7 +212,7 @@ function Profile(props) {
         "Are you sure? This action is irreversible and EVERYTHING will be " +
         "deleted, including your maps, characters, and assets!"
       )) {
-        deleteUser(user._id);
+        deleteObject(user._id, "users");
         signOut();
       }
     }
@@ -97,78 +226,129 @@ function Profile(props) {
       displayName: (displayName === null)? user.displayName: displayName,
       description: (description === null)? user.description: description
     }
-    updateUser(newUser);
+    if (avatarFile && ! await handleAvatar()) return;
+    updateObject(newUser, "users", refreshPage);
   }
 
-  const setFile = (file) => {console.log("FUCK");}
-
-  //temporary and BROKEN
-  /* 
-  const ImageInput = ({file, setFile}) => {
-    const onChange = async (e) => {
-      if (e.target.files && e.target.files.length > 0) {
-        setFile(e.target.files[0]);
-      }
+  // this function is only called when the user has selected a new avatar
+  // return false if avatar update failes, true otherwise
+  async function handleAvatar() {
+    const legalTypes = ["image/png", "image/jpeg"];
+    if (!legalTypes.includes(avatarFile.type)) {  // check that file is image
+      window.alert("The avatar must be a JP(E)G or PNG.");
+      return false;
     }
-    return <input type='file' name='image' onChange={onChange} />
+    if (avatarFile.size > 75000) {  // limit avatar sizes to 75KB (a weird cap)
+      window.alert("Please choose an image under 75KB");
+      return false;
+    }
+    const reader = new FileReader();  // HTML5 feature, reads file input
+    reader.onload = (e) => {  // define reader behavior when read as text
+      const newAvatar = {
+        _id: username,
+        body: e.target.result
+      };
+      if (avatar) {
+        console.log("Updating avatar...");
+        updateObject(newAvatar, "avatars");
+      }
+      else { 
+        console.log("Creating new avatar...");
+        createObject(newAvatar, "avatars");
+      }
+    };
+
+    reader.readAsDataURL(avatarFile)
+    return true;
   }
 
-  */
-
-  const [image, setImage] = useState(null);
-  
-  const uploadImage = async e => {
-    const files = e.target.files[0];
-    
-    console.log(files);
-  }
-
-  async function handlePicUpload(infile) {
-    const reader = new FileReader(); // HTML5 feature, analyzes file input
-    if(infile.type && infile.type.indexOf('image') === -1) {  // if not an image...
-      window.confirm("File must be an image!"); // is the ok for error popup?
+  async function handleNewMap() {
+    if (!mapName) {
+      window.alert("Your map name cannot be empty.");
       return;
     }
-    console.log("binted");
+    if (!isMapIDLegal(mapID)) {
+      window.alert("The map ID must be between 4 and 32 characters long " +
+                   "and only contain alphanumeric characters, dashes, and " +
+                   "underscores.");
+      return;
+    }
+
+    const map = await getObject(mapID, "maps");
+    if (map) {  // the mapID must have not been taken yet
+      window.alert("The map ID already exists.");
+      return;
+    }
+
+    const [ROW, COLUMN] = [8, 12];
+    const newMap = {
+      _id: mapID,
+      author: username,
+      displayName: mapName,
+      description: mapDescription,
+      tiles: array2D(ROW, COLUMN),
+      assets: array2D(ROW * 3, COLUMN * 3)
+    }
+    setCookie("mapID", mapID, { path: "/" });
+    createObject(newMap, "maps", routeChange("/map"));
   }
 
-  // note: for <span> in update profile, help me change it
-  // to be pretty css later plz c: - Kay
   return (
     <div>
       <h1>Profile</h1>
-      <p>View your profile and map catalog.</p>
-      <p>
-        <b>Display name:</b> {user?.displayName} <br />
-        <b>Description:</b> {user?.description} <br />
-        <b>Username:</b> <span className="username">{user?._id}</span> <br />
-      </p>
+      {
+        username === usernameViewer?
+        <p>View your profile and map catalog.</p>
+        :
+        <p>View {user?.displayName}'s profile and map catalog.</p>
+      }
+      <table className="profile-table"><tbody><tr>
+        <td>
+          <img className="profile-avatar" src={avatar?.body} />
+        </td>
+        <td>
+          <b>Display name:</b> {user?.displayName} <br />
+          <b>Username:</b> <span className="username">{user?._id}</span> <br />
+          <b>Description:</b> {user?.description}
+        </td>
+      </tr></tbody></table>
 
-      <div className="form-button">
-        <button id="delete-account" onClick={() => deleteAccount()}>
-          Delete Account
-        </button>
-        <button onClick={() => signOut()}>
-          Sign Out
-        </button>
-      </div>
+      {  // display profile updates only if user is viewing their own profile
+        username === usernameViewer?
+        <div className="form-button">
+          <button id="delete-account" onClick={() => deleteAccount()}>
+            Delete Account
+          </button>
+          <button onClick={() => signOut()}>
+            Sign Out
+          </button>
+        </div>
+        :
+        <span />
+      }
 
-      <h2>Update Profile Pic</h2>
-        <input type="file"
-          name="File"
-          placeholder="Upload"
-          onChange={uploadImage}/>
-          <span>{'   '}</span>
-            <button onClick={() => handlePicUpload}>
-              Upload Photo
-            </button>
+      <h2>Map Catalog</h2>
+      {displayMaps()}
 
-      <h2>Update Profile</h2>
-      <FormText
-        formEntries={formEntries}
-        buttonText="Update"
-        onClick={handleUpdate}
-      />
+      {  // display profile updates only if user is viewing their own profile
+        username === usernameViewer?
+        <div>
+          <h3>Create New Map</h3>
+          <FormText
+            formEntries={newMapEntries}
+            buttonText="Create"
+            onClick={handleNewMap}
+          />
+          <h2>Update Profile</h2>
+          <FormText
+            formEntries={formEntries}
+            buttonText="Update"
+            onClick={handleUpdate}
+          />
+        </div>
+        :
+        <span />
+      }
     </div>
   )
 }

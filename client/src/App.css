@@ -15,6 +15,9 @@
   --highlight-background-color: #c04008;
   --highlight-foreground-color: #f8e8d8;
   --highlight-foreground-color-text: #b0c030;
+  --foreground-color-text-link:  #a6b090;
+
+
 
   /* font */
   --font-family: "Inter", "Arial", sans-serif;
@@ -111,6 +114,9 @@ sub{
   font-weight: 700;
   color:var(--highlight-foreground-color);
   line-height: 1.5;
+
+.normal-margin {
+  margin: 1em 0 1em 0;
 }
 
 p {
@@ -172,6 +178,16 @@ button:focus {
   border-color: var(--highlight-background-color);
 }
 
+::file-selector-button {
+  background: transparent;
+  color: var(--foreground-color);
+  font-weight: 700;
+  border-style: none;
+  margin: 0 0 0 0;
+  padding: 0 calc(2 * var(--scale)) 0 0;
+  display: none;
+}
+
 select {
   background: var(--background-color);
   color: var(--main-text);
@@ -230,6 +246,10 @@ option:hover {
           0;
 }
 
+.form-input[type="file"]:hover {
+  background-color: var(--highlight-background-color);
+}
+
 .form-input-cell {
   width: 100%;
 }
@@ -266,8 +286,20 @@ option:hover {
   margin: calc(2.5 * var(--scale)) 0 0 0;
 }
 
-.profile-button button {
+.profile-table td {
+  border: none;
+  border-collapse: collapse;
+  vertical-align: top;
+}
+
+.profile-avatar {
   width: calc(15 * var(--scale));
+  height: calc(15 * var(--scale));
+  border-style: solid;
+  border-color: var(--foreground-color);
+  border-width: calc(0.25 * var(--scale));
+  border-radius: calc(1.0 * var(--scale));
+  margin: 0 calc(2 * var(--scale)) 0 0;
 }
 
 .eggmacs {
@@ -386,11 +418,31 @@ option:hover {
 
 
 .map {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  background-color:#ffffff;
   margin: calc(5 * var(--scale)) 0 0 0;
   width: calc(75 * var(--scale));
   height: calc(50 * var(--scale));
-  border: calc(0.25 * var(--scale)) solid var(--main-text);
+  border: calc(0.25 * var(--scale)) solid #001820;
+}
+.mapRows {
+  height: calc((calc(50 * var(--scale))) / 6);
+}
+
+.mapCells {
+  border: calc(0.25 * var(--scale)) solid #001820;
+  width: calc((calc(75 * var(--scale))) / 6);
+}
+
+#testAsset {
+  width: 10%;
+  height: 10%;
+}
+
+.hypertext{
+  color: var(--foreground-color-text-link);
+  text-decoration: none;
+}
+
+.hypertext:hover{
+  color: var(--foreground-color);
 }
