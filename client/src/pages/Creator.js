@@ -2,22 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
-import { getObject, updateObject } from '../methods/db';
+import { MapBoard } from "../components/MapCreator";
+
+import { getObject, updateObject, deleteObject } from '../methods/db';
 import { queryObjects } from '../methods/search';
 
-// function allowDrop(ev){
-//   ev.preventDefault();
-// }
-
-// function drag(ev){
-//   ev.dataTransfer.setData("text", ev.target.id);
-// }
-
-// function drop(ev) {
-//   ev.preventDefault();
-//   var data = ev.dataTransfer.getData("text");
-//   ev.target.appendChild(document.getElementById(data));
-// }
 
 function asset2TileNum(r, c) {
   let coordinate = new Array(2).fill(-1);
@@ -43,8 +32,11 @@ function Creator() {
   const [mapName, setMapName] = useState(null);
   const [description, setDescription] = useState(null);
   const [author, setAuthor] = useState(null);
-  const [tileGrid, setTileGrid] = useState(null);
-  const [assetGrid, setAssetGrid] = useState(null);
+  const [tileGrid, setTileGrid] = useState([[]]);
+  const [assetGrid, setAssetGrid] = useState([[]]);
+
+  const [inputMode, setInputMode] = useState("tile");
+  const [selectItem, setSelectItem] = useState("tile_water");
 
   useEffect(() => {
     async function getMap() {
@@ -70,15 +62,26 @@ function Creator() {
     getItems();
   }, []);
 
+  const navigate = useNavigate();
+  const routeChange = (path) => {  // redirects to input path
+    navigate(path);
+  }
+
+  function refreshPage() {
+    window.location.reload();
+  }
+
   function displayMapInformation() {
     if (mapID) {
       return (
-        <p>
-          <b>Map name:</b> {mapName} <br />
-          <b>Map ID:</b> <span className="username">{mapID}</span> <br />
-          <b>Author:</b> <span className="username">{author}</span> <br />
-          <b>Description:</b> {description} <br />
-        </p>
+        <div>
+          <p>
+            <b>Map name:</b> {mapName} <br />
+            <b>Map ID:</b> <span className="username">{mapID}</span> <br />
+            <b>Author:</b> <span className="username">{author}</span> <br />
+            <b>Description:</b> {description} <br />
+          </p>
+        </div>
       );
     } else if (username) {
       return (
@@ -99,25 +102,133 @@ function Creator() {
     }
   }
 
-  function handleMapSave() {
+  function findTile(tileID) {
+    if (!tileID) return null;
+    for (let index = 0; index < tiles.length; index++){
+      if (tileID === tiles[index]._id){
+        return tiles[index];
+      }
+    }
+    return null;
+  }
+  
+  function findAsset(assetID) {
+    if (!assetID) return null;
+    for (let index = 0; index < assets.length; index++){
+      if (assetID === assets[index]._id){
+        return assets[index];
+      }
+    }
+    for (let index = 0; index < characters.length; index++){
+      if (assetID === characters[index]._id){
+        return characters[index];
+      }
+    }
+    return null;
+  }
+
+  function updateTile(r, c, remove) {
+    let newTileGrid = tileGrid.slice();
+    newTileGrid[r][c] = remove? null : selectItem;
+    setTileGrid(newTileGrid);
+  }
+
+  async function updateAsset(r, c, remove) {
+    let newAssetGrid = assetGrid.slice();
+    newAssetGrid[r][c] = remove? null : selectItem;
+    setAssetGrid(newAssetGrid);
+  }
+
+  function displayTile(tileID) {
+    const blockTile = findTile(tileID);
+    if (blockTile) {
+      return (
+        <img
+          id="tile"
+          className="block"
+          src={blockTile.body}
+        />
+      );
+    } else {
+      return (
+        <div id="tile" />
+      );
+    }
+  }
+
+  function displayAsset(assetID) {
+    const blockAsset = findAsset(assetID);
+    if (blockAsset) {
+      return (
+        <img
+          id="asset"
+          className="block"
+          src={blockAsset.body}
+        />
+      );
+    } else {
+      return (
+        <div id="asset" />
+      );
+    }
+  }
+
+  async function handleMapSave() {
     const newMap = {
       _id: mapID,
       author: author,
       tiles: tileGrid,
       assets: assetGrid
     }
-    updateObject(newMap, "maps");
+    updateObject(newMap, "maps", refreshPage);
+  }
+
+  async function handleMapDelete() {
+    if (window.confirm("Do you want to proceed with map deletion?")) {
+      if (window.confirm(
+        "Are you sure? This action is irreversible!"
+      )) {
+        deleteObject(mapID, "maps");
+        removeCookie("mapID", { path: "/" });  // remove mapID cookie
+        routeChange("/user");  // redirect to profile page
+      }
+    }
   }
 
   return (
     <div>
       <h1>Map Creator</h1>
-      <p>Create or modify your map with the tools below.</p>
+      <p>Modify your map with the tools below.</p>
+
       {displayMapInformation()}
-    </div> 
+
+      {  // display map updates only if user is viewing their own map
+        author === username?
+        <div className="form-button">
+          <button id="delete-map" onClick={handleMapDelete}>
+            Delete Map
+          </button>
+          <button onClick={handleMapSave}>
+            Save Map
+          </button>
+        </div>
+        :
+        <span />
+      }
+
+      <MapBoard
+        inputMode={inputMode}
+        selectItem={selectItem}
+        tileGrid={tileGrid}
+        assetGrid={assetGrid}
+        updateTile={updateTile}
+        updateAsset={updateAsset}
+        displayTile={displayTile}
+        displayAsset={displayAsset}
+      />
+    </div>
   )
 }
-
 
 
 export default Creator;

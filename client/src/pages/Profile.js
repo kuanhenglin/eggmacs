@@ -280,7 +280,7 @@ function Profile(props) {
       return;
     }
 
-    const [ROW, COLUMN] = [8, 12];
+    const [ROW, COLUMN] = [6, 9];
     const newMap = {
       _id: mapID,
       author: username,

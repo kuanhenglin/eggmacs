@@ -5,6 +5,11 @@
 :root {
   /* sizes */
   --scale: max(min(1vw, 1vh), 7.2px);
+  --page-width: min(calc(90 * var(--scale)), 90vw);
+  
+  /* map dimension */
+  --map-row: 6;
+  --map-column: 9;
 
   /* colors */
   --background-color: #284850;
@@ -16,8 +21,8 @@
   --highlight-foreground-color: #f8e8d8;
   --highlight-foreground-color-text: #b0c030;
   --foreground-color-text-link:  #a6b090;
-
-
+  --background-map-hover-color: rgba(255, 77, 0, 0.50);
+  --map-border-color: #90a8b0;
 
   /* font */
   --font-family: "Inter", "Arial", sans-serif;
@@ -36,9 +41,14 @@ body {
   margin: 0;
 }
 
+table {
+  border: none;
+  border-collapse: collapse;
+}
+
 .body {
   align-self: center;
-  width: min(calc(90 * var(--scale)), 90vw);
+  width: var(--page-width);
   margin: auto;
 }
 
@@ -106,7 +116,7 @@ h2 {
   text-shadow: 2px 2px #242424;
 }
 
-h3{
+h3 {
   background: #94D2BD;
   opacity: 60%;
   font-size: calc(3 * var(--scale));
@@ -233,6 +243,7 @@ button:hover {
   background: var(--highlight-background-color);
   transition: background 0.3s;
 }
+
 
 button:focus {
   outline: none;
@@ -372,6 +383,94 @@ option:hover {
   font-family: var(--font-family-mono);
 }
 
+.creator {
+  width: calc(9 * var(--map-column) * var(--scale));
+}
+
+.map-board {
+  outline-style: solid;
+  outline-color: var(--map-border-color);
+  outline-width: calc(0.3 * var(--scale));
+  border-collapse: collapse;
+}
+
+.map-cell {
+  outline-style: solid;
+  outline-color: var(--map-border-color);
+  outline-width: calc(0.15 * var(--scale));
+  border-spacing: 0;
+  margin: 0;
+  padding: 0;
+}
+
+#tile-image {
+  outline: none;
+}
+
+#asset-image {
+  outline: none;
+}
+
+#tile-button button:hover {
+  background-color: var(--background-map-hover-color);
+}
+
+#asset-button button:hover {
+  background-color: var(--background-map-hover-color);
+}
+
+.block {
+  background: transparent;
+  text-align: center;
+  border: none;
+  border-radius: 0;
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+
+.tile-image {
+  outline: none;
+  margin: calc(5 * var(--scale)) 0 0 0;
+}
+
+.asset-image {
+  outline: none;
+  margin: calc(-1 * var(--page-width) / var(--map-column) * var(--map-row))
+          0
+          0
+          0;
+}
+
+.tile-board {
+  margin: calc(-1 * var(--page-width) / var(--map-column) * var(--map-row))
+          0
+          calc(5 * var(--scale))
+          0;
+}
+
+.asset-board {
+  margin: calc(-1 * var(--page-width) / var(--map-column) * var(--map-row))
+          0
+          calc(5 * var(--scale))
+          0;
+}
+
+#tile {
+  height: calc(var(--page-width) / var(--map-column));
+  width: calc(var(--page-width) / var(--map-column));
+}
+
+#asset {
+  height: calc(var(--page-width) / var(--map-column) / 3);
+  width: calc(var(--page-width) / var(--map-column) / 3);
+}
+
+#delete-map {
+  width: calc(15 * var(--scale));
+  margin: 0 calc(2 * var(--scale)) 0 0;
+}
+
 #navigation-bar {
   height: calc(7.5 * var(--scale));
   background-color: var(--background-color-accent);
@@ -452,7 +551,6 @@ option:hover {
   transform: translate(0, calc(-0.15 * var(--scale)))
 }
 
-
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -474,29 +572,6 @@ option:hover {
 
 ::-webkit-scrollbar-corner {
   background: var(--background-color);
-}
-
-
-
-.map {
-  background-color:#ffffff;
-  margin: calc(5 * var(--scale)) 0 0 0;
-  width: calc(75 * var(--scale));
-  height: calc(50 * var(--scale));
-  border: calc(0.25 * var(--scale)) solid #001820;
-}
-.mapRows {
-  height: calc((calc(50 * var(--scale))) / 6);
-}
-
-.mapCells {
-  border: calc(0.25 * var(--scale)) solid #001820;
-  width: calc((calc(75 * var(--scale))) / 6);
-}
-
-#testAsset {
-  width: 10%;
-  height: 10%;
 }
 
 .hypertext{
