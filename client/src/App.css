@@ -57,7 +57,7 @@ table {
 }
 
 .containerParent{
-  display: flex;
+  width: 100%;
   content: center;
 }
 
@@ -77,11 +77,14 @@ table {
 .containerrow{
   display: flex;
   justify-content: center;
-  padding: calc(2 * var(--scale)) 0 calc(2 * var(--scale)) 0;
+  padding:  calc(2 * var(--scale)) 
+            0 
+            calc(2 * var(--scale)) 
+            0;
 }
 
 .containerrow div{
-  margin: 0 calc(2 * var(--scale)) 0 calc(1* var(--scale));
+  margin: 0 calc(1.5 * var(--scale)) 0 calc(1* var(--scale));
 }
 
 .hspacer{
@@ -201,7 +204,17 @@ button {
            calc(0.75 * var(--scale));
 }
 
-.imgbutton {
+button:hover {
+  background: var(--highlight-background-color);
+  transition: background 0.3s;
+}
+
+button:focus {
+  outline: none;
+  border-color: var(--highlight-background-color);
+}
+
+.img-button {
   color: var(--background-color);
   font-size: calc(2 * var(--scale));
   font-family: var(--font-family-title);
@@ -212,9 +225,31 @@ button {
   box-shadow: 0 18px 35px rgba(50, 50, 90, .3), 0 8px 15px rgba(0, 0, 0, .2);
 
   background-color: white;
-  width: calc(25 * var(--scale));
+  width: calc(28 * var(--scale));
   height: calc(25 * var(--scale));
   border-radius: calc(1.5 * var(--scale));
+}
+
+.item-select {
+  background: transparent;
+  border: none;
+  padding: 0 calc(0.5 * var(--scale)) 0 calc(0.5 * var(--scale));
+}
+
+.item-select #selected {
+  outline-style: solid;
+  outline-color: var(--highlight-background-color);
+  outline-width: calc(0.5 * var(--scale));
+}
+
+.item-select:hover {
+  background: transparent;
+}
+
+.item-select img:hover {
+  outline-style: solid;
+  outline-color: var(--highlight-background-color);
+  outline-width: calc(0.5 * var(--scale));
 }
 
 .overlay {
@@ -239,17 +274,6 @@ background-color: rgba(32,32,32,.7);
 .overlay:hover:before{
   opacity: 30%;
   transition: opacity 0.3s linear; 
-}
-
-button:hover {
-  background: var(--highlight-background-color);
-  transition: background 0.3s;
-}
-
-
-button:focus {
-  outline: none;
-  border-color: var(--highlight-background-color);
 }
 
 ::file-selector-button {
@@ -435,6 +459,25 @@ option:hover {
   padding: 0;
 }
 
+.items-select {
+  background: transparent;
+  display: flex;
+  border-style: solid;
+  border-color: var(--main-text);
+  border-width: calc(0.25 * var(--scale));
+  border-radius: calc(1.0 * var(--scale));
+  margin: calc(2 * var(--scale)) 0 0 0;
+  padding: calc(0.8 * var(--scale))
+           calc(0.75 * var(--scale))
+           calc(0.5 * var(--scale))
+           calc(0.75 * var(--scale));
+}
+
+.select-select {
+  width: calc(15 * var(--scale));
+  margin: 0 calc(2 * var(--scale)) 0 0;
+}
+
 .tile-image {
   outline: none;
   margin: calc(5 * var(--scale)) 0 0 0;
@@ -470,6 +513,13 @@ option:hover {
 #asset {
   height: calc(var(--page-width) / var(--map-column) / 3);
   width: calc(var(--page-width) / var(--map-column) / 3);
+}
+
+.select {
+  height: calc(5 * var(--scale));
+  width: calc(5 * var(--scale));
+  /* height: calc(var(--page-width) / var(--map-column) / 2);
+  width: calc(var(--page-width) / var(--map-column) / 2); */
 }
 
 #delete-map {
