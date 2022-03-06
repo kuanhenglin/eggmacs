@@ -67,6 +67,10 @@ function Creator() {
     navigate(path);
   }
 
+  function refreshPage() {
+    window.location.reload();
+  }
+
   function displayMapInformation() {
     if (mapID) {
       return (
@@ -169,40 +173,49 @@ function Creator() {
     }
   }
 
-  function handleMapSave() {
+  async function handleMapSave() {
     const newMap = {
       _id: mapID,
       author: author,
       tiles: tileGrid,
       assets: assetGrid
     }
-    updateObject(newMap, "maps");
+    updateObject(newMap, "maps", refreshPage);
   }
 
-  function handleMapDelete() {
-    deleteObject(mapID, "maps");
-    removeCookie("mapID", { path: "/" });  // remove mapID cookie
-    routeChange("/user");  // redirect to profile page
+  async function handleMapDelete() {
+    if (window.confirm("Do you want to proceed with map deletion?")) {
+      if (window.confirm(
+        "Are you sure? This action is irreversible!"
+      )) {
+        deleteObject(mapID, "maps");
+        removeCookie("mapID", { path: "/" });  // remove mapID cookie
+        routeChange("/user");  // redirect to profile page
+      }
+    }
   }
 
   return (
     <div>
       <h1>Map Creator</h1>
-      <p>Create or modify your map with the tools below.</p>
+      <p>Modify your map with the tools below.</p>
+
       {displayMapInformation()}
+
       {  // display map updates only if user is viewing their own map
         author === username?
         <div className="form-button">
-          <button id="delete-map" onClick={() => {}}>
+          <button id="delete-map" onClick={handleMapDelete}>
             Delete Map
           </button>
-          <button onClick={() => {}}>
+          <button onClick={handleMapSave}>
             Save Map
           </button>
         </div>
         :
         <span />
       }
+
       <MapBoard
         inputMode={inputMode}
         selectItem={selectItem}
