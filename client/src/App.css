@@ -5,6 +5,10 @@
 :root {
   /* sizes */
   --scale: max(min(1vw, 1vh), 7.2px);
+  
+  /* map dimension */
+  --map-row: 8;
+  --map-column: 12;
 
   /* colors */
   --background-color: #284850;
@@ -18,8 +22,6 @@
   --foreground-color-text-link:  #a6b090;
   --background-map-hover-color: rgba(255, 77, 0, 0.50);
   --map-border-color: #90a8b0;
-
-
 
   /* font */
   --font-family: "Inter", "Arial", sans-serif;
@@ -369,15 +371,15 @@ option:hover {
 
 .asset-image {
   outline: none;
-  margin: calc(8 * -9 * var(--scale)) 0 0 0;
+  margin: calc(var(--map-row) * -9 * var(--scale)) 0 0 0;
 }
 
 .tile-board {
-  margin: calc(8 * -9 * var(--scale)) 0 0 0;
+  margin: calc(var(--map-row) * -9 * var(--scale)) 0 calc(5 * var(--scale)) 0;
 }
 
 .asset-board {
-  margin: calc(8 * -9 * var(--scale)) 0 calc(5 * var(--scale)) 0;
+  margin: calc(var(--map-row) * -9 * var(--scale)) 0 calc(5 * var(--scale)) 0;
 }
 
 #tile {
