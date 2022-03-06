@@ -11,14 +11,15 @@ const searchRoutes = express.Router();
 const dbo = require("../db/conn");
 
 function generalizedFilter(search, objects) {
-  if(search == "::all:") {
+  if (search === "::all::") {
     return objects;
   }
 
+  let numOfObjects = Object.keys(objects).length;
   let querey = search.toLowerCase();
 
   let validMatches = [];
-  let numOfObjects = Object.keys(objects).length;
+  //let numOfObjects = Object.keys(objects).length;
 
   for(let i = 0; i < numOfObjects; i++) { // for each Obj
     let dispName = objects[i].displayName.toLowerCase();
@@ -87,9 +88,9 @@ function generalizedFilter(search, objects) {
   for(let i = 0; i < finalSort.length; i++) { // for each sorted scoreCard...
 
     for(let j = 0; j < numOfObjects; j++) { // go through the Users
-      selectedUser = users[j];
-      if(finalSort[i]._id == selectedUser._id) { // find the match
-        sortedObjects.push(selectedUser);
+      selectedObject = objects[j];
+      if(finalSort[i]._id == selectedObject._id) { // find the match
+        sortedObjects.push(selectedObject);
       }
     }
   }
@@ -106,7 +107,8 @@ function filterTile(search, tiles) {
 }
 
 function filter(search, objects, collection) {
-  if (collection === "users") return generalizedFilter(search, objects);
+  if (collection === "users" || collection === "maps") 
+    return generalizedFilter(search, objects);
   else if (collection === "tiles") return filterTile(search, objects);
   return objects;  // need to handle default case better
 }

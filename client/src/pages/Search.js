@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from 'react-router-dom';
 import SearchText from "../components/SearchText";
-import { SearchResultUser } from "../components/SearchResult";
+import { SearchResultMap, SearchResultUser } from "../components/SearchResult";
 
 import { searchObjects } from "../methods/search";
 
@@ -15,7 +15,7 @@ function Search() {
     { label: "Users", value: "user" }
   ]
 
-  const [search, setSearch] = useState(null);
+  const [search, setSearch] = useState("");
   const [searchOption, setSearchOption] = useState(searchOptions[0].value);
   const [searchResult, setSearchResult] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["username"]);
@@ -42,7 +42,12 @@ function Search() {
     if (searchOption === "user") {
       const result = await searchObjects(search, "users");
       setSearchResult(result);
-    } else {
+    } 
+    else if (searchOption === "map") {
+      const result = await searchObjects(search, "maps");
+      setSearchResult(result)
+    }
+    else {
       return;
     }
   }
@@ -61,7 +66,13 @@ function Search() {
       return (
         <SearchResultUser users={searchResult}/>
       );
-    } else {
+    } 
+    else if (searchOption === "map") {
+      return (
+        <SearchResultMap maps = {searchResult}/>
+      )
+    }
+    else {
       return (
         <p><i>Other search options are coming soon.</i></p>
       );

@@ -38,7 +38,7 @@ function ProfileMaps(props) {
             <b>
               <Link
                 className="hypertext"
-                to={`/creator`}
+                to={`/map`}
                 onClick={() => props.onClick(map._id)}
               >
                 {map.displayName}
@@ -181,9 +181,17 @@ function Profile(props) {
 
   function displayMaps() {
     if (maps.length === 0) {
-      return (
-        <p><i>Your map catalog is currently empty.</i></p>
-      );
+      if (username === usernameViewer) {
+        return (
+          <p><i>Your map catalog is currently empty.</i></p>
+        );
+      } else {
+        return (
+          <p><i>
+            {user?.displayName}'s map catalog is currently empty.
+          </i></p>
+        );
+      }
     } else {
       return (
         <ProfileMaps
@@ -225,8 +233,9 @@ function Profile(props) {
   // this function is only called when the user has selected a new avatar
   // return false if avatar update failes, true otherwise
   async function handleAvatar() {
-    if (avatarFile.type !== "image/png") {  // check that file is png
-      window.alert("The avatar must be a PNG.");
+    const legalTypes = ["image/png", "image/jpeg"];
+    if (!legalTypes.includes(avatarFile.type)) {  // check that file is image
+      window.alert("The avatar must be a JP(E)G or PNG.");
       return false;
     }
     if (avatarFile.size > 75000) {  // limit avatar sizes to 75KB (a weird cap)
@@ -281,7 +290,7 @@ function Profile(props) {
       assets: array2D(ROW * 3, COLUMN * 3)
     }
     setCookie("mapID", mapID, { path: "/" });
-    createObject(newMap, "maps", routeChange("/creator"));
+    createObject(newMap, "maps", routeChange("/map"));
   }
 
   return (
@@ -306,25 +315,30 @@ function Profile(props) {
 
       {  // display profile updates only if user is viewing their own profile
         username === usernameViewer?
-        <div>
-          <div className="form-button">
-            <button id="delete-account" onClick={() => deleteAccount()}>
-              Delete Account
-            </button>
-            <button onClick={() => signOut()}>
-              Sign Out
-            </button>
-          </div>
+        <div className="form-button">
+          <button id="delete-account" onClick={() => deleteAccount()}>
+            Delete Account
+          </button>
+          <button onClick={() => signOut()}>
+            Sign Out
+          </button>
+        </div>
+        :
+        <span />
+      }
 
-          <h2>Map Catalog</h2>
-          {displayMaps()}
+      <h2>Map Catalog</h2>
+      {displayMaps()}
+
+      {  // display profile updates only if user is viewing their own profile
+        username === usernameViewer?
+        <div>
           <h3>Create New Map</h3>
           <FormText
             formEntries={newMapEntries}
             buttonText="Create"
             onClick={handleNewMap}
           />
-
           <h2>Update Profile</h2>
           <FormText
             formEntries={formEntries}
