@@ -4,7 +4,9 @@
   "description": "UCLA 22W CS 35L project for team \"Eggmacs\" (Joice, Jordan, Kay, Meghana, Sean).",
   "main": "index.js",
   "scripts": {
-    "start": "npm run dev",
+    "start": "node server/server.js",
+    "build": "cd server && npm install && cd ../client && npm install && npm start",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "dev": "cd server && npm run dev"
   },
   "repository": {
@@ -23,5 +25,8 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "mongodb": "^4.4.1"
-  }
+  },
+    "file-saver": "^2.0.5"
+  },
+    "proxy": "http://localhost:5000"
 }
