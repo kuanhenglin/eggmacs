@@ -62,6 +62,12 @@ function Creator() {
     getItems();
   }, []);
 
+  const inputModeOptions = [
+    { label: "Tiles", value: "tile" },
+    { label: "Assets", value: "asset" },
+    { label: "Characters", value: "character" }
+  ]
+
   const navigate = useNavigate();
   const routeChange = (path) => {  // redirects to input path
     navigate(path);
@@ -173,6 +179,59 @@ function Creator() {
     }
   }
 
+  function displayItemSelect(blockItem) {
+    return (
+      <button
+        className="item-select"
+        onClick={(e) => setSelectItem(blockItem._id)}
+      ><img
+        id={blockItem._id === selectItem? "selected" : ""}
+        className="select block"
+        src={blockItem.body}
+      /></button>
+    );
+  }
+
+  function displaySelect() {
+    if (inputMode === "tile") {
+      return (
+        <div>{tiles.map(tile => {
+          if (tile._id !== "tile_empty") {
+            return (
+              <span key={tile._id}>
+                {displayItemSelect(tile)}
+              </span>
+            );
+          }
+        })}</div>
+      );
+    } else if (inputMode === "asset") {
+      return (
+        <div>{assets.map(asset => {
+          if (asset._id !== "asset_empty") {
+            return (
+              <span key={asset._id}>
+                {displayItemSelect(asset)}
+              </span>
+            );
+          }
+        })}</div>
+      );
+    } else if (inputMode === "character") {
+      return (
+        <div>{characters.map(character => {
+          if (character._id !== "character_empty") {
+            return (
+              <span key={character._id}>
+                {displayItemSelect(character)}
+              </span>
+            );
+          }
+        })}</div>
+      );
+    }
+  }
+
   async function handleMapSave() {
     const newMap = {
       _id: mapID,
@@ -197,8 +256,10 @@ function Creator() {
 
   return (
     <div>
-      <h1>Map Creator</h1>
-      <p>Modify your map with the tools below.</p>
+      <h2>Map Creator</h2>
+      <sub>Modify your map with the tools below.</sub>
+      <p>Left click to place. Right click to delete.</p>
+      <div className="hspacer"> space </div>
 
       {displayMapInformation()}
 
@@ -226,6 +287,22 @@ function Creator() {
         displayTile={displayTile}
         displayAsset={displayAsset}
       />
+      
+      <select
+        className="select-select"
+        onChange={(e) => setInputMode(e.target.value)}
+      >
+        {inputModeOptions.map(option => {
+          return(
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          )
+        })}
+      </select>
+
+      <div className="items-select">{displaySelect()}</div>
+      
     </div>
   )
 }
