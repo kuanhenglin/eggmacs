@@ -36,7 +36,7 @@ function Creator() {
   const [assetGrid, setAssetGrid] = useState([[]]);
 
   const [inputMode, setInputMode] = useState("tile");
-  const [selectItem, setSelectItem] = useState("tile_water");
+  const [selectItem, setSelectItem] = useState("tile_grass");
 
   useEffect(() => {
     async function getMap() {

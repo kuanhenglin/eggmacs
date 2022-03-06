@@ -15,6 +15,9 @@ function Admin() {
   const [characterID, setCharacterID] = useState(null);
   const [characterFile, setCharacterFile] = useState(null);
 
+  const [miscID, setMiscID] = useState(null);
+  const [miscFile, setMiscFile] = useState(null);
+
   const tileFormEntries = [
     {
       label: "File ID",
@@ -56,6 +59,21 @@ function Admin() {
       type: "file",
       label: "Choose file",
       onChange: setCharacterFile,
+      onKeyPress: () => {}
+    }
+  ]
+
+  const miscFormEntries = [
+    {
+      label: "File ID",
+      placeholder: "ID of uploaded misc file (make sure it is unique).",
+      onChange: setMiscID,
+      onKeyPress: () => {},
+    },
+    {
+      type: "file",
+      label: "Choose file",
+      onChange: setMiscFile,
       onKeyPress: () => {}
     }
   ]
@@ -160,6 +178,38 @@ function Admin() {
     reader.readAsDataURL(characterFile);
   }
 
+  async function handleMisc() {
+    if (!miscFile) {  // check that user has selected file
+      window.alert("Make sure you have selected a file to upload.");
+      return;
+    }
+    if (miscFile.type !== "image/png") {  // check that file is png
+      window.alert("The misc file must be a PNG.");
+      return;
+    }
+    
+    if (miscID?.slice(0, 5) !== "misc_") {
+      window.alert("The misc file ID must start with \"misc_\".");
+      return;
+    }
+    const misc = await getObject(miscID, "misc");
+    if (misc) {  // the miscID must have not been taken yet
+      window.alert("The file ID already exists.");
+      return;
+    }
+
+    const reader = new FileReader(); // HTML5 feature, reads file input
+    reader.onload = (e) => {  // define reader behavior when read as text
+      const newMisc = {
+        _id: miscID,
+        author: "Eggmacs",
+        body: e.target.result
+      };
+      createObject(newMisc, "misc", refreshPage);
+    };
+    reader.readAsDataURL(miscFile);
+  }
+
   return (
     <div>
       <h2>Admin</h2>
@@ -206,6 +256,15 @@ function Admin() {
         formEntries={characterFormEntries}
         buttonText="Upload"
         onClick={handleCharacter}
+      />
+
+      <div className="hspacer"> space </div>
+
+      <h3>Add New Miscellaneous</h3>
+      <FormText
+        formEntries={miscFormEntries}
+        buttonText="Upload"
+        onClick={handleMisc}
       />
     </div>
   );
