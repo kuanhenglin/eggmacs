@@ -40,19 +40,21 @@ function Home() {
       </p>
       
 
-      <div className = "hspacer"> space </div>
+      <div className="hspacer"> space </div>
 
-      <div className = "containerParent">
-        <div className = "container"> 
-          <div class="left"> 
+      <div className="containerParent">
+        <div className="container"> 
+          <div className="left"> 
 
           <h3> Meet the Team </h3>
 
           </div>
         </div>
 
-        <div className = "container">
-          <div className = "right"> 
+        <div className="container">
+          <div className="right"> 
+
+          
 
           <p> hello hello </p>
           </div>
