@@ -287,20 +287,36 @@ option:hover {
 }
 
 .map-cell {
-  border-style: solid;
-  border-color: var(--highlight-foreground-color-text);
-  border-width: calc(0.25 * var(--scale));
+  outline-style: solid;
+  outline-color: var(--highlight-foreground-color-text);
+  outline-width: calc(0.25 * var(--scale));
+  border-spacing: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .block {
+  background: transparent;
   text-align: center;
-  height: calc(3 * var(--scale));
-  width: calc(3 * var(--scale));
   border: none;
   border-radius: 0;
   float: left;
   margin: 0;
   padding: 0;
+}
+
+.asset-board {
+  margin: calc(8 * -9 * var(--scale)) 0 calc(5 * var(--scale)) 0;
+}
+
+#tile {
+  height: calc(9 * var(--scale));
+  width: calc(9 * var(--scale));
+}
+
+#asset {
+  height: calc(3 * var(--scale));
+  width: calc(3 * var(--scale));
 }
 
 #navigation-bar {

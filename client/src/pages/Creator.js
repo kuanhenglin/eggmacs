@@ -20,13 +20,15 @@ import { MapBoard } from "../components/MapCreator";
 // }
 
 
-function asset2TileNum(r, c) {
-  let coordinate = new Array(2).fill(-1);
-  //coordinate[0] = r, coord[1] = c
-  coordinate[0] = Math.floor(r / 3);
-  coordinate[1] = Math.floor(c / 2);
-  return coordinate;
-}
+// function asset2TileNum(r, c) {
+//   let coordinate = new Array(2).fill(-1);
+//   //coordinate[0] = r, coord[1] = c
+//   coordinate[0] = Math.floor(r / 3);
+//   coordinate[1] = Math.floor(c / 2);
+//   return coordinate;
+// }
+
+// tiles = [ {_id: __, ...} ]
 
 
 function Creator() {
@@ -86,6 +88,36 @@ function Creator() {
     }
   }
 
+  function findTile(tileID) {
+    for (let index = 0; index < tiles.length; index++){
+      if (tileID === tiles[index]._id){
+        return tiles[index]._id;
+      }
+    }
+    return null;
+  }
+  
+  function findAsset(assetID) {
+    for (let index = 0; index < assets.length; index++){
+      if (assetID === assets[index]._id){
+        return assets[index]._id;
+      }
+    }
+    for (let index = 0; index < characters.length; index++){
+      if (assetID === characters[index]._id){
+        return characters[index]._id;
+      }
+    }
+    return null;
+  }
+
+  function displayAsset(assetID) {
+    const blockAsset = findAsset(assetID);
+    return (
+      <img className="block-asset" src={blockAsset?.body} />
+    );
+  }
+
   function handleMapSave() {
     const newMap = {
       _id: mapID,
@@ -102,11 +134,10 @@ function Creator() {
       <p>Create or modify your map with the tools below.</p>
       {displayMapInformation()}
       <MapBoard
-        tileGrid={assetGrid}
+        tileGrid={tileGrid}
+        assetGrid={assetGrid}
       />
     </div>
-
-    
   )
 }
 
