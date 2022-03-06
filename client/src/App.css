@@ -312,6 +312,44 @@ option:hover {
   font-family: var(--font-family-mono);
 }
 
+.map-board {
+  border: none;
+  border-collapse: collapse;
+}
+
+.map-cell {
+  outline-style: solid;
+  outline-color: var(--highlight-foreground-color-text);
+  outline-width: calc(0.25 * var(--scale));
+  border-spacing: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.block {
+  background: transparent;
+  text-align: center;
+  border: none;
+  border-radius: 0;
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+
+.asset-board {
+  margin: calc(8 * -9 * var(--scale)) 0 calc(5 * var(--scale)) 0;
+}
+
+#tile {
+  height: calc(9 * var(--scale));
+  width: calc(9 * var(--scale));
+}
+
+#asset {
+  height: calc(3 * var(--scale));
+  width: calc(3 * var(--scale));
+}
+
 #navigation-bar {
   height: calc(7.5 * var(--scale));
   background-color: var(--background-color-accent);
@@ -392,7 +430,6 @@ option:hover {
   transform: translate(0, calc(-0.15 * var(--scale)))
 }
 
-
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -414,29 +451,6 @@ option:hover {
 
 ::-webkit-scrollbar-corner {
   background: var(--background-color);
-}
-
-
-
-.map {
-  background-color:#ffffff;
-  margin: calc(5 * var(--scale)) 0 0 0;
-  width: calc(75 * var(--scale));
-  height: calc(50 * var(--scale));
-  border: calc(0.25 * var(--scale)) solid #001820;
-}
-.mapRows {
-  height: calc((calc(50 * var(--scale))) / 6);
-}
-
-.mapCells {
-  border: calc(0.25 * var(--scale)) solid #001820;
-  width: calc((calc(75 * var(--scale))) / 6);
-}
-
-#testAsset {
-  width: 10%;
-  height: 10%;
 }
 
 .hypertext{

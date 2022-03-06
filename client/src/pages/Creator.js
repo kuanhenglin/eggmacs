@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
+import { MapBoard } from "../components/MapCreator";
+
 import { getObject, updateObject } from '../methods/db';
 import { queryObjects } from '../methods/search';
 
@@ -19,13 +21,16 @@ import { queryObjects } from '../methods/search';
 //   ev.target.appendChild(document.getElementById(data));
 // }
 
-function asset2TileNum(r, c) {
-  let coordinate = new Array(2).fill(-1);
-  //coordinate[0] = r, coord[1] = c
-  coordinate[0] = Math.floor(r / 3);
-  coordinate[1] = Math.floor(c / 2);
-  return coordinate;
-}
+
+// function asset2TileNum(r, c) {
+//   let coordinate = new Array(2).fill(-1);
+//   //coordinate[0] = r, coord[1] = c
+//   coordinate[0] = Math.floor(r / 3);
+//   coordinate[1] = Math.floor(c / 2);
+//   return coordinate;
+// }
+
+// tiles = [ {_id: __, ...} ]
 
 
 function Creator() {
@@ -43,8 +48,8 @@ function Creator() {
   const [mapName, setMapName] = useState(null);
   const [description, setDescription] = useState(null);
   const [author, setAuthor] = useState(null);
-  const [tileGrid, setTileGrid] = useState(null);
-  const [assetGrid, setAssetGrid] = useState(null);
+  const [tileGrid, setTileGrid] = useState([[]]);
+  const [assetGrid, setAssetGrid] = useState([[]]);
 
   useEffect(() => {
     async function getMap() {
@@ -73,12 +78,14 @@ function Creator() {
   function displayMapInformation() {
     if (mapID) {
       return (
-        <p>
-          <b>Map name:</b> {mapName} <br />
-          <b>Map ID:</b> <span className="username">{mapID}</span> <br />
-          <b>Author:</b> <span className="username">{author}</span> <br />
-          <b>Description:</b> {description} <br />
-        </p>
+        <div>
+          <p>
+            <b>Map name:</b> {mapName} <br />
+            <b>Map ID:</b> <span className="username">{mapID}</span> <br />
+            <b>Author:</b> <span className="username">{author}</span> <br />
+            <b>Description:</b> {description} <br />
+          </p>
+        </div>
       );
     } else if (username) {
       return (
@@ -99,6 +106,36 @@ function Creator() {
     }
   }
 
+  function findTile(tileID) {
+    for (let index = 0; index < tiles.length; index++){
+      if (tileID === tiles[index]._id){
+        return tiles[index]._id;
+      }
+    }
+    return null;
+  }
+  
+  function findAsset(assetID) {
+    for (let index = 0; index < assets.length; index++){
+      if (assetID === assets[index]._id){
+        return assets[index]._id;
+      }
+    }
+    for (let index = 0; index < characters.length; index++){
+      if (assetID === characters[index]._id){
+        return characters[index]._id;
+      }
+    }
+    return null;
+  }
+
+  function displayAsset(assetID) {
+    const blockAsset = findAsset(assetID);
+    return (
+      <img className="block-asset" src={blockAsset?.body} />
+    );
+  }
+
   function handleMapSave() {
     const newMap = {
       _id: mapID,
@@ -114,10 +151,13 @@ function Creator() {
       <h1>Map Creator</h1>
       <p>Create or modify your map with the tools below.</p>
       {displayMapInformation()}
-    </div> 
+      <MapBoard
+        tileGrid={tileGrid}
+        assetGrid={assetGrid}
+      />
+    </div>
   )
 }
-
 
 
 export default Creator;
