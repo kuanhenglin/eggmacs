@@ -21,6 +21,12 @@ function App() {
   return (
     <div>
       <BrowserRouter>
+        <NavigationBar getCookie={getCookie}/>
+
+        <div className= "headerBanner"> 
+          <bannertext><center> T-Eggletop Map Creator </center></bannertext>
+        </div>
+
         <NavigationBar />
         <div className="body">
           <Routes>
