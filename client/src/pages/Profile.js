@@ -295,13 +295,14 @@ function Profile(props) {
 
   return (
     <div>
-      <h1>Profile</h1>
+      <h2>Profile</h2>
       {
         username === usernameViewer?
         <p>View your profile and map catalog.</p>
         :
         <p>View {user?.displayName}'s profile and map catalog.</p>
       }
+      
       <table className="profile-table"><tbody><tr>
         <td>
           <img className="profile-avatar" src={avatar?.body} />
@@ -312,6 +313,7 @@ function Profile(props) {
           <b>Description:</b> {user?.description}
         </td>
       </tr></tbody></table>
+
 
       {  // display profile updates only if user is viewing their own profile
         username === usernameViewer?
@@ -327,19 +329,38 @@ function Profile(props) {
         <span />
       }
 
+      <div className="hspacer"> space </div>
+      <div className="hspacer"> space </div>
+      <div className="shapes"> 
+      <div id="square"></div>
+      <div id="diamond"></div>
+      <div id="triangle"></div> 
+      <div id="circle"></div>
+      <div id="square"></div>
+      <div id="diamond"></div>
+      <div id="triangle"></div> 
+      <div id="circle"></div>
+      </div> 
+      <div className="hspacer"> space </div>
+      <div className="hspacer"> space </div>
+
       <h2>Map Catalog</h2>
       {displayMaps()}
 
       {  // display profile updates only if user is viewing their own profile
         username === usernameViewer?
         <div>
+
+          <div className="hspacer"> space </div>
           <h3>Create New Map</h3>
           <FormText
             formEntries={newMapEntries}
             buttonText="Create"
             onClick={handleNewMap}
           />
-          <h2>Update Profile</h2>
+
+          <div className="hspacer"> space </div>
+          <h3>Update Profile</h3>
           <FormText
             formEntries={formEntries}
             buttonText="Update"
