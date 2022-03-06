@@ -211,7 +211,7 @@ button {
 
   box-shadow: 0 18px 35px rgba(50, 50, 90, .3), 0 8px 15px rgba(0, 0, 0, .2);
 
-  background-color: var(--foreground-color-text-link);
+  background-color: white;
   width: calc(25 * var(--scale));
   height: calc(25 * var(--scale));
   border-radius: calc(1.5 * var(--scale));
@@ -231,13 +231,13 @@ background-color: rgba(32,32,32,.7);
   height:100%;
   display: block;
   z-index:0;
-  opacity: 1;
+  opacity: 60%;
   transition: opacity 0.3s linear;
   border-radius: calc(1.5 * var(--scale));
 }
 
 .overlay:hover:before{
-  opacity: .8;
+  opacity: 30%;
   transition: opacity 0.3s linear; 
 }
 
@@ -379,6 +379,10 @@ option:hover {
 .eggmacs {
   font-family: var(--font-family-mono);
   font-weight: 700;
+}
+
+.eggmacs:hover{
+  cursor: url('https://64.media.tumblr.com/1775fb6ffb915b60abe9d33af96c3aca/f2502252a89ac9d0-28/s250x400/319613969b89ce1bd1d4336952c31511e94298da.png'), auto;
 }
 
 .username {
