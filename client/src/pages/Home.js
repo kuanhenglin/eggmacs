@@ -38,9 +38,9 @@ function Home() {
       
 
       <div className="containerrow">
-        <Link to={`/map`}> <div className="imgbutton overlay"></div></Link>
-        <Link to={`/search`}> <div className="imgbutton overlay"></div></Link>
-        <Link to={`/user`}> <div className="imgbutton overlay"></div></Link>
+        <Link to={`/map`}> <div className="img-button overlay"></div></Link>
+        <Link to={`/search`}> <div className="img-button overlay"></div></Link>
+        <Link to={`/user`}> <div className="img-button overlay"></div></Link>
       </div>
 
       <div className="hspacer"> space </div>
