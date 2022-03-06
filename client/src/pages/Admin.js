@@ -162,28 +162,46 @@ function Admin() {
 
   return (
     <div>
-      <h1>Admin</h1>
+      <h2>Admin</h2>
       <p>
         Make necessary site changes and/or additions, for admins <i>only</i>.
         <br /> To delete tiles/assets, head to the&nbsp;
         <span className="username">MongoDB</span> database to manually do it.
       </p>
 
-      <h2>Add New Tile</h2>
+      <div className="hspacer"> space </div>
+      <div className="shapes"> 
+        <div id="square"></div>
+        <div id="diamond"></div>
+        <div id="triangle"></div> 
+        <div id="circle"></div>
+        <div id="square"></div>
+        <div id="diamond"></div>
+        <div id="triangle"></div> 
+        <div id="circle"></div>
+      </div> 
+
+      <div className="hspacer"> space </div>
+
+      <h3>Add New Tile</h3>
       <FormText
         formEntries={tileFormEntries}
         buttonText="Upload"
         onClick={handleTile}
       />
 
-      <h2>Add New Asset</h2>
+      <div className="hspacer"> space </div>  
+
+      <h3>Add New Asset</h3>
       <FormText
         formEntries={assetFormEntries}
         buttonText="Upload"
         onClick={handleAsset}
       />
 
-      <h2>Add New Character</h2>
+      <div className="hspacer"> space </div>
+
+      <h3>Add New Character</h3>
       <FormText
         formEntries={characterFormEntries}
         buttonText="Upload"

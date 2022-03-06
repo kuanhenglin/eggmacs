@@ -51,11 +51,27 @@ body {
   content: center;
 }
 
-.container{
+.halfcontainer{
   background: #94D2BD;
   width: 45%;
   float: left;
   padding: 10px;
+}
+
+.container{
+  width: 100%;
+  float: left;
+  padding: 10px;
+}
+
+.containerrow{
+  display: flex;
+  justify-content: center;
+  padding: calc(2 * var(--scale)) 0 calc(2 * var(--scale)) 0;
+}
+
+.containerrow div{
+  margin: 0 calc(2 * var(--scale)) 0 calc(1* var(--scale));
 }
 
 .hspacer{
@@ -91,11 +107,14 @@ h2 {
 }
 
 h3{
+  background: #94D2BD;
+  opacity: 60%;
   font-size: calc(3 * var(--scale));
   font-family: var(--font-family-title);
+  text-indent: 3px;
   color: var(--nav-bar-text);
   font-weight: 900;
-  margin: calc(5 * var(--scale));
+  border-radius: calc(0.5 * var(--scale));
   margin-bottom: calc(3 * var(--scale));
 }
 
@@ -170,8 +189,49 @@ button {
            calc(0.75 * var(--scale));
 }
 
+.imgbutton {
+  color: var(--background-color);
+  font-size: calc(2 * var(--scale));
+  font-family: var(--font-family-title);
+
+  text-align: center;
+  border-style: hidden;
+
+  box-shadow: 0 18px 35px rgba(50, 50, 90, .3), 0 8px 15px rgba(0, 0, 0, .2);
+
+  background-color: var(--foreground-color-text-link);
+  width: calc(25 * var(--scale));
+  height: calc(25 * var(--scale));
+  border-radius: calc(1.5 * var(--scale));
+}
+
+.overlay {
+  position: relative;
+}
+
+.overlay:before {
+background-color: rgba(32,32,32,.7);
+  position: absolute;
+  content:" ";
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display: block;
+  z-index:0;
+  opacity: 1;
+  transition: opacity 0.3s linear;
+  border-radius: calc(1.5 * var(--scale));
+}
+
+.overlay:hover:before{
+  opacity: .8;
+  transition: opacity 0.3s linear; 
+}
+
 button:hover {
   background: var(--highlight-background-color);
+  transition: background 0.3s;
 }
 
 button:focus {
