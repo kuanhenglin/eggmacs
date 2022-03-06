@@ -5,10 +5,11 @@
 :root {
   /* sizes */
   --scale: max(min(1vw, 1vh), 7.2px);
+  --page-width: min(calc(90 * var(--scale)), 90vw);
   
   /* map dimension */
-  --map-row: 8;
-  --map-column: 12;
+  --map-row: 6;
+  --map-column: 9;
 
   /* colors */
   --background-color: #284850;
@@ -47,7 +48,7 @@ table {
 
 .body {
   align-self: center;
-  width: min(calc(90 * var(--scale)), 90vw);
+  width: var(--page-width);
   margin: auto;
 }
 
@@ -99,7 +100,7 @@ h2 {
   text-shadow: 2px 2px #242424;
 }
 
-h3{
+h3 {
   font-size: calc(3 * var(--scale));
   font-family: var(--font-family-title);
   color: var(--nav-bar-text);
@@ -322,6 +323,10 @@ option:hover {
   font-family: var(--font-family-mono);
 }
 
+.creator {
+  width: calc(9 * var(--map-column) * var(--scale));
+}
+
 .map-board {
   outline-style: solid;
   outline-color: var(--map-border-color);
@@ -366,30 +371,44 @@ option:hover {
 
 .tile-image {
   outline: none;
-  margin: calc(3 * var(--scale)) 0 0 0;
+  margin: calc(5 * var(--scale)) 0 0 0;
 }
 
 .asset-image {
   outline: none;
-  margin: calc(var(--map-row) * -9 * var(--scale)) 0 0 0;
+  margin: calc(-1 * var(--page-width) / var(--map-column) * var(--map-row))
+          0
+          0
+          0;
 }
 
 .tile-board {
-  margin: calc(var(--map-row) * -9 * var(--scale)) 0 calc(5 * var(--scale)) 0;
+  margin: calc(-1 * var(--page-width) / var(--map-column) * var(--map-row))
+          0
+          calc(5 * var(--scale))
+          0;
 }
 
 .asset-board {
-  margin: calc(var(--map-row) * -9 * var(--scale)) 0 calc(5 * var(--scale)) 0;
+  margin: calc(-1 * var(--page-width) / var(--map-column) * var(--map-row))
+          0
+          calc(5 * var(--scale))
+          0;
 }
 
 #tile {
-  height: calc(9 * var(--scale));
-  width: calc(9 * var(--scale));
+  height: calc(var(--page-width) / var(--map-column));
+  width: calc(var(--page-width) / var(--map-column));
 }
 
 #asset {
-  height: calc(3 * var(--scale));
-  width: calc(3 * var(--scale));
+  height: calc(var(--page-width) / var(--map-column) / 3);
+  width: calc(var(--page-width) / var(--map-column) / 3);
+}
+
+#delete-map {
+  width: calc(15 * var(--scale));
+  margin: 0 calc(2 * var(--scale)) 0 0;
 }
 
 #navigation-bar {
