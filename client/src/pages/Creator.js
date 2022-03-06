@@ -109,7 +109,7 @@ function Creator() {
   function findTile(tileID) {
     for (let index = 0; index < tiles.length; index++){
       if (tileID === tiles[index]._id){
-        return tiles[index]._id;
+        return tiles[index];
       }
     }
     return null;
@@ -118,22 +118,49 @@ function Creator() {
   function findAsset(assetID) {
     for (let index = 0; index < assets.length; index++){
       if (assetID === assets[index]._id){
-        return assets[index]._id;
+        return assets[index];
       }
     }
     for (let index = 0; index < characters.length; index++){
       if (assetID === characters[index]._id){
-        return characters[index]._id;
+        return characters[index];
       }
     }
     return null;
   }
 
+  function displayTile(tileID) {
+    const blockTile = findTile(tileID);
+    if (blockTile) {
+      return (
+        <img
+          id="tile"
+          className="block"
+          src={blockTile.body}
+        />
+      );
+    } else {
+      return (
+        <div id="tile" />
+      );
+    }
+  }
+
   function displayAsset(assetID) {
     const blockAsset = findAsset(assetID);
-    return (
-      <img className="block-asset" src={blockAsset?.body} />
-    );
+    if (blockAsset) {
+      return (
+        <img
+          id="asset"
+          className="block"
+          src={blockAsset.body}
+        />
+      );
+    } else {
+      return (
+        <div id="asset" />
+      );
+    }
   }
 
   function handleMapSave() {
@@ -154,6 +181,8 @@ function Creator() {
       <MapBoard
         tileGrid={tileGrid}
         assetGrid={assetGrid}
+        displayTile={displayTile}
+        displayAsset={displayAsset}
       />
     </div>
   )
