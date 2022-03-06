@@ -65,7 +65,7 @@ body {
 
 .headerBanner{
   background-color: black;
-  /* background-image: url('https://64.media.tumblr.com/24cf3b4c10075cc0192192b5c25830c2/4a053557544bd221-c6/s1280x1920/fbde012da41137b190ec22e2626c5606de2b6015.jpg'); */
+  background-image: url('https://64.media.tumblr.com/4a1fc088471d836ed2a78e8eff8f39b7/06641480e5ee4adf-c8/s1280x1920/6329380cb3e7e6aeab1ed815272a69a812b58fd4.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -114,6 +114,7 @@ sub{
   font-weight: 700;
   color:var(--highlight-foreground-color);
   line-height: 1.5;
+}
 
 .normal-margin {
   margin: 1em 0 1em 0;

@@ -21,13 +21,12 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <NavigationBar getCookie={getCookie}/>
+        <NavigationBar/>
 
         <div className= "headerBanner"> 
-          <bannertext><center> T-Eggletop Map Creator </center></bannertext>
+          <bannertext><center>T-Eggletop Map Creator</center></bannertext>
         </div>
 
-        <NavigationBar />
         <div className="body">
           <Routes>
             <Route path="/" element={ <Home /> }/>
