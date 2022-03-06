@@ -16,6 +16,8 @@
   --highlight-foreground-color: #f8e8d8;
   --highlight-foreground-color-text: #b0c030;
   --foreground-color-text-link:  #a6b090;
+  --background-map-hover-color: rgba(255, 77, 0, 0.50);
+  --map-border-color: #90a8b0;
 
 
 
@@ -34,6 +36,11 @@ body {
   font-weight: 400;
   line-height: 1.5;
   margin: 0;
+}
+
+table {
+  border: none;
+  border-collapse: collapse;
 }
 
 .body {
@@ -174,6 +181,7 @@ button:hover {
   background: var(--highlight-background-color);
 }
 
+
 button:focus {
   outline: none;
   border-color: var(--highlight-background-color);
@@ -313,17 +321,35 @@ option:hover {
 }
 
 .map-board {
-  border: none;
+  outline-style: solid;
+  outline-color: var(--map-border-color);
+  outline-width: calc(0.3 * var(--scale));
   border-collapse: collapse;
 }
 
 .map-cell {
   outline-style: solid;
-  outline-color: var(--highlight-foreground-color-text);
-  outline-width: calc(0.25 * var(--scale));
+  outline-color: var(--map-border-color);
+  outline-width: calc(0.15 * var(--scale));
   border-spacing: 0;
   margin: 0;
   padding: 0;
+}
+
+#tile-image {
+  outline: none;
+}
+
+#asset-image {
+  outline: none;
+}
+
+#tile-button button:hover {
+  background-color: var(--background-map-hover-color);
+}
+
+#asset-button button:hover {
+  background-color: var(--background-map-hover-color);
 }
 
 .block {
@@ -334,6 +360,20 @@ option:hover {
   float: left;
   margin: 0;
   padding: 0;
+}
+
+.tile-image {
+  outline: none;
+  margin: calc(3 * var(--scale)) 0 0 0;
+}
+
+.asset-image {
+  outline: none;
+  margin: calc(8 * -9 * var(--scale)) 0 0 0;
+}
+
+.tile-board {
+  margin: calc(8 * -9 * var(--scale)) 0 0 0;
 }
 
 .asset-board {

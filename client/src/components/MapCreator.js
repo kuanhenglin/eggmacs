@@ -1,31 +1,25 @@
 import { useState } from "react";
 
-function BlockImage(props) {
-  return (
-    <div id={props.type} className="block" />
-  );
-}
 
 function BlockButton(props) {
   return (
-    <button id={props.type} className="block">
-      {props.value}
-    </button>
+    <button id={props.type} className="block" />
   );
 }
+
 
 function MapBoard(props) {
   return (
     <div>
       {/* tile images, not interactable */}
-      <table className="tile-images map-board" ><tbody>
-      {props.tileGrid.map(row => {
+      <table className="tile-image map-board" ><tbody>
+      {props.tileGrid.map((row, r) => {
         return (
-          <tr>
-          {row.map(tile => {
+          <tr key={r}>
+          {row.map((tile, c) => {
             return (
-              <td id="tile-image" class="map-cell" key={tile}>
-                <BlockImage value={tile} type="tile"/>
+              <td id="tile-image" className="map-cell" key={c}>
+                {props.displayTile(tile)}
               </td>
             )
           })}
@@ -36,13 +30,13 @@ function MapBoard(props) {
 
       {/* asset images, not interactable */}
       <table className="asset-image map-board"><tbody>
-      {props.assetGrid.map(row => {
+      {props.assetGrid.map((row, r) => {
         return (
-          <tr>
-          {row.map(asset => {
+          <tr key={r}>
+          {row.map((asset, c) => {
             return (
-              <td id="asset-image" class="map-cell" key={asset}>
-                <BlockImage value={asset} type="asset"/>
+              <td id="asset-image" className="map-cell" key={c}>
+                {props.displayAsset(asset)}
               </td>
             )
           })}
@@ -53,12 +47,12 @@ function MapBoard(props) {
       
       {/* tile buttons, interactable */}
       <table className="tile-board map-board" ><tbody>
-      {props.tileGrid.map(row => {
+      {props.tileGrid.map((row, r) => {
         return (
-          <tr>
-          {row.map(tile => {
+          <tr key={r}>
+          {row.map((tile, c) => {
             return (
-              <td id="tile-button" class="map-cell" key={tile}>
+              <td id="tile-button" className="map-cell" key={c}>
                 <BlockButton value={tile} type="tile"/>
               </td>
             )
@@ -70,12 +64,12 @@ function MapBoard(props) {
 
       {/* asset buttons, interactable */}
       <table className="asset-board map-board"><tbody>
-      {props.assetGrid.map(row => {
+      {props.assetGrid.map((row, r) => {
         return (
-          <tr>
-          {row.map(asset => {
+          <tr key={r}>
+          {row.map((asset, c) => {
             return (
-              <td id="asset-button" class="map-cell" key={asset}>
+              <td id="asset-button" className="map-cell" key={c}>
                 <BlockButton value={asset} type="asset"/>
               </td>
             )
