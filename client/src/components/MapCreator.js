@@ -36,9 +36,11 @@ function MapBoard(props) {
       </tbody></table>
 
       {
+        props.visibility?
         props.inputMode === "tile"?
         /* tile buttons, interactable */
         <table
+          id = "tile-grid"
           className="tile-board map-board"
           onContextMenu={(e) => e.preventDefault()}
         ><tbody>
@@ -64,6 +66,7 @@ function MapBoard(props) {
         :
         /* asset buttons, interactable */
         <table
+          id = "asset-grid"
           className="asset-board map-board"
           onContextMenu={(e) => e.preventDefault()}
         ><tbody>
@@ -86,6 +89,8 @@ function MapBoard(props) {
             )
           })}
         </tbody></table>
+        :
+        <span />
       }
     </div>
   );

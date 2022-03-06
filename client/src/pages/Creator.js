@@ -35,8 +35,10 @@ function Creator() {
   const [tileGrid, setTileGrid] = useState([[]]);
   const [assetGrid, setAssetGrid] = useState([[]]);
 
-  const [inputMode, setInputMode] = useState("tile");
+  const [inputMode, setInputMode] = useState("asset");
   const [selectItem, setSelectItem] = useState("tile_water");
+
+  const [toggleGrid, setToggleGrid] = useState(true);
 
   useEffect(() => {
     async function getMap() {
@@ -195,12 +197,23 @@ function Creator() {
     }
   }
 
+  function handleToggleGrid () {
+    setToggleGrid(!toggleGrid);
+  }
+
   return (
     <div>
       <h1>Map Creator</h1>
       <p>Modify your map with the tools below.</p>
 
       {displayMapInformation()}
+      <div>
+        <p id="toggle-grid-label"><b>Toggle Grid</b></p>
+        <label className="map-toggle">
+          <input className="map-toggle-button" type="checkbox" onChange={(e) => handleToggleGrid()}/>
+          <span className="slider"></span>
+        </label>
+      </div>
 
       {  // display map updates only if user is viewing their own map
         author === username?
@@ -217,6 +230,7 @@ function Creator() {
       }
 
       <MapBoard
+        visibility={toggleGrid}
         inputMode={inputMode}
         selectItem={selectItem}
         tileGrid={tileGrid}
