@@ -117,15 +117,17 @@ h2 {
 }
 
 h3 {
-  background: #94D2BD;
-  opacity: 60%;
+  background: #94d2bda0;
   font-size: calc(3 * var(--scale));
   font-family: var(--font-family-title);
-  text-indent: 3px;
   color: var(--nav-bar-text);
   font-weight: 900;
-  border-radius: calc(0.5 * var(--scale));
-  margin-bottom: calc(3 * var(--scale));
+  border-radius: calc(1.0 * var(--scale));
+  margin: 0 0 calc(3 * var(--scale)) 0;
+  padding: calc(0.15 * var(--scale))
+           calc(1.25 * var(--scale))
+           calc(0.15 * var(--scale))
+           calc(1.25 * var(--scale));
 }
 
 bannertext{

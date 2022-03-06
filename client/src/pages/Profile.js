@@ -329,8 +329,9 @@ function Profile(props) {
         <span />
       }
 
-      <div className="hspacer"> space </div>
-      <div className="hspacer"> space </div>
+      <div className="hspacer">space</div>
+      <div className="hspacer">space</div>
+
       <div className="shapes"> 
       <div id="square"></div>
       <div id="diamond"></div>
@@ -340,9 +341,7 @@ function Profile(props) {
       <div id="diamond"></div>
       <div id="triangle"></div> 
       <div id="circle"></div>
-      </div> 
-      <div className="hspacer"> space </div>
-      <div className="hspacer"> space </div>
+      </div>
 
       <h2>Map Catalog</h2>
       {displayMaps()}
@@ -370,6 +369,8 @@ function Profile(props) {
         :
         <span />
       }
+
+      <div className="hspacer">space</div>
     </div>
   )
 }
