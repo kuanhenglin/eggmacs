@@ -1,7 +1,7 @@
 {
   "name": "eggmacs",
   "version": "1.0.0",
-  "description": "UCLA 22W CS 35L project for team \"Eggmacs\" (Joice, Jordan, Kay, Meghana, Sean).",
+  "description": "Main/root directory for T-Eggletop Map Creator.",
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",
@@ -13,21 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/kuanhenglin/eggmacs.git"
   },
-  "author": "",
+  "author": "Eggmacs",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/kuanhenglin/eggmacs/issues"
   },
-  "homepage": "https://github.com/kuanhenglin/eggmacs#readme",
-  "dependencies": {
-    "canvas": "^2.9.0",
-    "concurrently": "^7.0.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.3",
-    "file-saver": "^2.0.5",
-    "mongodb": "^4.4.1",
-    "react-router-hash-link": "^2.4.3"
-  },
-  "proxy": "http://localhost:5000"
+  "homepage": "https://github.com/kuanhenglin/eggmacs#readme"
 }

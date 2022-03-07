@@ -6,7 +6,6 @@ import FormText from "../components/FormText";
 
 import { getObject, updateObject, deleteObject, createObject } from '../methods/db';
 import { queryObjects } from '../methods/search';
-import { del } from "express/lib/application";
 
 
 function array2D(ROW, COLUMN) {
