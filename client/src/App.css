@@ -75,6 +75,7 @@ table {
 }
 
 .containerrow{
+  width: 100%;
   display: flex;
   justify-content: center;
   padding:  calc(2 * var(--scale)) 
@@ -207,6 +208,7 @@ button {
 button:hover {
   background: var(--highlight-background-color);
   transition: background 0.3s;
+  cursor: pointer;
 }
 
 button:focus {
