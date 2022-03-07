@@ -8,15 +8,6 @@ import { saveAs } from 'file-saver'
 import { downloadMap } from '../methods/download'
 
 
-function asset2TileNum(r, c) {
-  let coordinate = new Array(2).fill(-1);
-  //coordinate[0] = r, coord[1] = c
-  coordinate[0] = Math.floor(r / 3);
-  coordinate[1] = Math.floor(c / 2);
-  return coordinate;
-}
-
-
 function Creator() {
   document.title = "Creator | T-Eggletop";
 
@@ -256,7 +247,6 @@ function Creator() {
     }
   }
 
-
   function handleToggleGrid () {
     setToggleGrid(!toggleGrid);
   }
@@ -273,7 +263,7 @@ function Creator() {
       <h2>Map Creator</h2>
       <sub>Modify your map with the tools below.</sub>
       <p>Left click to place. Right click to delete.</p>
-      <div className="hspacer"> space </div>
+      <div className="hspacer">space</div>
 
       {displayMapInformation()}
       <div>
@@ -298,32 +288,38 @@ function Creator() {
         <span />
       }
 
-      <MapBoard
-        visibility={toggleGrid}
-        inputMode={inputMode}
-        selectItem={selectItem}
-        tileGrid={tileGrid}
-        assetGrid={assetGrid}
-        updateTile={updateTile}
-        updateAsset={updateAsset}
-        displayTile={displayTile}
-        displayAsset={displayAsset}
-      />
-      
-      <select
-        className="select-select"
-        onChange={(e) => setInputMode(e.target.value)}
-      >
-        {inputModeOptions.map(option => {
-          return(
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          )
-        })}
-      </select>
-
-      <div className="items-select">{displaySelect()}</div>
+      {  // display map only if map is selected (mapID defined)
+        mapID?
+        <span>
+          <MapBoard
+            visibility={toggleGrid}
+            inputMode={inputMode}
+            selectItem={selectItem}
+            tileGrid={tileGrid}
+            assetGrid={assetGrid}
+            updateTile={updateTile}
+            updateAsset={updateAsset}
+            displayTile={displayTile}
+            displayAsset={displayAsset}
+          />
+          <div className="hspacer">space</div>
+          <select
+            className="select-select"
+            onChange={(e) => setInputMode(e.target.value)}
+          >
+            {inputModeOptions.map(option => {
+              return(
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              )
+            })}
+          </select>
+          <div className="items-select">{displaySelect()}</div>
+        </span>
+        :
+        <span />
+      }
       
     </div>
 
