@@ -65,7 +65,6 @@ async function downloadMap(mapInfo) {
     }
   }
 
-
   for (let r = 0; r < ASSET_R; r++) {
     for (let c = 0; c < ASSET_C; c++) {
       const assetID = mapInfo.assetGrid[r][c];
@@ -74,7 +73,7 @@ async function downloadMap(mapInfo) {
         const assetStream = assetObject.body;
         let assetImage = new Image(43, 43);
         assetImage.src = assetStream;
-        ctx.drawImage(assetImage, c * 43, r * 43, 43, 43);
+        ctx.drawImage(assetImage, (c * 128)/3, (r * 128)/3, 43, 43);
       }
     }
   }
