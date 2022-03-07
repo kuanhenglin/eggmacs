@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import { MapBoard } from "../components/MapCreator";
 import { getObject, updateObject, deleteObject } from '../methods/db';
 import { queryObjects } from '../methods/search';
 import { saveAs } from 'file-saver'
 import { downloadMap } from '../methods/download'
+import { HashLink as Link } from 'react-router-hash-link';
 
 
 function Creator() {
@@ -87,7 +88,7 @@ function Creator() {
       return (
         <p><i>
           You must first select a map to edit.&nbsp;
-          <Link to="/user" className="hypertext">
+          <Link to="/user#mapCatalog" className="hypertext">
             Select or create one here!
           </Link>
         </i></p>
