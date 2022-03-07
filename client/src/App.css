@@ -525,6 +525,11 @@ option:hover {
   margin: 0 calc(2 * var(--scale)) 0 0;
 }
 
+#download-map {
+  width: calc(20 * var(--scale));
+  margin: 0 0 0 calc(2 * var(--scale));
+}
+
 #toggle-grid-label {
   color: var(--main-text);
   margin: 0 calc(2 * var(--scale)) 0 calc(5 * var(--scale));

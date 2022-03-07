@@ -4,7 +4,6 @@ import { useCookies } from 'react-cookie';
 import { MapBoard } from "../components/MapCreator";
 import { getObject, updateObject, deleteObject } from '../methods/db';
 import { queryObjects } from '../methods/search';
-import { saveAs } from 'file-saver'
 import { downloadMap } from '../methods/download'
 
 
@@ -104,23 +103,23 @@ function Creator() {
 
   function findTile(tileID) {
     if (!tileID) return null;
-    for (let index = 0; index < tiles.length; index++){
-      if (tileID === tiles[index]._id){
+    for (let index = 0; index < tiles.length; index++) {
+      if (tileID === tiles[index]._id) {
         return tiles[index];
       }
     }
     return null;
   }
-  
+
   function findAsset(assetID) {
     if (!assetID) return null;
-    for (let index = 0; index < assets.length; index++){
-      if (assetID === assets[index]._id){
+    for (let index = 0; index < assets.length; index++) {
+      if (assetID === assets[index]._id) {
         return assets[index];
       }
     }
-    for (let index = 0; index < characters.length; index++){
-      if (assetID === characters[index]._id){
+    for (let index = 0; index < characters.length; index++) {
+      if (assetID === characters[index]._id) {
         return characters[index];
       }
     }
@@ -129,13 +128,13 @@ function Creator() {
 
   function updateTile(r, c, remove) {
     let newTileGrid = tileGrid.slice();
-    newTileGrid[r][c] = remove? null : selectItem;
+    newTileGrid[r][c] = remove ? null : selectItem;
     setTileGrid(newTileGrid);
   }
 
   async function updateAsset(r, c, remove) {
     let newAssetGrid = assetGrid.slice();
-    newAssetGrid[r][c] = remove? null : selectItem;
+    newAssetGrid[r][c] = remove ? null : selectItem;
     setAssetGrid(newAssetGrid);
   }
 
@@ -178,11 +177,13 @@ function Creator() {
       <button
         className="item-select"
         onClick={(e) => setSelectItem(blockItem._id)}
-      ><img
-        id={blockItem._id === selectItem? "selected" : ""}
-        className="select block"
-        src={blockItem.body}
-      /></button>
+      >
+        <img
+          id={blockItem._id === selectItem ? "selected" : ""}
+          className="select block"
+          src={blockItem.body}
+        />
+      </button>
     );
   }
 
@@ -190,37 +191,31 @@ function Creator() {
     if (inputMode === "tile") {
       return (
         <div>{tiles.map(tile => {
-          if (tile._id !== "tile_empty") {
-            return (
-              <span key={tile._id}>
-                {displayItemSelect(tile)}
-              </span>
-            );
-          }
+          return (
+            <span key={tile._id}>
+              {displayItemSelect(tile)}
+            </span>
+          );
         })}</div>
       );
     } else if (inputMode === "asset") {
       return (
         <div>{assets.map(asset => {
-          if (asset._id !== "asset_empty") {
-            return (
-              <span key={asset._id}>
-                {displayItemSelect(asset)}
-              </span>
-            );
-          }
+          return (
+            <span key={asset._id}>
+              {displayItemSelect(asset)}
+            </span>
+          );
         })}</div>
       );
     } else if (inputMode === "character") {
       return (
         <div>{characters.map(character => {
-          if (character._id !== "character_empty") {
-            return (
-              <span key={character._id}>
-                {displayItemSelect(character)}
-              </span>
-            );
-          }
+          return (
+            <span key={character._id}>
+              {displayItemSelect(character)}
+            </span>
+          );
         })}</div>
       );
     }
@@ -283,62 +278,67 @@ function Creator() {
 
       {/* <div className="hspacer">space</div> */}
 
+      <div className="form-button">
       {  // display map updates only if user is viewing their own map
-        author === username?
-        <div className="form-button">
-          <button id="delete-map" onClick={handleMapDelete}>
-            Delete Map
-          </button>
-          <button onClick={handleMapSave}>
-            Save Map
-          </button>
-        </div>
-        :
-        <span />
+        author === username ?
+          <span>
+            <button id="delete-map" onClick={handleMapDelete}>
+              Delete Map
+            </button>
+            <button onClick={handleMapSave}>
+              Save Map
+            </button>
+          </span>
+          :
+          <span />
       }
+        <button id="download-map" onClick={handleMapDownload}>
+          Download Map
+        </button>
+      </div>
 
       {  // display map only if map is selected (mapID defined)
-        mapID?
-        <span>
-          <MapBoard
-            visibility={toggleGrid}
-            inputMode={inputMode}
-            selectItem={selectItem}
-            tileGrid={tileGrid}
-            assetGrid={assetGrid}
-            updateTile={updateTile}
-            updateAsset={updateAsset}
-            displayTile={displayTile}
-            displayAsset={displayAsset}
-          />
-          <div className="hspacer">space</div>
+        mapID ?
+          <span>
+            <MapBoard
+              visibility={toggleGrid}
+              inputMode={inputMode}
+              selectItem={selectItem}
+              tileGrid={tileGrid}
+              assetGrid={assetGrid}
+              updateTile={updateTile}
+              updateAsset={updateAsset}
+              displayTile={displayTile}
+              displayAsset={displayAsset}
+            />
+            <div className="hspacer">space</div>
 
-          <select
-            className="select-select"
-            onChange={(e) => handleInputMode(e.target.value)}
-          >
-            {inputModeOptions.map(option => {
-              return(
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              )
-            })}
-          </select>
+            <select
+              className="select-select"
+              onChange={(e) => handleInputMode(e.target.value)}
+            >
+              {inputModeOptions.map(option => {
+                return (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                )
+              })}
+            </select>
 
-          <span id="toggle-grid-label"><b>Toggle Grid</b></span>
-          <span className="map-toggle"><label>
-            <input
-              className="map-toggle-button"
-              type="checkbox"
-              onChange={(e) => handleToggleGrid()}/>
-            <span className="slider"></span>
-          </label></span>
+            <span id="toggle-grid-label"><b>Toggle Grid</b></span>
+            <span className="map-toggle"><label>
+              <input
+                className="map-toggle-button"
+                type="checkbox"
+                onChange={(e) => handleToggleGrid()} />
+              <span className="slider"></span>
+            </label></span>
 
-          <div className="items-select">{displaySelect()}</div>
-        </span>
-        :
-        <span />
+            <div className="items-select">{displaySelect()}</div>
+          </span>
+          :
+          <span />
       }
       <div className="hspacer">space</div>
     </div>
