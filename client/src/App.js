@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
 import "./App.css";
@@ -11,6 +11,7 @@ import Profile from "./pages/Profile"
 import Creator from "./pages/Creator"
 import Search from "./pages/Search"
 import Admin from "./pages/Admin";
+import BottomBar from "./components/BottomBar";
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
 
   return (
     <div>
-      <BrowserRouter>
+      <HashRouter>
         <NavigationBar/>
 
         <div className= "header-banner"> 
@@ -60,7 +61,8 @@ function App() {
             <Route path="/admin" element={ <Admin /> } />
           </Routes>
         </div>
-      </BrowserRouter>
+      </HashRouter>
+      <BottomBar />
     </div>
   )
 }

@@ -67,7 +67,7 @@ function SignUp(props) {
   }
 
   const navigate = useNavigate();
-  const routeChange = (path) => {  // redirect to input path
+  const routeChange = (path) => {  // redirects to input path
     navigate(path);
   }
 

@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
 function SearchResultMap(props) {
+  const [cookies, setCookie, removeCookie] = useCookies(["mapID"]);
+
   return (
     <div>
       {props.maps.map(map => {
@@ -11,6 +13,7 @@ function SearchResultMap(props) {
               <Link
                 className="hypertext"
                 to={`/map/${map._id}`}
+                onClick={(e) => setCookie("mapID", map._id, { path: "/" })}
               >
                 {map.displayName}  
               </Link>

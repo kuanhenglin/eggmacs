@@ -6,6 +6,7 @@ import FormText from "../components/FormText";
 
 import { getObject, updateObject, deleteObject, createObject } from '../methods/db';
 import { queryObjects } from '../methods/search';
+import { del } from "express/lib/application";
 
 
 function array2D(ROW, COLUMN) {
@@ -213,6 +214,9 @@ function Profile(props) {
         "deleted, including your maps, characters, and assets!"
       )) {
         deleteObject(user._id, "users");
+        for (let index = 0; index < maps.length; index++) {
+          deleteObject(maps[index]._id, "maps");
+        }
         signOut();
       }
     }
@@ -369,8 +373,6 @@ function Profile(props) {
         :
         <span />
       }
-
-      <div className="hspacer">space</div>
     </div>
   )
 }
