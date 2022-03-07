@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/kuanhenglin/eggmacs#readme",
   "dependencies": {
+    "canvas": "^2.9.0",
     "concurrently": "^7.0.0",
+<<<<<<< Updated upstream
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
@@ -28,4 +30,9 @@
     "mongodb": "^4.4.1"
   },
   "proxy": "http://localhost:5000"
+=======
+    "file-saver": "^2.0.5",
+    "image-size": "^1.0.1"
+  }
+>>>>>>> Stashed changes
 }

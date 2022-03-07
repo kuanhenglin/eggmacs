@@ -26,10 +26,15 @@ function Creator() {
   const [tileGrid, setTileGrid] = useState([[]]);  // str of ids
   const [assetGrid, setAssetGrid] = useState([[]]);  // str of ids
 
+<<<<<<< Updated upstream
   const [inputMode, setInputMode] = useState("tile");  // default
   const [selectItem, setSelectItem] = useState("tile_grass");  // default
 
   const [toggleGrid, setToggleGrid] = useState(true);
+=======
+  const [inputMode, setInputMode] = useState("asset");
+  const [selectItem, setSelectItem] = useState("asset_brickwall");
+>>>>>>> Stashed changes
 
   useEffect(() => {
     async function getMap() {
@@ -252,8 +257,16 @@ function Creator() {
   }
 
   async function handleMapDownload() {
+    const mapInfo = {
+      _id: mapID,
+      tileGrid: tileGrid,
+      assetGrid: assetGrid,
+      tiles: tiles,
+      assets: assets,
+      characters: characters
+    };
     let FileSaver = require('file-saver');
-    let file = await downloadMap(tileGrid, assetGrid, tiles);
+    let file = await downloadMap(mapInfo);
     FileSaver.saveAs(file);
     return;
   }
