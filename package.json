@@ -26,7 +26,8 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "file-saver": "^2.0.5",
-    "mongodb": "^4.4.1"
+    "mongodb": "^4.4.1",
+    "react-router-hash-link": "^2.4.3"
   },
   "proxy": "http://localhost:5000"
 }

@@ -343,7 +343,7 @@ function Profile(props) {
       <div id="circle"></div>
       </div>
 
-      <h2>Map Catalog</h2>
+      <h2 id="mapCatalog">Map Catalog</h2>
       {displayMaps()}
 
       {  // display profile updates only if user is viewing their own profile
