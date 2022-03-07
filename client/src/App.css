@@ -527,13 +527,14 @@ option:hover {
 
 #toggle-grid-label {
   color: var(--main-text);
+  margin: 0 calc(2 * var(--scale)) 0 calc(5 * var(--scale));
 }
 
-.map-toggle {
+.map-toggle label {
   position: relative;
-  float:left;
-  width: calc(7 * var(--scale));
-  height: calc(4 * var(--scale));
+  width: calc(7.5 * var(--scale));
+  height: calc(4.5 * var(--scale));
+  display: inline-block;
 }
 
 .map-toggle input {
@@ -552,7 +553,8 @@ option:hover {
   background-color: var(--main-text);
   -webkit-transition: .2s;
   transition: .2s;
-  border-radius: 10%;
+  border-radius: calc(1.0 * var(--scale));
+  transform: translate(0, calc(-0.75 * var(--scale)));
 }
 
 .slider:before {
@@ -560,12 +562,12 @@ option:hover {
   content: "";
   height: calc(3 * var(--scale));
   width: calc(3 * var(--scale));
-  left: calc(0.5 * var(--scale));;
-  bottom: calc(0.5 * var(--scale));;
+  left: calc(0.75 * var(--scale));;
+  bottom: calc(0.75 * var(--scale));;
   background-color: var(--background-color);
   -webkit-transition: .2s;
   transition: .2s;
-  border-radius: 10%;
+  border-radius: calc(0.5 * var(--scale));
 }
 
 .map-toggle-button:checked + .slider {
