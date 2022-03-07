@@ -26,15 +26,10 @@ function Creator() {
   const [tileGrid, setTileGrid] = useState([[]]);  // str of ids
   const [assetGrid, setAssetGrid] = useState([[]]);  // str of ids
 
-<<<<<<< Updated upstream
   const [inputMode, setInputMode] = useState("tile");  // default
   const [selectItem, setSelectItem] = useState("tile_grass");  // default
 
   const [toggleGrid, setToggleGrid] = useState(true);
-=======
-  const [inputMode, setInputMode] = useState("asset");
-  const [selectItem, setSelectItem] = useState("asset_brickwall");
->>>>>>> Stashed changes
 
   useEffect(() => {
     async function getMap() {
