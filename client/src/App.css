@@ -4,7 +4,7 @@
 
 :root {
   /* sizes */
-  --scale: max(min(1vw, 1vh), 7.2px);
+  --scale: min(max(min(1vw, 1vh), 7.2px), 10.8px);
   --page-width: min(calc(90 * var(--scale)), 90vw);
   
   /* map dimension */
@@ -91,8 +91,7 @@ table {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100%;
-  height: 200px;
+  height: calc(22.5 * var(--scale));
 }
 
 h1 {
@@ -580,13 +579,13 @@ option:hover {
 }
 
 .map-toggle-button:checked + .slider {
-    background-color: var(--highlight-background-color);
+  background-color: var(--highlight-background-color);
 }
 
 .map-toggle-button:checked + .slider:before {
-  -webkit-transform: translateX(calc(3 * var(--scale)));
-  -ms-transform: translateX(calc(3 * var(--scale)));
-  transform: translateX(calc(3 * var(--scale)));
+  -webkit-transform: translate(calc(3 * var(--scale)));
+  -ms-transform: translate(calc(3 * var(--scale)));
+  transform: translate(calc(3 * var(--scale)));
 }
 
 #navigation-bar {
@@ -628,6 +627,15 @@ option:hover {
 
 #navigation-bar li a:hover {
   color: var(--highlight-foreground-color);
+}
+
+#bottom-bar {
+  text-align: center;
+  margin: calc(3 * var(--scale)) 0 calc(3 * var(--scale)) 0;
+}
+
+#bottom-bar p {
+  margin: 0 0 0 0;
 }
 
 .shapes {

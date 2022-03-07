@@ -1,16 +1,15 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
+  "description": "Backend for T-Eggletop Map Creator.",
+  "main": "server.js",
+  "scripts":{
+    "start": "node server.js",
     "server": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd ../client && npm install && npm start",
     "dev": "npm install && concurrently \"npm run server\" \"npm run client\""
   },
-  "keywords": [],
-  "author": "",
+  "author": "Eggmacs",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^7.0.0",

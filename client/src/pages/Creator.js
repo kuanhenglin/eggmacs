@@ -74,7 +74,7 @@ function Creator() {
     if (mapID) {
       return (
         <div>
-          <p>Left click to place; right click to delete. Remember to save!</p>
+          <p>Left click to place, right click to delete. Remember to save!</p>
           <p>
             <b>Map name:</b> {mapName} <br />
             <b>Map ID:</b> <span className="username">{mapID}</span> <br />
@@ -344,7 +344,6 @@ function Creator() {
           :
           <span />
       }
-      <div className="hspacer">space</div>
     </div>
   )
 }

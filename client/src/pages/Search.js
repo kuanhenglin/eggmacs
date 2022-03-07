@@ -5,8 +5,6 @@ import { SearchResultMap, SearchResultUser } from "../components/SearchResult";
 
 import { searchObjects } from "../methods/search";
 
-import { useCookies } from 'react-cookie';
-
 function Search() {
   document.title = "Search | T-Eggletop";
 
@@ -18,7 +16,6 @@ function Search() {
   const [search, setSearch] = useState("");
   const [searchOption, setSearchOption] = useState(searchOptions[0].value);
   const [searchResult, setSearchResult] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
 
   const searchText = {
     placeholder: "Your search term(s) and phrase(s).",
@@ -45,7 +42,7 @@ function Search() {
     } 
     else if (searchOption === "map") {
       const result = await searchObjects(search, "maps");
-      setSearchResult(result)
+      setSearchResult(result);
     }
     else {
       return;
@@ -53,15 +50,6 @@ function Search() {
   }
 
   function displayResult() {
-    // if (!cookies.username){
-    //   return (
-    //     <p><i>
-    //       You must be
-    //       <Link to="/signin" className="hypertext"> signed in </Link>
-    //       to search.
-    //     </i></p>
-    //   )
-    // }
     if (searchOption === "user") {
       return (
         <SearchResultUser users={searchResult}/>
@@ -69,7 +57,7 @@ function Search() {
     } 
     else if (searchOption === "map") {
       return (
-        <SearchResultMap maps = {searchResult}/>
+        <SearchResultMap maps={searchResult}/>
       )
     }
     else {

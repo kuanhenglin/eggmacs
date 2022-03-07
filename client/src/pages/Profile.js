@@ -213,6 +213,9 @@ function Profile(props) {
         "deleted, including your maps, characters, and assets!"
       )) {
         deleteObject(user._id, "users");
+        for (let index = 0; index < maps.length; index++) {
+          deleteObject(maps[index]._id, "maps");
+        }
         signOut();
       }
     }
@@ -369,8 +372,6 @@ function Profile(props) {
         :
         <span />
       }
-
-      <div className="hspacer">space</div>
     </div>
   )
 }
