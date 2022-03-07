@@ -3,7 +3,7 @@ async function searchObjects(search, collection, callback=() => {}) {
     search = "::all::";
   }
   const response = await fetch(
-    `http://localhost:5000/db/search/${collection}/${search}`
+    `/db/search/${collection}/${search}`
   )
 
   if (!response.ok) {  // server connection error
@@ -19,7 +19,7 @@ async function searchObjects(search, collection, callback=() => {}) {
 
 async function queryObjects(query, collection, callback=() => {}) {
   const response = await fetch(
-    `http://localhost:5000/db/search/${collection}`,
+    `/db/search/${collection}`,
     {
       method: "POST",
       headers: {
