@@ -75,7 +75,7 @@ function Home() {
           <sub><center>MEGHANA</center></sub></button>
           </Link>
 
-          <div className="hspacer"> space </div>
+          <div className="hspacer">space</div>
         </div>
 
       </div>

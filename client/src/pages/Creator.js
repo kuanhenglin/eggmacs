@@ -74,6 +74,7 @@ function Creator() {
     if (mapID) {
       return (
         <div>
+          <p>Left click to place; right click to delete. Remember to save!</p>
           <p>
             <b>Map name:</b> {mapName} <br />
             <b>Map ID:</b> <span className="username">{mapID}</span> <br />
@@ -247,7 +248,14 @@ function Creator() {
     }
   }
 
-  function handleToggleGrid () {
+  function handleInputMode(newMode) {
+    setInputMode(newMode);
+    if (newMode === "tile") setSelectItem(tiles[0]._id);
+    else if (newMode === "asset") setSelectItem(assets[0]._id);
+    else if (newMode === "character") setSelectItem(characters[0]._id);
+  }
+
+  function handleToggleGrid() {
     setToggleGrid(!toggleGrid);
   }
 
@@ -262,17 +270,10 @@ function Creator() {
     <div>
       <h2>Map Creator</h2>
       <sub>Modify your map with the tools below.</sub>
-      <p>Left click to place. Right click to delete.</p>
-      <div className="hspacer">space</div>
 
       {displayMapInformation()}
-      <div>
-        <p id="toggle-grid-label"><b>Toggle Grid</b></p>
-        <label className="map-toggle">
-          <input className="map-toggle-button" type="checkbox" onChange={(e) => handleToggleGrid()}/>
-          <span className="slider"></span>
-        </label>
-      </div>
+
+      {/* <div className="hspacer">space</div> */}
 
       {  // display map updates only if user is viewing their own map
         author === username?
@@ -303,9 +304,10 @@ function Creator() {
             displayAsset={displayAsset}
           />
           <div className="hspacer">space</div>
+
           <select
             className="select-select"
-            onChange={(e) => setInputMode(e.target.value)}
+            onChange={(e) => handleInputMode(e.target.value)}
           >
             {inputModeOptions.map(option => {
               return(
@@ -315,14 +317,23 @@ function Creator() {
               )
             })}
           </select>
+
+          <span id="toggle-grid-label"><b>Toggle Grid</b></span>
+          <span className="map-toggle"><label>
+            <input
+              className="map-toggle-button"
+              type="checkbox"
+              onChange={(e) => handleToggleGrid()}/>
+            <span className="slider"></span>
+          </label></span>
+
           <div className="items-select">{displaySelect()}</div>
         </span>
         :
         <span />
       }
-      
+      <div className="hspacer">space</div>
     </div>
-
   )
 }
 
