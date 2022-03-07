@@ -23,7 +23,7 @@ function App() {
       <BrowserRouter>
         <NavigationBar/>
 
-        <div className= "headerBanner"> 
+        <div className= "header-banner"> 
           <bannertext><center>T-Eggletop Map Creator</center></bannertext>
         </div>
 

@@ -1,7 +1,7 @@
 // get object by id in collection
 async function getObject(id, collection, callback=() => {}) {
   const response = await fetch(
-    `/db/get/${collection}/${id}`
+    `http://localhost:5000/db/get/${collection}/${id}`
   );
 
   if (!response.ok) {  // server connection error
@@ -18,7 +18,7 @@ async function getObject(id, collection, callback=() => {}) {
 // create new object in collection
 async function createObject(object, collection, callback=() => {}) {
   await fetch(
-    `/db/create/${collection}`,
+    `http://localhost:5000/db/create/${collection}`,
     {
       method: "POST",
       headers: {
@@ -38,7 +38,7 @@ async function createObject(object, collection, callback=() => {}) {
 // update object (object._id must match) in collection
 async function updateObject(object, collection, callback=() => {}) {
   const response = await fetch(
-    `/db/update/${collection}/${object._id}`,
+    `http://localhost:5000/db/update/${collection}/${object._id}`,
     {
       method: "POST",
       headers: {
@@ -58,7 +58,7 @@ async function updateObject(object, collection, callback=() => {}) {
 // delete object by id in collection
 async function deleteObject(id, collection, callback=() => {}) {
   await fetch(
-    `/db/delete/${collection}/${id}`,
+    `http://localhost:5000/db/delete/${collection}/${id}`,
     {
       method: "DELETE"
     }
