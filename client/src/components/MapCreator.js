@@ -36,7 +36,6 @@ function MapBoard(props) {
       </tbody></table>
 
       {
-        props.visibility?
         props.inputMode === "tile"?
         /* tile buttons, interactable */
         <table
@@ -49,7 +48,13 @@ function MapBoard(props) {
               <tr key={r}>
                 {row.map((tile, c) => {
                   return (
-                    <td id="tile-button" className="map-cell" key={c}>
+                    <td
+                      id="tile-button"
+                      className={
+                        props.visible? "map-cell" : "map-cell map-cell-off"
+                      }
+                      key={c}
+                    >
                       <button
                         id="tile"
                         className="block"
@@ -75,7 +80,13 @@ function MapBoard(props) {
               <tr key={r}>
                 {row.map((asset, c) => {
                   return (
-                    <td id="asset-button" className="map-cell" key={c}>
+                    <td
+                      id="asset-button"
+                      className={
+                        props.visible? "map-cell" : "map-cell map-cell-off"
+                      }
+                      key={c}
+                    >
                       <button
                         id="asset"
                         className="block"
@@ -89,8 +100,6 @@ function MapBoard(props) {
             )
           })}
         </tbody></table>
-        :
-        <span />
       }
     </div>
   );

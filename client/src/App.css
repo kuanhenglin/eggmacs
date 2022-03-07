@@ -199,7 +199,7 @@ button {
 
 button:hover {
   background: var(--highlight-background-color);
-  transition: background 0.3s;
+  transition: background 0.2s;
 }
 
 button:focus {
@@ -260,13 +260,13 @@ background-color: rgba(32,32,32,.7);
   display: block;
   z-index: 0;
   opacity: 60%;
-  transition: opacity 0.3s linear;
+  transition: opacity 0.2s linear;
   border-radius: calc(1.5 * var(--scale));
 }
 
 .overlay:hover:before{
   opacity: 30%;
-  transition: opacity 0.3s linear; 
+  transition: opacity 0.2s linear; 
 }
 
 .team-profile {
@@ -418,7 +418,7 @@ option:hover {
 .map-board {
   outline-style: solid;
   outline-color: var(--map-border-color);
-  outline-width: calc(0.3 * var(--scale));
+  outline-width: calc(1.5 * 0.15 * var(--scale));
   border-collapse: collapse;
 }
 
@@ -429,6 +429,10 @@ option:hover {
   border-spacing: 0;
   margin: 0;
   padding: 0;
+}
+
+.map-cell-off {
+  outline-style: none;
 }
 
 #tile-image {

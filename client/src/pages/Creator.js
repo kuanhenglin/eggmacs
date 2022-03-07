@@ -266,7 +266,7 @@ function Creator() {
     let FileSaver = require('file-saver');
     let file = await downloadMap(mapInfo);
     FileSaver.saveAs(file);
-    return;
+    handleMapSave();
   }
 
   return (
@@ -276,32 +276,35 @@ function Creator() {
 
       {displayMapInformation()}
 
-      {/* <div className="hspacer">space</div> */}
-
-      <div className="form-button">
-      {  // display map updates only if user is viewing their own map
-        author === username ?
-          <span>
-            <button id="delete-map" onClick={handleMapDelete}>
-              Delete Map
-            </button>
-            <button onClick={handleMapSave}>
-              Save Map
-            </button>
-          </span>
-          :
-          <span />
+      {  // display map actions only if map selected
+        mapID?
+        <div className="form-button">
+        {  // display map updates only if user is viewing their own map
+          author === username ?
+            <span>
+              <button id="delete-map" onClick={handleMapDelete}>
+                Delete Map
+              </button>
+              <button onClick={handleMapSave}>
+                Save Map
+              </button>
+            </span>
+            :
+            <span />
+        }
+          <button id="download-map" onClick={handleMapDownload}>
+            Download Map
+          </button>
+        </div>
+        :
+        <span />
       }
-        <button id="download-map" onClick={handleMapDownload}>
-          Download Map
-        </button>
-      </div>
 
       {  // display map only if map is selected (mapID defined)
         mapID ?
           <span>
             <MapBoard
-              visibility={toggleGrid}
+              visible={toggleGrid}
               inputMode={inputMode}
               selectItem={selectItem}
               tileGrid={tileGrid}
@@ -326,7 +329,7 @@ function Creator() {
               })}
             </select>
 
-            <span id="toggle-grid-label"><b>Toggle Grid</b></span>
+            <span id="toggle-grid-label"><b>No Grid</b></span>
             <span className="map-toggle"><label>
               <input
                 className="map-toggle-button"
