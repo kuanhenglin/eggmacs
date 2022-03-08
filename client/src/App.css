@@ -476,7 +476,7 @@ option:hover {
 
 .select-select {
   width: calc(15 * var(--scale));
-  margin: 0 calc(2 * var(--scale)) 0 0;
+  margin: 0 calc(2 * var(--scale)) calc(0.75 * var(--scale)) 0;
 }
 
 .tile-image {
@@ -540,8 +540,8 @@ option:hover {
 
 .map-toggle label {
   position: relative;
-  width: calc(7.5 * var(--scale));
-  height: calc(4.5 * var(--scale));
+  width: calc(6.5 * var(--scale));
+  height: calc(3.5 * var(--scale));
   display: inline-block;
 }
 
@@ -562,7 +562,7 @@ option:hover {
   -webkit-transition: .2s;
   transition: .2s;
   border-radius: calc(1.0 * var(--scale));
-  transform: translate(0, calc(-0.75 * var(--scale)));
+  transform: translate(0, calc(-0.3 * var(--scale)));
 }
 
 .slider:before {
@@ -570,12 +570,12 @@ option:hover {
   content: "";
   height: calc(3 * var(--scale));
   width: calc(3 * var(--scale));
-  left: calc(0.75 * var(--scale));;
-  bottom: calc(0.75 * var(--scale));;
+  left: calc(0.25 * var(--scale));;
+  bottom: calc(0.25 * var(--scale));;
   background-color: var(--background-color);
   -webkit-transition: .2s;
   transition: .2s;
-  border-radius: calc(0.5 * var(--scale));
+  border-radius: calc(0.75 * var(--scale));
 }
 
 .map-toggle-button:checked + .slider {
@@ -631,7 +631,7 @@ option:hover {
 
 #bottom-bar {
   text-align: center;
-  margin: calc(3 * var(--scale)) 0 calc(3 * var(--scale)) 0;
+  margin: calc(5 * var(--scale)) 0 calc(5 * var(--scale)) 0;
 }
 
 #bottom-bar p {

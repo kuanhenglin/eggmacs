@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Backend for T-Eggletop Map Creator.",
   "main": "server.js",
-  "scripts":{
+  "scripts": {
     "start": "node server.js",
     "server": "node server.js",
     "client": "cd ../client && npm install && npm start",
