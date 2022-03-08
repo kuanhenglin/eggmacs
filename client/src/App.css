@@ -81,7 +81,7 @@ table {
 }
 
 .hspacer{
-  height: calc( var(--scale))px;
+  height: calc(3 * var(--scale));
   opacity: 0;
 }
 
@@ -108,7 +108,7 @@ h2 {
   font-weight: 900;
   margin: calc(5 * var(--scale)) 0 0 0;
   margin-bottom: calc(3 * var(--scale));
-  text-shadow: 2px 2px #242424;
+  text-shadow: calc(0.2 * var(--scale)) calc(0.2 * var(--scale)) #242424;
 }
 
 h3 {
@@ -132,7 +132,7 @@ bannertext{
   font-weight: 900;
   margin: calc(5 * var(--scale));
   margin-bottom: calc(3 * var(--scale));
-  text-shadow: 2px 2px #3d6364;
+  text-shadow: calc(0.2 * var(--scale)) calc(0.2 * var(--scale)) #3d6364;
 }
 
 sub {
@@ -214,7 +214,14 @@ button:focus {
   text-align: center;
   border-style: hidden;
 
-  box-shadow: 0 18px 35px rgba(50, 50, 90, .3), 0 8px 15px rgba(0, 0, 0, .2);
+  box-shadow: 0
+              calc(2 * var(--scale))
+              calc(4 * var(--scale))
+              rgba(50, 50, 90, .3),
+              0
+              calc(1 * var(--scale))
+              calc(2 * var(--scale))
+              rgba(0, 0, 0, .2);
 
   background-color: white;
   width: calc(28 * var(--scale));
