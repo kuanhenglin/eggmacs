@@ -54,7 +54,7 @@ function App() {
               <Navigate to={mapURL} /> :
               <Creator />
             } />
-            <Route path="/map/:mapIDParam" element={
+            <Route path="/map/:mapID" element={
               <Creator />
             } />
             <Route path="/search" element={ <Search /> } />

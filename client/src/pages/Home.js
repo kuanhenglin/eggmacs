@@ -5,7 +5,8 @@ function Home() {
   return (
     <div>
 
-    <div className="hspacer"> space </div>
+      <div className="hspacer">space</div>
+      <div className="hspacer">space</div>
 
       <div className="shapes"> 
         <div id="square"></div>
@@ -16,13 +17,12 @@ function Home() {
         <div id="diamond"></div>
         <div id="triangle"></div> 
         <div id="circle"></div>
-      </div> 
-
-
+      </div>
 
       <h2><i>Hail and well met!</i></h2>
 
-      <sub> Tabletop roleplaying games (TTRPGs) have been bringing communities
+      <sub>
+        Tabletop roleplaying games (TTRPGs) have been bringing communities
         together for decades. 
       </sub> 
 

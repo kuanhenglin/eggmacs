@@ -12,8 +12,7 @@ function Creator() {
   document.title = "Creator | T-Eggletop";
 
   const [cookies, setCookie, removeCookie] = useCookies(["username", "mapID"]);
-  const [mapID, setMapID] = useState(cookies.mapID);
-  const { mapIDParam } = useParams();
+  const { mapID } = useParams();
   const username = cookies.username;
 
   const [tiles, setTiles] = useState([]);
@@ -33,9 +32,8 @@ function Creator() {
 
   useEffect(() => {
     async function getMap() {
-      if (username && mapIDParam) {
-        setCookie("mapID", mapIDParam, { path: "/" });
-        setMapID(mapIDParam);
+      if (cookies.mapID && mapID) {
+        setCookie("mapID", mapID, { path: "/" });
       }
       const currentMap = await getObject(mapID, "maps");
       if (currentMap) {
@@ -53,7 +51,7 @@ function Creator() {
     }
     getMap();
     getItems();
-  }, []);
+  }, [mapID]);
 
   const inputModeOptions = [
     { label: "Tiles", value: "tile" },

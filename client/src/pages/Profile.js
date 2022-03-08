@@ -74,7 +74,7 @@ function Profile(props) {
     }
     getUser();
     getMaps();
-  }, []);
+  }, [username]);
   // get username of user who is currently signed in
   const usernameViewer = cookies.username;
 
@@ -210,7 +210,7 @@ function Profile(props) {
     if (window.confirm("Do you want to proceed with account deletion?")) {
       if (window.confirm(
         "Are you sure? This action is irreversible and EVERYTHING will be " +
-        "deleted, including your maps, characters, and assets!"
+        "deleted, including your maps!"
       )) {
         deleteObject(user._id, "users");
         for (let index = 0; index < maps.length; index++) {
