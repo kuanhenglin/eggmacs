@@ -8,9 +8,25 @@ By creating a profile, users can create their own maps in the 'Creator' tab,
 search for other users or their creations in the 'Search' tab, and adjust their
 own user profile in the 'Profile' tab!  
 
+### Running TeMC
+In order to run TeMC, you need to add a **config.env** file to the /server/ folder.
+If you are a TA for CS35L (for which this project was created!), please email one
+of the team members for the contents of this file!  In order to run the app, please
+follow these steps (assuming that Node.js is already installed on your machine):
+
+1.) Create a file named config.env within the /server/ directory, and add the
+  required contents to make it 
+
+2.) From the root directory of the project, run the following command:
+```
+npm run dev
+```
+  This will set up the required node modules for TeMC, and run both the client
+  and server concurrently, launching the webapp in your browser!
+
 ## Design & Implementation
 TeMC is created using React and Node.js, with a backend database that utilizes
-MongoDB. *Remember to add info about our hosting platform here!*
+MongoDB. All of our visual assets were created by *[Joice](https://github.com/Jomeimei) !*
 
 #### Frontend
 A large portion of TeMC is the frontend code, implemented within /client/src .
