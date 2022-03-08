@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from 'react-router-dom';
 import SearchText from "../components/SearchText";
 import { SearchResultMap, SearchResultUser } from "../components/SearchResult";
 

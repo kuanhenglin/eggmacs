@@ -51,7 +51,7 @@ function Creator() {
     }
     getMap();
     getItems();
-  }, [mapID]);
+  }, [mapName]);
 
   const inputModeOptions = [
     { label: "Tiles", value: "tile" },
@@ -76,7 +76,12 @@ function Creator() {
           <p>
             <b>Map name:</b> {mapName} <br />
             <b>Map ID:</b> <span className="username">{mapID}</span> <br />
-            <b>Author:</b> <span className="username">{author}</span> <br />
+            <b>Author:</b> <Link
+              className="hypertext"
+              to={`/user/${author}`}
+            >
+              <span className="username">{author}</span>
+            </Link> <br />
             <b>Description:</b> {description} <br />
           </p>
         </div>

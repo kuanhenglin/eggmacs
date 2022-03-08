@@ -275,7 +275,7 @@ background-color: rgba(32,32,32,.7);
 
 ::file-selector-button {
   background: transparent;
-  color: var(--foreground-color);
+  color: var(--main-text);
   font-weight: 700;
   border-style: none;
   margin: 0 0 0 0;
@@ -391,7 +391,7 @@ option:hover {
   width: calc(15 * var(--scale));
   height: calc(15 * var(--scale));
   border-style: solid;
-  border-color: var(--foreground-color);
+  border-color: var(--main-text);
   border-width: calc(0.25 * var(--scale));
   border-radius: calc(1.0 * var(--scale));
   margin: 0 calc(2 * var(--scale)) 0 0;
@@ -622,7 +622,6 @@ option:hover {
 #navigation-bar li a:focus {
   outline: none;
   color: var(--highlight-foreground-color)
-  /* border-color: var(--foreground-color-accent); */
 }
 
 #navigation-bar li a:hover {
@@ -706,5 +705,5 @@ option:hover {
 }
 
 .hypertext:hover{
-  color: var(--foreground-color);
+  color: var(--main-text);
 }

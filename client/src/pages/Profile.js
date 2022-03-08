@@ -212,8 +212,9 @@ function Profile(props) {
         "Are you sure? This action is irreversible and EVERYTHING will be " +
         "deleted, including your maps!"
       )) {
-        deleteObject(user._id, "users");
-        for (let index = 0; index < maps.length; index++) {
+        deleteObject(user._id, "users");  // remove user
+        deleteObject(user._id, "avatars");  // remove avatar
+        for (let index = 0; index < maps.length; index++) {  // remove maps
           deleteObject(maps[index]._id, "maps");
         }
         signOut();
@@ -308,7 +309,12 @@ function Profile(props) {
       
       <table className="profile-table"><tbody><tr>
         <td>
-          <img className="profile-avatar" src={avatar?.body} />
+          {
+            avatar?
+            <img className="profile-avatar" src={avatar?.body} />
+            :
+            <div className="profile-avatar" />
+          }
         </td>
         <td>
           <b>Display name:</b> {user?.displayName} <br />
