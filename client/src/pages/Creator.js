@@ -276,7 +276,7 @@ function Creator() {
   return (
     <div>
       <h2>Map Creator</h2>
-      <sub>Modify your map with the tools below.</sub>
+      <p><sub>Modify your map with the tools below.</sub></p>
 
       {displayMapInformation()}
 

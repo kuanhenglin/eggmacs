@@ -69,7 +69,7 @@ function Search() {
   return (
     <div>
       <h2>Search</h2>
-      <p>Search for homebrew maps and users.</p>
+      <p><sub>Search for homebrew maps and users.</sub></p>
       <SearchText
         text={searchText}
         select={searchSelect}

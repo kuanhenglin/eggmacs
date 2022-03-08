@@ -109,8 +109,9 @@ function SignUp(props) {
   return (
     <div>
       <h1>Sign Up</h1>
+      <p><sub>Sign up to create an account.</sub></p>
       <p>
-        Sign up to create an account. Already have an account?&nbsp;
+        Already have an account?&nbsp;
         <Link to="/signin" className="hypertext"><i>Sign in here!</i></Link>
       </p>
       <FormText

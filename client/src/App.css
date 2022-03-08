@@ -135,7 +135,7 @@ bannertext{
   text-shadow: 2px 2px #3d6364;
 }
 
-sub{
+sub {
   font-size: calc(2 * var(--scale));
   font-weight: 700;
   color:var(--highlight-foreground-color);
