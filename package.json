@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "build": "cd server && npm install && cd ../client && npm install && npm start",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm install --prefix server && npm run build --prefix client",
     "dev": "cd server && npm run dev"
   },
   "repository": {
