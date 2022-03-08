@@ -212,8 +212,9 @@ function Profile(props) {
         "Are you sure? This action is irreversible and EVERYTHING will be " +
         "deleted, including your maps!"
       )) {
-        deleteObject(user._id, "users");
-        for (let index = 0; index < maps.length; index++) {
+        deleteObject(user._id, "users");  // remove user
+        deleteObject(user._id, "avatars");  // remove avatar
+        for (let index = 0; index < maps.length; index++) {  // remove maps
           deleteObject(maps[index]._id, "maps");
         }
         signOut();
@@ -238,11 +239,11 @@ function Profile(props) {
   async function handleAvatar() {
     const legalTypes = ["image/png", "image/jpeg"];
     if (!legalTypes.includes(avatarFile.type)) {  // check that file is image
-      window.alert("The avatar must be a JP(E)G or PNG.");
+      window.alert("The avatar must be a JP(E)G or PNG file.");
       return false;
     }
     if (avatarFile.size > 75000) {  // limit avatar sizes to 75KB (a weird cap)
-      window.alert("Please choose an image under 75KB");
+      window.alert("Please choose an image under 75KB.");
       return false;
     }
     const reader = new FileReader();  // HTML5 feature, reads file input
@@ -299,16 +300,21 @@ function Profile(props) {
   return (
     <div>
       <h2>Profile</h2>
-      {
+      <p> {
         username === usernameViewer?
-        <p>View your profile and map catalog.</p>
+        <sub>View your profile and map catalog.</sub>
         :
-        <p>View {user?.displayName}'s profile and map catalog.</p>
-      }
+        <sub>View {user?.displayName}'s profile and map catalog.</sub>
+      } </p>
       
       <table className="profile-table"><tbody><tr>
         <td>
-          <img className="profile-avatar" src={avatar?.body} />
+          {
+            avatar?
+            <img className="profile-avatar" src={avatar?.body} />
+            :
+            <div className="profile-avatar" />
+          }
         </td>
         <td>
           <b>Display name:</b> {user?.displayName} <br />

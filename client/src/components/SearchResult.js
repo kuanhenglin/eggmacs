@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import { useCookies } from 'react-cookie';
 
 function SearchResultMap(props) {

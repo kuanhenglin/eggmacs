@@ -82,16 +82,24 @@ function Admin() {
     window.location.reload();
   }
 
-  async function handleTile() {
+  async function legalFile(file) {
     if (!tileFile) {  // check that user has selected file
       window.alert("Make sure you have selected a file to upload.");
-      return;
+      return false;
     }
-    if (tileFile.type !== "image/png") {  // check that file is png
-      window.alert("The tile file must be a PNG.");
-      return;
+    const legalTypes = ["image/png", "image/jpeg"];
+    if (!legalTypes.includes(file.type)) {  // check that file is image
+      window.alert("The avatar must be a JP(E)G or PNG file.");
+      return false;
     }
-    
+    if (file.size > 75000) {  // limit sizes to 75KB (a weird cap)
+      window.alert("Please choose a file under 75KB.");
+      return false;
+    }
+  }
+
+  async function handleTile() {
+    if (!legalFile(tileFile)) return;
     if (tileID?.slice(0, 5) !== "tile_") {
       window.alert("The tile ID must start with \"tile_\".");
       return;
@@ -115,15 +123,7 @@ function Admin() {
   }
 
   async function handleAsset() {
-    if (!assetFile) {  // check that user has selected file
-      window.alert("Make sure you have selected a file to upload.");
-      return;
-    }
-    if (assetFile.type !== "image/png") {  // check that file is png
-      window.alert("The asset file must be a PNG.");
-      return;
-    }
-    
+    if (!legalFile(assetFile)) return;
     if (assetID?.slice(0, 6) !== "asset_") {
       window.alert("The asset ID must start with \"asset_\".");
       return;
@@ -147,15 +147,7 @@ function Admin() {
   }
 
   async function handleCharacter() {
-    if (!characterFile) {  // check that user has selected file
-      window.alert("Make sure you have selected a file to upload.");
-      return;
-    }
-    if (characterFile.type !== "image/png") {  // check that file is png
-      window.alert("The character file must be a PNG.");
-      return;
-    }
-    
+    if (!legalFile(characterFile)) return;
     if (characterID?.slice(0, 10) !== "character_") {
       window.alert("The character ID must start with \"character_\".");
       return;
@@ -179,15 +171,7 @@ function Admin() {
   }
 
   async function handleMisc() {
-    if (!miscFile) {  // check that user has selected file
-      window.alert("Make sure you have selected a file to upload.");
-      return;
-    }
-    if (miscFile.type !== "image/png") {  // check that file is png
-      window.alert("The misc file must be a PNG.");
-      return;
-    }
-    
+    if (!legalFile(miscFile)) return;
     if (miscID?.slice(0, 5) !== "misc_") {
       window.alert("The misc file ID must start with \"misc_\".");
       return;
@@ -213,9 +197,11 @@ function Admin() {
   return (
     <div>
       <h2>Admin</h2>
+      <sub>
+          Make necessary site changes and/or additions, for admins <i>only</i>.
+        </sub>
       <p>
-        Make necessary site changes and/or additions, for admins <i>only</i>.
-        <br /> To delete tiles/assets, head to the&nbsp;
+        To delete tiles/assets, head to the&nbsp;
         <span className="username">MongoDB</span> database to manually do it.
       </p>
 
