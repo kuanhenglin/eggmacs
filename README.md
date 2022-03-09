@@ -3,10 +3,13 @@ UCLA 22W CS 35L project for team **`Eggmacs`** (Joice, Jordan, Kay, Meghana, Sea
 
 ## Introduction
 This project is an implementation of the T-Eggletop Map Creator (TeMC), a webtool
-that allows the user to create their own maps for Tabletop Role Playing Games (TTRPs)!
-By creating a profile, users can create their own maps in the 'Creator' tab,
-search for other users or their creations in the 'Search' tab, and adjust their
-own user profile in the 'Profile' tab!  
+that allows the user to create their own maps for tabletop role-playing games (TTRPGs)!
+By creating a profile, users can create their own maps in the "Creator" tab,
+search for other users or their creations in the "Search" tab, and access their own user
+profile and map catalog in the "Profile" tab.
+
+You can use TeMC [here](https://eggmacs.herokuapp.com)! <br>
+(Direct link for those who despise hyperlinks: `https://eggmacs.herokuapp.com`)
 
 ### Running TeMC
 In order to run TeMC, you need to add a **`config.env`** file to the `/server/` folder.
@@ -24,7 +27,7 @@ and server concurrently, launching the webapp in your browser under `localhost:3
 and the server under `localhost:5000`!
 
 ## Design & Implementation
-TeMC is created using React and Node.js, with a backend database that utilizes
+TeMC is created using `React` and `Node.js`, with a backend database that utilizes
 MongoDB. All of our visual assets were created by *[Joice](https://github.com/Jomeimei) !*
 
 ### Frontend
@@ -34,20 +37,20 @@ Within this, the code is organized into **components**, **methods**, and **pages
 ###### Components
 [Components](https://github.com/kuanhenglin/eggmacs/tree/main/client/src/components)
 are modules that include visual React *components*, such as the templates
-for forms (profile updates, for example) and templates for the search results.  This
-is to provide visual clarity in the react implementation, and simplify the creation
+for forms (e.g., profile updates) and templates for the search results.  This
+is to provide visual clarity in the React implementation and simplify the creation
 of the website visuals.
 
 ###### Methods
 [Methods](https://github.com/kuanhenglin/eggmacs/tree/main/client/src/methods)
 are the 'connecting routines' for the website; these are what the frontend
-uses to connect with the backend code, and ultimately fetch data from MongoDB
+uses to connect with the backend code, and ultimately fetch data from MongoDB.
 
 ###### Pages
 [Pages](https://github.com/kuanhenglin/eggmacs/tree/main/client/src/pages)
 are the visualization of each individual component of TeMC.  These are
 implemented using *methods* and *components*, along with supplemental code.
-If App.js is the heart of the website, these are the limbs, with each website
+If `App.js` is the heart of the website, these are the limbs, with each website
 page being divided into its own file here!
 
 ### Backend
