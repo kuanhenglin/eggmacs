@@ -83,7 +83,7 @@ function Admin() {
   }
 
   async function legalFile(file) {
-    if (!tileFile) {  // check that user has selected file
+    if (!file) {  // check that user has selected file
       window.alert("Make sure you have selected a file to upload.");
       return false;
     }
