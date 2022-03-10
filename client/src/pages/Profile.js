@@ -64,6 +64,9 @@ function Profile(props) {
 
   // fetch user information from URl params (/user/:username)
   const { username } = useParams();
+  // get username of user who is currently signed in
+  const usernameViewer = cookies.username;
+  // fetch information
   useEffect(() => {
     async function getUser() {  // weird workaround to use async
       setUser(await getObject(username, "users"));    // function in useEffect
@@ -74,9 +77,7 @@ function Profile(props) {
     }
     getUser();
     getMaps();
-  }, [username]);
-  // get username of user who is currently signed in
-  const usernameViewer = cookies.username;
+  }, [username, usernameViewer]);
 
   // The Description Update Form: For now, profile changes act like
   // the drop down menu done for signUp!
