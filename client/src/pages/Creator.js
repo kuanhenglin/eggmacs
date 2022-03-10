@@ -30,6 +30,7 @@ function Creator() {
 
   const [toggleGrid, setToggleGrid] = useState(true);
 
+  // fetch information
   useEffect(() => {
     async function getMap() {
       if (cookies.mapID && mapID) {
@@ -51,7 +52,7 @@ function Creator() {
     }
     getMap();
     getItems();
-  }, [mapName]);
+  }, [mapID, mapName]);
 
   const inputModeOptions = [
     { label: "Tiles", value: "tile" },
