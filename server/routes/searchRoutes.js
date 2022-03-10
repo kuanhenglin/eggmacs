@@ -10,93 +10,154 @@ const searchRoutes = express.Router();
 // connect to the database
 const dbo = require("../db/conn");
 
-function generalizedFilter(search, objects) {
-  if (search === "::all::") {
-    return objects;
+function generateScoreCard(search, object, type) {
+  // This is not what gets returned; this will calc the values
+  // of both the dispName & _id, then merge them with whichever has
+  // higher precedence
+  let scoreCard = {
+    obj: object,
+    subStrScore: 0,
+    matchScore: 0,
+    precedenceScore: 0
   }
 
-  let numOfObjects = Object.keys(objects).length;
-  let querey = search.toLowerCase();
+  let foundIndices = new Array(search.length);
+  foundIndices.fill([]);
 
-  let validMatches = [];
-  //let numOfObjects = Object.keys(objects).length;
+  // dealing with typing, searching id or dispName
+  comp = "";
+  if (type == "id")
+    comp = object._id.toLowerCase();
+  else if (type == "displayName")
+    comp = object.displayName.toLowerCase();
 
-  for(let i = 0; i < numOfObjects; i++) { // for each Obj
-    let dispName = objects[i].displayName.toLowerCase();
-    let matchScore = 0;
-    let precedenceScore = 0;
+  for (let s_i = 0; s_i < search.length; s_i++) { // search_index
+    let searchExp = new RegExp(search.slice(0, s_i + 1), "g");
+    let subSearchResult = (comp.match(searchExp) || []).length;
+    if(subSearchResult)
+      scoreCard.subStrScore++;
 
-    for(let j = 0; j < query.length; j++) { // for each search letter
-      let chk = querey[j];
-      let found = false;
-      for(let k = 0; k < dispName.length; k++) { // each obj letter
-        if(!found && chk == dispName[k]) {
-          matchScore++;
-          precedenceScore += k;
-          found = true;
-        }
-      } // endk
-    } // endj
-    const scoreSheet = {
-      displayName: dispName, // don't forget it's sorting by dispName currently
-      _id: objects[i]._id,
-      matchScore: matchScore,
-      precedenceScore: precedenceScore,
-    }
-    if(matchScore != 0) {
-      validMatches.push(scoreSheet);
-    }
-  } // endi
+    // For each letter in comp, check for a match;
+    found = false;
+    for (let c_i = 0; c_i < comp.length; c_i ++) {
+      if(search[s_i] == comp[c_i]) {
+        if(!found) { // if a new match 
+          found = true
+          scoreCard.matchScore++;
+          scoreCard.precedenceScore += c_i;
+        } // end!found
+        // even if letter is already found, add it to the substr check
+        foundIndices[s_i].push(c_i) // add index for substr check later
+      } // endMatchTrue
+    } // end c_i
+  } // end s_i
 
-  let sortedByMS = [];
-  for(let i = 0; i < validMatches.length; i++) { // for each unsorted...
-    let toBeSorted = validMatches[i];
-    let hasBeenSorted = false;
-    for(let j = 0; j < sortedByMS.length; j++) { // check each already sorted...
-      if(toBeSorted.matchScore > sortedByMS[j].matchScore) { 
-        //    if TBS.MS > AlreadySorted.MS, insert above MS
-        hasBeenSorted = true;
-        sortedByMS.splice(j, 0, toBeSorted);
-        break;
-      }
-    } // endj
-    if (!hasBeenSorted) {
-      sortedByMS.push(toBeSorted);
-    }
-  } // endi  
-
-  let finalSort = [];
-  for(let i = 0; i < sortedByMS.length; i++) {
-    let toBeSorted = sortedByMS[i];
-    let hasBeenSorted = false;
-    for(let j = 0; j < finalSort.length; j++) {
-      if(toBeSorted.matchScore == finalSort[j].matchScore) {
-        if(toBeSorted.precedenceScore < finalSort[j].precedenceScore) {
-          hasBeenSorted = true;
-          finalSort.splice(j, 0, toBeSorted);
-          break;
-        }
-      }
-    } // endj
-    if(!hasBeenSorted) {
-      finalSort.push(toBeSorted);
-    }
-  } // endi
-
-  sortedObjects = [];
-  // now that the finalSort has occured, pair them back with 
-  for(let i = 0; i < finalSort.length; i++) { // for each sorted scoreCard...
-
-    for(let j = 0; j < numOfObjects; j++) { // go through the Users
-      selectedObject = objects[j];
-      if(finalSort[i]._id == selectedObject._id) { // find the match
-        sortedObjects.push(selectedObject);
-      }
-    }
-  }
-  return sortedObjects
+  return ((scoreCard.matchScore != 0) ? scoreCard : null)
+  
 }
 
+function spliceCards(a, b) {
+  let scoreCard = {
+    obj: a.obj,
+    subStrScore: Math.max(a.subStrScore, b.subStrScore),
+    matchScore: Math.max(a.matchScore, b.matchScore),
+    precedenceScore: Math.min(a.precedenceScore, b.precedenceScore)
+  }
+  return scoreCard;
+}
+
+// This sort is a little expensive in terms of Order-N complexity, but it
+// creates, what I believe, a very helpful ranking of search results for
+// the end user
+function sortObjectsByCard(cards) {
+  // this can almost certainly be improved, but I just need it working...
+  let subSorted = [];
+  let hasBeenSorted = false;
+  
+  for (let c_i = 0; c_i < cards.length; c_i++) { //for each cards...
+    cur = cards[c_i];
+    hasBeenSorted = false;
+    for (let s_i = 0; s_i < subSorted.length; s_i++) {
+      if(cur.subStrScore > subSorted[s_i].subStrScore) {
+        subSorted.splice(s_i, 0, cur);
+        hasBeenSorted = true;
+        break;
+      }
+    } // end s_i
+    if(!hasBeenSorted)
+      subSorted.push(cards[c_i])
+  } // end c_i
+
+  let msSorted = [];
+  for (let s_i = 0; s_i < subSorted.length; s_i++) {
+    hasBeenSorted = false;
+    cur = subSorted[s_i];
+    for (let m_i = 0; m_i < msSorted.length; m_i++) {
+      if(cur.matchScore > msSorted[m_i]) {
+        if(cur.subStrScore == msSorted[m_i].subStrScore) {
+          hasBeenSorted = true;
+          msSorted.splice(m_i, 0, cur);
+        }
+      }
+    } // end m_i
+    if(!hasBeenSorted)
+      msSorted.push(subSorted[s_i]);
+  }
+
+  // Yes, I know I do almost the same alg 3x... if I had
+  // infinite time, I'd probably try to redo this sort
+  // using something like a hash table; that is, put each score in a
+  // bucket, sort each bucket into MS buckets, and so forth... but ah well :)
+  let finalObjList = [];
+  for(let m_i = 0; m_i < msSorted.length; m_i++) {
+    hasBeenSorted = false;
+    cur = msSorted[m_i];
+    for (let o_i = 0; o_i < finalObjList.length; o_i++) {
+      comp = finalObjList[o_i];
+      if(cur.precedenceScore < comp.precedenceScore) {
+        let subSame = (cur.subStrScore == comp.subStrScore);
+        let msSame = (cur.matchScore == comp.matchScore);
+        if(msSame && subSame) {
+          hasBeenSorted = true;
+          finalObjList.splice(o_i, 0, cur.object);
+        }
+      } // endif
+    } // end o_i
+    if(!hasBeenSorted)
+      finalObjList.push(cur.obj)
+  }
+
+  return finalObjList;
+}
+
+function generalizedFilter(search, objects) {
+  if (search === "::all::")
+    return objects;
+  
+  let numOfObjects = Object.keys(objects).length;
+  search = search.toLowerCase();
+
+  let validCards = [];
+  // just for displayName check rn...
+  for (let o_i = 0; o_i < numOfObjects; o_i++) {
+    let sc = null;
+    dispName_sc = generateScoreCard(search, objects[o_i], "displayName");
+    id_sc = generateScoreCard(search, objects[o_i], "id");
+    // Couldn't think of a prettier way to do this cascading a | b if not a&&bn
+    if(dispName_sc && id_sc)
+      sc = spliceCards(dispName_sc, id_sc);
+    else if(dispName_sc)
+      sc = dispName_sc;
+    else if(id_sc)
+      sc = id_sc;
+
+    if(sc) {
+      validCards.push(sc);
+    }
+  }
+  retObjs = sortObjectsByCard(validCards);
+  return retObjs;
+}
 
 // Might need to delete this later, probably obsolete :-)
 function filterTile(search, tiles) {
