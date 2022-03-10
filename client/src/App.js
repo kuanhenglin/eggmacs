@@ -19,10 +19,19 @@ function App() {
   const userURL = `/user/${cookies.username}`;
   const mapURL = `/map/${cookies.mapID}`;
 
+  const admins = [
+    "jordanlin",
+    "theresonlyjuice",
+    "the-bay-kay",
+    "Shalphan",
+    "mvchegg",
+    "yxqiu"  // the best CS 35L TA :)
+  ];
+
   return (
     <div>
       <HashRouter>
-        <NavigationBar/>
+        <NavigationBar admins={admins}/>
 
         <div className= "header-banner"> 
           <bannertext><center>T-Eggletop Map Creator</center></bannertext>
@@ -58,7 +67,12 @@ function App() {
               <Creator />
             } />
             <Route path="/search" element={ <Search /> } />
-            <Route path="/admin" element={ <Admin /> } />
+            <Route path="/admin" element={
+               cookies.username && admins.includes(cookies.username)?
+               <Admin />
+               :
+               <Navigate to="/" />
+            } />
           </Routes>
         </div>
       </HashRouter>

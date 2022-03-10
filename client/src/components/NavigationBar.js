@@ -3,16 +3,9 @@ import { useCookies } from 'react-cookie';
 
 function NavigationBar(props) {
   const [cookies, setCookie, removeCookie] = useCookies(["username"]);
-  const admins = [
-    "jordanlin",
-    "theresonlyjuice",
-    "the-bay-kay",
-    "Shalphan",
-    "mvchegg"
-  ];
 
   if (cookies.username) {
-    if (admins.includes(cookies.username)) {
+    if (props.admins.includes(cookies.username)) {
       return (
         <header id="navigation-bar">
           <nav>

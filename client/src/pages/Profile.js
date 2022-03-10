@@ -280,7 +280,7 @@ function Profile(props) {
 
     const map = await getObject(mapID, "maps");
     if (map) {  // the mapID must have not been taken yet
-      window.alert("The map ID already exists.");
+      window.alert("The map ID has already been taken.");
       return;
     }
 
