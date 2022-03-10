@@ -268,10 +268,10 @@ function Creator() {
       assets: assets,
       characters: characters
     };
-    let FileSaver = require('file-saver');
+    let fileSaver = require("file-saver");
     let file = await downloadMap(mapInfo);
-    FileSaver.saveAs(file);
-    handleMapSave();
+    fileSaver.saveAs(file);
+    if (author === username) handleMapSave();
   }
 
   return (
