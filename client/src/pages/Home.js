@@ -22,13 +22,13 @@ function Home() {
       <h2><i>Hail and well met!</i></h2>
 
       <sub>
-        Tabletop roleplaying games (TTRPGs) have been bringing communities
+        Tabletop roleplaying games have been bringing communities
         together for decades. 
       </sub> 
 
       <p>
         Dungeons and Dragons, Monster of the Week, Pathfinder, and dozens of
-        other TTRPGs provide an opportunity to eat junk food with your friends
+        other tabletop roleplaying games provide an opportunity to eat junk food with your friends
         every weekend and tell a cool story together. T-Eggletop Map Creator
         (TeMC) helps make homebrewing and mapmaking more efficient and
         accessible for Game Masters of all levels.
@@ -37,9 +37,9 @@ function Home() {
       <div className="hspacer">space</div>
 
       <div className="container-row">
-        <Link to={`/map`}> <div className="img-button overlay"></div></Link>
-        <Link to={`/search`}> <div className="img-button overlay"></div></Link>
-        <Link to={`/user`}> <div className="img-button overlay"></div></Link>
+        <Link to={`/map`}> <div className="img-button map-btn overlay"> <div className="img-text"> <b>Create a Map</b> </div> </div></Link>
+        <Link to={`/search`}> <div className="img-button search-btn overlay"> <div className="img-text"><b>Browse Maps</b></div></div></Link>
+        <Link to={`/user`}> <div className="img-button profile-btn overlay"> <div className="img-text"><b>Create a Profile</b> </div> </div></Link>
       </div>
 
       <div className="hspacer">space</div>

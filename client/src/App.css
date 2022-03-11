@@ -207,11 +207,6 @@ button:focus {
 }
 
 .img-button {
-  color: var(--background-color);
-  font-size: calc(2 * var(--scale));
-  font-family: var(--font-family-title);
-
-  text-align: center;
   border-style: hidden;
 
   box-shadow: 0
@@ -223,10 +218,24 @@ button:focus {
               calc(2 * var(--scale))
               rgba(0, 0, 0, .2);
 
-  background-color: white;
   width: calc(28 * var(--scale));
   height: calc(25 * var(--scale));
   border-radius: calc(1.5 * var(--scale));
+}
+
+.map-btn{
+  background-image: url('https://64.media.tumblr.com/815c67f7a3a958ef8549bef44cf27110/eeaf4b680c089371-6c/s540x810/600d1414e3e314eda835cc364417b8ab2b80e0ec.png');
+  background-size: 100%;
+}
+
+.search-btn {
+  background-image: url('https://64.media.tumblr.com/eb5ebdfc3b3da373cdc0af62b97d2084/8ad66828ac25f0a8-b8/s1280x1920/e8f24fa06832fe338eb2df5ab5bc92a928de67f5.png');
+  background-size: 90%;
+}
+
+.profile-btn {
+  background-image: url('https://64.media.tumblr.com/21d18fa6d484c1c9d239bd29636159c6/eeaf4b680c089371-56/s540x810/88b29ca0b18a2bf065afb06245ef567915f2b1fd.png');
+  background-size: 100%;
 }
 
 .item-select {
@@ -273,6 +282,16 @@ background-color: rgba(32,32,32,.7);
 .overlay:hover:before{
   opacity: 30%;
   transition: opacity 0.2s linear; 
+}
+
+.img-text {
+  color: var(--highlight-foreground-color);
+  font-family: var(--font-family-title);
+  font-size: calc(4 * var(--scale));
+  line-height: calc(5 * var(--scale));
+  text-align: center;
+  position: absolute;
+  padding-top: calc(8 * var(--scale));
 }
 
 .team-profile {
