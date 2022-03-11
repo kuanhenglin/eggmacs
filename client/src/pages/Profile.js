@@ -130,6 +130,7 @@ function Profile(props) {
     },
     {
       label: "Password",
+      type: "password",
       placeholder: "Leave blank if you do not want to change your password.",
       onChange: setPassword,
       onKeyPress: handleEnterProfile

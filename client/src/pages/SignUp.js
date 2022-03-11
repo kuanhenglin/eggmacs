@@ -50,12 +50,14 @@ function SignUp(props) {
     },
     {
       label: "Password",
+      type: "password",
       placeholder: "Your un-simple password for signing in.",
       onChange: setPassword,
       onKeyPress: handleEnter
     },
     {
       label: "Confirm password",
+      type: "password",
       placeholder: "Should match with the password you entered above.",
       onChange: setConfirmPassword,
       onKeyPress: handleEnter
