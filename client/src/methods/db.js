@@ -29,7 +29,7 @@ async function createObject(object, collection, callback=() => {}) {
   )
   .then(() => callback())
   .catch(error => {
-    window.alert(error);
+    // window.alert(error);
     return;
   });
 }
@@ -49,7 +49,7 @@ async function updateObject(object, collection, callback=() => {}) {
   )
   .then(response => callback())
   .catch(error => {
-    window.alert(error);
+    // window.alert(error);
     return;
   });
 }
@@ -65,7 +65,7 @@ async function deleteObject(id, collection, callback=() => {}) {
   )
   .then(() => callback())
   .catch(error => {
-    window.alert(error);
+    // window.alert(error);
     return;
   });
 }
