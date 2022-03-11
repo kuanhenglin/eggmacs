@@ -19,6 +19,7 @@ function formRow(type, label, value, placeholder, onChange, onKeyPress) {
       <td><label className="form-label">{label}</label></td>
       <td className="form-input-cell"><input
         className="form-input"
+        type={type === "password"? "password" : "text"}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyPress={(e) => onKeyPress(e.key)}

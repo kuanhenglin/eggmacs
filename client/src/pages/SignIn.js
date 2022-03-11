@@ -24,6 +24,7 @@ function SignIn(props) {
     },
     {
       label: "Password",
+      type: "password",
       placeholder: "Your un-simple password for signing in.",
       onChange: setPassword,
       onKeyPress: handleEnter
