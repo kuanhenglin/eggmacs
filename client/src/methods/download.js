@@ -1,11 +1,20 @@
 import { createCanvas } from 'canvas'
+
+
 function dataToFile(dataURL, fileName) {
-  let arr = dataURL.split(','), mime = arr[0].match(/:(.*?);/)[1],
-    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
+  // Extract relevant data from the dataFile
+  let urlStream = dataURL.split(',');
+  let typeMimic = urlStream[0].match(/:(.*?);/)[1];
+  // Grab the byte stream from dataURL
+  let byteStream = atob(urlStream[1]);
+  let streamLen = byteStream.length;
+  // convert the byte stream..
+  let u8arr = new Uint8Array(streamLen);
+  while (streamLen--) { // Reads in from the u8arr byte verison of the url stream, generating chars
+    u8arr[streamLen] = byteStream.charCodeAt(streamLen);
   }
-  return new File([u8arr], fileName, { type: mime });
+  // returns the file, constructed by the data, extracted type, and converted blob data
+  return new File([u8arr], fileName, { type: typeMimic });
 }
 
 
