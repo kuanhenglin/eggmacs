@@ -9,7 +9,8 @@ search for other users or their creations in the "Search" tab, and access their 
 profile and map catalog in the "Profile" tab.
 
 You can use TeMC [here](https://eggmacs.herokuapp.com)! <br>
-(Direct link for those who despise hyperlinks: `https://eggmacs.herokuapp.com`)
+(Direct link for those who despise hyperlinks: `https://eggmacs.herokuapp.com`) <br>
+***Update:** Heroku free tier is down. We are working on moving TeMC to somewhere else!*
 
 ### Running TeMC
 In order to run TeMC, you need to add a **`config.env`** file to the `/server/` folder.
